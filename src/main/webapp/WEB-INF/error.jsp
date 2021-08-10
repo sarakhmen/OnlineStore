@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -6,10 +6,11 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title>Error</title>
+    <title><fmt:message key="view.errorPageTitle"/></title>
 </head>
 <body>
-<h1>THIS IS ERROR PAGE</h1>
+<h1>${errorMessage}</h1>
+<br>
 ${pageContext.exception}
 </body>
 </html>
