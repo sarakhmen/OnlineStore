@@ -7,10 +7,10 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title><fmt:message key="view.mainPage"/></title>
 </head>
-<body>
-<c:import url="header.jsp"/>
-<h2>MAIN PAGE CONTENT</h2>
+<hr>
+    <hr/>
+    <h3>${sessionScope.locale}</h3>
+    <hr/>
 </body>
 </html>

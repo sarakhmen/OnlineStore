@@ -19,7 +19,7 @@
 </form>
 <br>
 
-<form action="app/main">
+<form action="main.jsp">
     <input type="hidden" name="command" value="main"/>
     <button>
         <fmt:message key="view.goToMainPage"/>

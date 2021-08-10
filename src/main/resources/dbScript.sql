@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS product
     id INT AUTO_INCREMENT,
     name VARCHAR(100),
     price INT,
-    creationData DATETIME,
-    status VARCHAR(20),
+    creationDate DATETIME,
+    status VARCHAR(20) NULL,
     PRIMARY KEY(id)
 );
 
@@ -40,3 +40,14 @@ CREATE TABLE IF NOT EXISTS bag
     CONSTRAINT bagFKP
     FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
 );
+
+
+INSERT INTO product(name, price, creationDate) values ('Telephone', 1000, NOW());
+INSERT INTO product(name, price, creationDate) values ('TV', 1500, NOW());
+INSERT INTO product(name, price, creationDate) values ('CAR', 13000, NOW());
+INSERT INTO product(name, price, creationDate) values ('Something else', 100, NOW());
+
+INSERT INTO property(productId, propertyName, propertyValue) values (1, 'Model', 'iPhone X');
+INSERT INTO property(productId, propertyName, propertyValue) values (1, 'Color', 'white');
+INSERT INTO property(productId, propertyName, propertyValue) values (3, 'Model', 'Subaru Forester');
+
