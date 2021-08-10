@@ -8,6 +8,7 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBManager {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -42,6 +43,7 @@ public class DBManager {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("Oops", e);
         }
 
         GenericObjectPool gPool = new GenericObjectPool();
@@ -60,4 +62,41 @@ public class DBManager {
         return poolingDataSource.getConnection();
     }
 
+    public void commitAndClose(Connection con) {
+        try {
+            con.commit();
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void rollbackAndClose(Connection con) {
+        try {
+            con.rollback();
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void closeStatement(Statement st){
+        if(st != null){
+            try{
+                st.close();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void closeConnection(Connection con){
+        if(con != null){
+            try{
+                con.close();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
 }

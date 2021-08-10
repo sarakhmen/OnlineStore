@@ -2,7 +2,8 @@ package controller.command;
 
 public enum Commands {
     LOGIN(new LoginCommand()),
-    LOGOUT(new LogoutCommand());
+    LOGOUT(new LogoutCommand()),
+    SIGNUP(new SignupCommand());
 
     private final Command command;
 

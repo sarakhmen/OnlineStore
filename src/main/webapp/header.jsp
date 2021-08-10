@@ -9,8 +9,8 @@
 <head>
 </head>
 <hr>
-    <hr/>
-    <h3>${sessionScope.locale}</h3>
+    <h3>${sessionScope.username}</h3>
+    <h4>${sessionScope.role}</h4>
     <hr/>
 </body>
 </html>

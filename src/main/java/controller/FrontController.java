@@ -28,7 +28,7 @@ public class FrontController extends HttpServlet {
         RequestDispatcher dispatcher;
         String pageUrl;
         try {
-            command = Commands.valueOf(req.getParameter("command")).getCommand();
+            command = Commands.valueOf(req.getParameter("command").toUpperCase()).getCommand();
             pageUrl = command.process(req, resp);
         } catch (IllegalArgumentException | NullPointerException ex) {
             //should be logged

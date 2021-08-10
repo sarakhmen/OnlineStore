@@ -27,14 +27,16 @@ CREATE TABLE IF NOT EXISTS user
     password VARCHAR(50) NULL,
     name VARCHAR(50) NULL,
     role VARCHAR(10) NOT NULL,
-    blocked BOOLEAN,
+    blocked BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS bag
 (
+    orderId INT AUTO_INCREMENT,
     userId INT NOT NULL,
     productId INT NOT NULL,
+    PRIMARY KEY (orderId),
     CONSTRAINT bagFKU
     FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE,
     CONSTRAINT bagFKP
@@ -51,3 +53,4 @@ INSERT INTO property(productId, propertyName, propertyValue) values (1, 'Model',
 INSERT INTO property(productId, propertyName, propertyValue) values (1, 'Color', 'white');
 INSERT INTO property(productId, propertyName, propertyValue) values (3, 'Model', 'Subaru Forester');
 
+INSERT INTO user(login, password, name, role) values ('qwer', '12345', 'first user', 'USER');
