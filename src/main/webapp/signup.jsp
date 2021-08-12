@@ -9,8 +9,7 @@
     <title><fmt:message key="view.logInPage"/></title>
 </head>
 <body>
-<form action="app/signup" method="post">
-    <input type="hidden" name="command" value="signup"/>
+<form action="main/signup" method="post">
     <input type="text" name="username" placeholder="
         <fmt:message key="view.enterUsername" />"
            title=<fmt:message key="view.enterUsername"/>>

@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.util.Date;
+import java.util.Map;
 
 public class Product {
     private int id;
@@ -8,15 +9,25 @@ public class Product {
     private int price;
     private Date creationDate;
     private String status;
+    private Map<String, String> properties;
 
     public Product(){}
 
-    public Product(int id, String name, int price, Date creationDate, String status) {
+    public Product(int id, String name, int price, Date creationDate, String status, Map<String, String> parameters) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.creationDate = creationDate;
         this.status = status;
+        this.properties = parameters;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> parameters) {
+        this.properties = parameters;
     }
 
     public int getId() {
@@ -67,6 +78,7 @@ public class Product {
                 ", price=" + price +
                 ", creationDate=" + creationDate +
                 ", status='" + status + '\'' +
+                ", parameters=" + properties +
                 '}';
     }
 }

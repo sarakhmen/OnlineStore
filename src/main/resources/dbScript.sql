@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS user
     login VARCHAR(50) NULL,
     password VARCHAR(50) NULL,
     name VARCHAR(50) NULL,
-    role VARCHAR(10) NOT NULL,
+    role VARCHAR(10) DEFAULT 'USER',
     blocked BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (id)
 );

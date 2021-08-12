@@ -3,7 +3,8 @@ package controller.command;
 public enum Commands {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
-    SIGNUP(new SignupCommand());
+    SIGNUP(new SignupCommand()),
+    MAINVIEW(new CatalogCommand());
 
     private final Command command;
 

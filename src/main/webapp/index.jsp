@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
@@ -19,8 +19,7 @@
 </form>
 <br>
 
-<form action="main.jsp">
-    <input type="hidden" name="command" value="main"/>
+<form action="main/catalog">
     <button>
         <fmt:message key="view.goToMainPage"/>
     </button>

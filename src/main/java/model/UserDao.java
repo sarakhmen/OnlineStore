@@ -15,7 +15,7 @@ public class UserDao {
     private static final String SQL_SET_USER_ROLE = "UPDATE user SET role=? WHERE login=?";
 
 
-    public User findUserByLogin(String login){
+    public User selectUserByLogin(String login){
         Connection con = null;
         PreparedStatement pstmnt = null;
         User user = null;
@@ -25,8 +25,8 @@ public class UserDao {
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
-                UserMapper um = new UserMapper();
-                user = um.mapRow(rs);
+                EntityMapper<User> mapper = new UserMapper();
+                user = mapper.mapRow(rs);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -38,15 +38,63 @@ public class UserDao {
         return user;
     }
 
-    public boolean putUser(String login, String password, String name){
-        return true;
+    public boolean isRegistered(String login){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean registered = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+            pstmnt.setString(1, login);
+            ResultSet rs = pstmnt.executeQuery();
+            if(rs.next()){
+                registered = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return registered;
+    }
+
+    public User putUser(String login, String password, String userName){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        User user = null;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_PUT_USER);
+            pstmnt.setString(1, login);
+            pstmnt.setString(2, password);
+            pstmnt.setString(3, userName);
+            if(pstmnt.executeUpdate() != 0){
+                pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+                pstmnt.setString(1, login);
+                ResultSet rs = pstmnt.executeQuery();
+                if(rs.next()){
+                    EntityMapper<User> mapper = new UserMapper();
+                    user = mapper.mapRow(rs);
+                }
+            }
+//
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return user;
     }
 
     public boolean setRole(String login, String role){
         return true;
     }
 
-    private class UserMapper implements EntityMapper<User>{
+    public static class UserMapper implements EntityMapper<User>{
         @Override
         public User mapRow(ResultSet rs) {
             try {

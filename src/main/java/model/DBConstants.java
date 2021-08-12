@@ -19,6 +19,8 @@ public class DBConstants {
     public static final String PRODUCT_REGISTERED = "registered";
     public static final String PRODUCT_PAID = "paid";
     public static final String PRODUCT_CANCELED = "canceled";
+    public static final String ORDER_DESCENDING = "DESC";
+    public static final String ORDER_ASCENDING = "ASC";
 
 
 }
