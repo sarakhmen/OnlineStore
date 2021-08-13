@@ -25,10 +25,10 @@ public class ProductDao {
             con = dbManager.getConnection();
             selectAllProd = con.prepareStatement(SQL_SELECT_ALL_PRODUCTS + column + " " + order);
             ResultSet rsProducts = selectAllProd.executeQuery();
+            EntityMapper<Product> pm = new ProductMapper();
+            selectPropertiesForProd = con.prepareStatement(SQL_SELECT_PRODUCT_PROPERTIES);
             while(rsProducts.next()){
-                EntityMapper<Product> um = new ProductMapper();
-                Product product = um.mapRow(rsProducts);
-                selectPropertiesForProd = con.prepareStatement(SQL_SELECT_PRODUCT_PROPERTIES);
+                Product product = pm.mapRow(rsProducts);
                 selectPropertiesForProd.setInt(1, product.getId());
                 ResultSet rsProperties = selectPropertiesForProd.executeQuery();
                 while(rsProperties.next()){

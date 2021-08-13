@@ -12,13 +12,11 @@
         TABLE {
             width: 600px;
             border-collapse: collapse;
-
         }
 
         TD, TH {
             padding: 3px;
             border: 1px solid black;
-
         }
 
         TH {
@@ -36,7 +34,6 @@
             <th>Price</th>
             <th>Creation date</th>
             <th>Properties</th>
-            <th></th>
         </tr>
         <c:forEach items="${sessionScope.products}" var="product">
             <tr>
@@ -48,14 +45,6 @@
                         <c:out value="${property.key}: ${property.value}"/>
                         <br>
                     </c:forEach>
-                </td>
-                <td>
-                    <form action="order" method="post">
-                        <input type="hidden" name="productId" value="${product.id}"\>
-                        <button>
-                            Order
-                        </button>
-                    </form>
                 </td>
             </tr>
         </c:forEach>

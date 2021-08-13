@@ -1,6 +1,6 @@
 package controller.command;
 
-import controller.Pages;
+import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
 import model.UserDao;
@@ -24,7 +24,7 @@ public class SignupCommand implements Command{
         if(login == null || password == null || userName == null
                 || login.isEmpty() || password.isEmpty() || userName.isEmpty()){
             request.setAttribute(Parameters.ERROR, "Incorrect input");
-            return Pages.ERROR_PAGE;
+            return Actions.ERROR_PAGE;
         }
 
         UserDao userDao = new UserDao();
@@ -32,19 +32,19 @@ public class SignupCommand implements Command{
 
         if(registered){
             request.setAttribute(Parameters.ERROR, "A user with this login already exists");
-            return Pages.ERROR_PAGE;
+            return Actions.ERROR_PAGE;
         }
 
-        User newUser = userDao.putUser(login, password, userName);
+        User newUser = userDao.insertUser(login, password, userName);
         if(newUser == null){
             request.setAttribute(Parameters.ERROR, "Error adding user to database");
-            return Pages.ERROR_PAGE;
+            return Actions.ERROR_PAGE;
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute(Parameters.ID, newUser.getId());
+        session.setAttribute(Parameters.USER_ID, newUser.getId());
         session.setAttribute(Parameters.USERNAME, userName);
         session.setAttribute(Parameters.ROLE, DBConstants.USER_USER);
-        return Pages.CATALOG_PAGE;
+        return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }
 }

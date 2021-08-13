@@ -20,6 +20,9 @@ public class FrontController extends HttpServlet {
         commands.put("logout", new LogoutCommand());
         commands.put("signup", new SignupCommand());
         commands.put("catalog", new CatalogCommand());
+        commands.put("order", new OrderCommand());
+        commands.put("cart", new CartCommand());
+        commands.put("deleteOrder", new DeleteOrderCommand());
     }
 
     @Override
@@ -51,25 +54,8 @@ public class FrontController extends HttpServlet {
             }
         }catch (Exception e){
             e.printStackTrace();
-            resp.sendRedirect(req.getContextPath() + Pages.ERROR_PAGE);
+            resp.sendRedirect(req.getContextPath() + Actions.ERROR_PAGE);
         }
-
-        //        Command command;
-//        RequestDispatcher dispatcher;
-//        String pageUri;
-//      //  resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-//        try {
-//            command = Commands.valueOf(req.getParameter("command").toUpperCase()).getCommand();
-//            pageUri = command.process(req, resp);
-//        } catch (IllegalArgumentException | NullPointerException ex) {
-//            //should be logged
-//            pageUri = Pages.ERROR_PAGE;
-//
-//            ex.printStackTrace();
-//        }
-//
-//        dispatcher = req.getRequestDispatcher(pageUri);
-//        dispatcher.forward(req, resp);
     }
 
     private Command getCommandFromUri(String uri){

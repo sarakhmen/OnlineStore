@@ -7,7 +7,7 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title><fmt:message key="view.catalogPage"/></title>
+    <title>Cart page</title>
     <style type="text/css">
         TABLE {
             width: 600px;
@@ -26,25 +26,28 @@
 </head>
 <body>
 <c:import url="header.jsp"/>
-<h2>MAIN PAGE CONTENT</h2>
+<h2>Your orders:</h2>
 <div>
     <table style="float: left">
         <tr>
+            <th>Order id</th>
             <th>Product name</th>
             <th>Price</th>
-            <th>Creation date</th>
-            <th>Properties</th>
+            <th>Status</th>
         </tr>
-        <c:forEach items="${sessionScope.products}" var="product">
+        <c:forEach items="${sessionScope.orders}" var="order">
             <tr>
-                <td><c:out value="${product.name}"/></td>
-                <td><c:out value="${product.price}"/></td>
-                <td><c:out value="${product.creationDate}"/></td>
+                <td><c:out value="${order.id}"/></td>
+                <td><c:out value="${order.name}"/></td>
+                <td><c:out value="${order.price}"/></td>
+                <td><c:out value="${order.status}"/></td>
                 <td>
-                    <c:forEach items="${product.properties}" var="property">
-                        <c:out value="${property.key}: ${property.value}"/>
-                        <br>
-                    </c:forEach>
+                    <form action="deleteOrder" method="post">
+                        <input type="hidden" name="orderId" value="${order.id}"\>
+                        <button>
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

@@ -11,8 +11,8 @@ public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
-    private static final String SQL_PUT_USER = "INSERT INTO user(login, password, name) values(?, ?, ?)";
-    private static final String SQL_SET_USER_ROLE = "UPDATE user SET role=? WHERE login=?";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name) values(?, ?, ?)";
+    private static final String SQL_UPDATE_USER_ROLE = "UPDATE user SET role=? WHERE login=?";
 
 
     public User selectUserByLogin(String login){
@@ -60,13 +60,13 @@ public class UserDao {
         return registered;
     }
 
-    public User putUser(String login, String password, String userName){
+    public User insertUser(String login, String password, String userName){
         Connection con = null;
         PreparedStatement pstmnt = null;
         User user = null;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_PUT_USER);
+            pstmnt = con.prepareStatement(SQL_INSERT_USER);
             pstmnt.setString(1, login);
             pstmnt.setString(2, password);
             pstmnt.setString(3, userName);

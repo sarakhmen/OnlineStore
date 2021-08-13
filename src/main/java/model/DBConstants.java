@@ -21,6 +21,7 @@ public class DBConstants {
     public static final String PRODUCT_CANCELED = "canceled";
     public static final String ORDER_DESCENDING = "DESC";
     public static final String ORDER_ASCENDING = "ASC";
-
+    public static final String BAG_USER_ID = "userId";
+    public static final String BAG_PRODUCT_ID = "productId";
 
 }
