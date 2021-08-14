@@ -26,6 +26,8 @@ public class FrontController extends HttpServlet {
         commands.put("orderStatus", new OrderStatusCommand());
         commands.put("admin/management", new ManagementCommand());
         commands.put("admin/userStatus", new UserStatusCommand());
+        commands.put("admin/cartView", new CartViewCommand());
+        commands.put("admin/orderStatus", new OrderStatusCommand());
     }
 
     @Override

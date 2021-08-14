@@ -16,10 +16,10 @@ public class LogoutCommand implements Command{
         HttpSession session = request.getSession();
 
         //should implement using cookie
-
-        session.setAttribute(Parameters.USER_ID, null);
-        session.setAttribute(Parameters.USERNAME, null);
-        session.setAttribute(Parameters.ROLE, DBConstants.USER_GUEST);
+        session.invalidate();
+//        session.setAttribute(Parameters.USER_ID, null);
+//        session.setAttribute(Parameters.USERNAME, null);
+//        session.setAttribute(Parameters.ROLE, DBConstants.USER_GUEST);
 
         return "redirect:" + request.getContextPath() + Actions.INDEX_PAGE;
     }

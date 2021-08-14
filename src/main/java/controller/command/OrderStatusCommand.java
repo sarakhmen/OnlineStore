@@ -22,6 +22,11 @@ public class OrderStatusCommand implements Command{
         System.out.println(newStatus + " " + orderId);
         OrderDao orderDao = new OrderDao();
         orderDao.updateOrderStatus(orderId, newStatus);
+
+        String userRole = (String)session.getAttribute(Parameters.ROLE);
+        if(userRole.equals("ADMIN")){
+            return "redirect:" + request.getContextPath() + Actions.ADMIN_CART_VIEW_ACTION;
+        }
         return "redirect:" + request.getContextPath() + Actions.CART_VIEW_ACTION;
     }
 }

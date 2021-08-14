@@ -25,7 +25,14 @@
     </style>
 </head>
 <body>
-<c:import url="header2.jsp"/>
+
+<hr>
+<h3>${sessionScope.username}</h3>
+<h4>${sessionScope.role}</h4>
+<form action="../logout">
+    <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
+</form>
+
 <h2>All users</h2>
 <div>
     <table style="float: left">
@@ -42,8 +49,8 @@
                 <td><c:out value="${user.login}"/></td>
                 <td><c:out value="${user.role}"/></td>
                 <td>
-                    <form action="cart">
-                        <input type="hidden" name="userId" value="${user.id}"/>
+                    <form action="cartView">
+                        <input type="hidden" name="cartUserId" value="${user.id}">
                         <button>
                             Cart
                         </button>
@@ -82,5 +89,15 @@
         </c:forEach>
     </table>
 </div>
+
+<script>
+    function confirmLogOut() {
+        if (confirm("Are you sure?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

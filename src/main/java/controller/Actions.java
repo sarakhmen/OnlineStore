@@ -9,6 +9,9 @@ public class Actions {
     public static final String ADMIN_MANAGEMENT_PAGE = "/WEB-INF/admin/management.jsp";
     public static final String CATALOG_ACTION = "/main/catalog";
     public static final String CART_PAGE = "/WEB-INF/cart.jsp";
+    public static final String ADMIN_CART_PAGE = "/WEB-INF/admin/cart.jsp";
     public static final String CART_VIEW_ACTION = "/main/cartView";
     public static final String ADMIN_MANAGEMENT_ACTION = "/main/admin/management";
+
+    public static final String ADMIN_CART_VIEW_ACTION = "/main/admin/cartView";
 }

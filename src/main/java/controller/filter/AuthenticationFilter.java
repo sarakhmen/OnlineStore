@@ -1,5 +1,11 @@
 package controller.filter;
 
+import controller.Actions;
+import controller.Parameters;
+import model.DBConstants;
+import model.UserDao;
+import model.entity.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,14 +23,28 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        final HttpServletRequest httpRequest = (HttpServletRequest) request;
-//        final HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        System.out.println("in auth filter");
+        HttpSession session = httpRequest.getSession();
+        if(session.getAttribute(Parameters.USER_ID) == null){
+            System.out.println("прошел проверку");
+        }
+
+        String userRole = (String)session.getAttribute(Parameters.ROLE);
+        String requestUri = httpRequest.getRequestURI();
+        if(requestUri.contains("/admin") && !userRole.equals(DBConstants.USER_ADMIN)){
+            httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
+        }
+        else{
+            chain.doFilter(request, response);
+        }
 //
 //        final HttpSession session = req.getSession();
 //
 //        if (session != null && session.getAttribute("user") != null && session.getAttribute("userRole") != null) {
 //
-            chain.doFilter(request, response);
+//            chain.doFilter(request, response);
 //            return;
 //
 //        }

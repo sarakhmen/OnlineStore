@@ -1,6 +1,5 @@
 package model;
 
-import model.entity.Order;
 import model.entity.User;
 
 import java.sql.Connection;
@@ -15,8 +14,7 @@ public class UserDao {
 
     private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM user";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
-    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name) values(?, ?, ?)";
-    private static final String SQL_UPDATE_USER_ROLE = "UPDATE user SET role=? WHERE login=?";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name, role) values(?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
 
 
@@ -66,6 +64,10 @@ public class UserDao {
     }
 
     public User insertUser(String login, String password, String userName){
+        return insertUser(login, password, userName, DBConstants.USER_USER);
+    }
+
+    public User insertUser(String login, String password, String userName, String role){
         Connection con = null;
         PreparedStatement pstmnt = null;
         User user = null;
@@ -75,6 +77,7 @@ public class UserDao {
             pstmnt.setString(1, login);
             pstmnt.setString(2, password);
             pstmnt.setString(3, userName);
+            pstmnt.setString(4, role);
             pstmnt.executeUpdate();
             pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             pstmnt.setString(1, login);

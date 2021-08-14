@@ -16,6 +16,7 @@
         </form>
 
 <form action="cartView">
+    <input type="hidden" name="userId" value="${sessionScope.userId}"/>
     <input type="submit" value="Cart"/>
 </form>
 
