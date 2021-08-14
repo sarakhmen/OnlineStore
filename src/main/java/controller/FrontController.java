@@ -19,10 +19,13 @@ public class FrontController extends HttpServlet {
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("signup", new SignupCommand());
-        commands.put("catalog", new CatalogCommand());
-        commands.put("order", new OrderCommand());
-        commands.put("cart", new CartCommand());
+        commands.put("catalog", new CatalogViewCommand());
+        commands.put("addToCart", new AddToCartCommand());
+        commands.put("cartView", new CartViewCommand());
         commands.put("deleteOrder", new DeleteOrderCommand());
+        commands.put("orderStatus", new OrderStatusCommand());
+        commands.put("admin/management", new ManagementCommand());
+        commands.put("admin/userStatus", new UserStatusCommand());
     }
 
     @Override

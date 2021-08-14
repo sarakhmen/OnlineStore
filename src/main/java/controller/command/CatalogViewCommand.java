@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class CatalogCommand implements Command{
+public class CatalogViewCommand implements Command{
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,6 +24,12 @@ public class CatalogCommand implements Command{
         Set<String> properties = productDao.selectDistinctPropertyNames();
         session.setAttribute(Parameters.PRODUCTS, products);
         session.setAttribute(Parameters.PRODUCT_PROPERTIES, properties);
+
+        String userRole = (String)session.getAttribute(Parameters.ROLE);
+        System.out.println(userRole);
+        if(userRole.equals(DBConstants.USER_ADMIN)){
+            return Actions.ADMIN_CATALOG_PAGE;
+        }
         return Actions.CATALOG_PAGE;
     }
 }

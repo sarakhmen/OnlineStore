@@ -15,8 +15,12 @@
             <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
         </form>
 
-<form action="${pageContext.request.contextPath}/WEB-INF/cart.jsp">
+<form action="cartView">
     <input type="submit" value="Cart"/>
+</form>
+
+<form action="admin/management">
+    <input type="submit" value="Management"/>
 </form>
 
 <script>

@@ -11,4 +11,8 @@ public class Parameters {
     public static final String PRODUCT_PROPERTIES = "productProperties";
     public static final String PRODUCT_ID = "productId";
     public static final String ORDERS = "orders";
+    public static final String ORDER_ID = "orderId";
+    public static final String ORDER_STATUS = "orderStatus";
+    public static final String USERS = "users";
+    public static final String NEW_BLOCK_STATUS = "newBlockStatus";
 }

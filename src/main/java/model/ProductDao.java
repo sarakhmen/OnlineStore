@@ -81,7 +81,6 @@ public class ProductDao {
                 product.setId(rs.getInt(DBConstants.ENTITY_ID));
                 product.setName(rs.getString(DBConstants.PRODUCT_NAME));
                 product.setPrice(rs.getInt(DBConstants.PRODUCT_PRICE));
-                product.setStatus(rs.getString(DBConstants.PRODUCT_STATUS));
                 product.setCreationDate(rs.getDate(DBConstants.PRODUCT_CREATION_DATE));
                 product.setProperties(new HashMap<>());
                 return product;

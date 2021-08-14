@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS product
     name VARCHAR(100),
     price INT,
     creationDate DATETIME,
-    status VARCHAR(20) NULL,
     PRIMARY KEY(id)
 );
 
@@ -36,6 +35,7 @@ CREATE TABLE IF NOT EXISTS bag
     id INT AUTO_INCREMENT,
     userId INT NOT NULL,
     productId INT NOT NULL,
+    status VARCHAR(20) DEFAULT 'Unregistered',
     PRIMARY KEY (id),
     CONSTRAINT bagFKU
     FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE,
@@ -98,7 +98,7 @@ INSERT INTO property(productId, propertyName, propertyValue) values (20, 'prop16
 INSERT INTO property(productId, propertyName, propertyValue) values (21, 'prop17', 'value17');
 
 INSERT INTO user(login, password, name, role) values ('qwer', '12345', 'first user', 'USER');
-INSERT INTO user(login, password, name, role) values ('Artur', 'qwerty', 'Artur Sarakhman', 'Admin');
+INSERT INTO user(login, password, name, role) values ('Artur', 'qwerty', 'Artur Sarakhman', 'ADMIN');
 
 INSERT INTO bag(userId, productId) values(1, 1);
 INSERT INTO bag(userId, productId) values(1, 2);

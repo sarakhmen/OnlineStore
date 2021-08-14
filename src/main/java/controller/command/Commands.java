@@ -4,7 +4,7 @@ public enum Commands {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     SIGNUP(new SignupCommand()),
-    MAINVIEW(new CatalogCommand());
+    MAINVIEW(new CatalogViewCommand());
 
     private final Command command;
 

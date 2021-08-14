@@ -8,26 +8,16 @@ public class Product {
     private String name;
     private int price;
     private Date creationDate;
-    private String status;
     private Map<String, String> properties;
 
     public Product(){}
 
-    public Product(int id, String name, int price, Date creationDate, String status, Map<String, String> parameters) {
+    public Product(int id, String name, int price, Date creationDate, Map<String, String> properties) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.creationDate = creationDate;
-        this.status = status;
-        this.properties = parameters;
-    }
-
-    public Map<String, String> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(Map<String, String> parameters) {
-        this.properties = parameters;
+        this.properties = properties;
     }
 
     public int getId() {
@@ -62,12 +52,12 @@ public class Product {
         this.creationDate = creationDate;
     }
 
-    public String getStatus() {
-        return status;
+    public Map<String, String> getProperties() {
+        return properties;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 
     @Override
@@ -77,8 +67,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", creationDate=" + creationDate +
-                ", status='" + status + '\'' +
-                ", parameters=" + properties +
+                ", properties=" + properties +
                 '}';
     }
 }

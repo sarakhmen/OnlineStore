@@ -12,13 +12,11 @@
         TABLE {
             width: 600px;
             border-collapse: collapse;
-
         }
 
         TD, TH {
             padding: 3px;
             border: 1px solid black;
-
         }
 
         TH {
@@ -50,8 +48,8 @@
                     </c:forEach>
                 </td>
                 <td>
-                    <form action="order" method="post">
-                        <input type="hidden" name="productId" value="${product.id}"\>
+                    <form action="addToCart" method="post">
+                        <input type="hidden" name="productId" value="${product.id}"/>
                         <button>
                             Order
                         </button>

@@ -1,18 +1,23 @@
 package model;
 
+import model.entity.Order;
 import model.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM user";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
     private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name) values(?, ?, ?)";
     private static final String SQL_UPDATE_USER_ROLE = "UPDATE user SET role=? WHERE login=?";
+    private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
 
 
     public User selectUserByLogin(String login){
@@ -70,16 +75,14 @@ public class UserDao {
             pstmnt.setString(1, login);
             pstmnt.setString(2, password);
             pstmnt.setString(3, userName);
-            if(pstmnt.executeUpdate() != 0){
-                pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
-                pstmnt.setString(1, login);
-                ResultSet rs = pstmnt.executeQuery();
-                if(rs.next()){
-                    EntityMapper<User> mapper = new UserMapper();
-                    user = mapper.mapRow(rs);
-                }
+            pstmnt.executeUpdate();
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+            pstmnt.setString(1, login);
+            ResultSet rs = pstmnt.executeQuery();
+            if(rs.next()){
+                EntityMapper<User> mapper = new UserMapper();
+                user = mapper.mapRow(rs);
             }
-//
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -88,6 +91,52 @@ public class UserDao {
             dbManager.closeConnection(con);
         }
         return user;
+    }
+
+    public List<User> selectAllUsers(){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        List<User> users = new LinkedList<>();
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_SELECT_ALL_USERS);
+            ResultSet rs = pstmnt.executeQuery();
+            EntityMapper<User> userMapper = new UserMapper();
+            while(rs.next()){
+                User user = userMapper.mapRow(rs);
+                users.add(user);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            //throw custom exception
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return users;
+    }
+
+    public boolean updateUserStatus(int userId, boolean blocked){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean updated = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_UPDATE_USER_STATUS);
+            pstmnt.setBoolean(1, blocked);
+            pstmnt.setInt(2, userId);
+            pstmnt.executeUpdate();
+            updated = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            //throw custom exception
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return updated;
     }
 
     public boolean setRole(String login, String role){

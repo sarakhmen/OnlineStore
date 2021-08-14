@@ -11,20 +11,11 @@
 <hr>
 <h3>${sessionScope.username}</h3>
 <h4>${sessionScope.role}</h4>
-<c:choose>
-    <c:when test="${sessionScope.role != 'GUEST'}">
-        <form action="logout">
-            <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
-        </form>
-    </c:when>
-    <c:otherwise>
-        <form action="${pageContext.request.contextPath}/login.jsp">
-            <input type="submit" value="Log in"/>
-        </form>
-    </c:otherwise>
-</c:choose>
+<form action="../logout">
+    <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
+</form>
 
-<form action="cartView">
+<form action="../cartView">
     <input type="submit" value="Cart"/>
 </form>
 

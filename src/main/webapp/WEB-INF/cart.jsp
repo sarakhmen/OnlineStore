@@ -43,9 +43,19 @@
                 <td><c:out value="${order.status}"/></td>
                 <td>
                     <form action="deleteOrder" method="post">
-                        <input type="hidden" name="orderId" value="${order.id}"\>
+                        <input type="hidden" name="orderId" value="${order.id}"/>
                         <button>
                             Delete
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="orderStatus" method="post">
+                        <input type="hidden" name="orderId" value="${order.id}"/>
+                        <input type="hidden" name="orderStatus" value="Registered"/>
+
+                        <button <c:if test="${order.status != 'Unregistered'}"> disabled </c:if> />
+                            Order
                         </button>
                     </form>
                 </td>
@@ -53,5 +63,6 @@
         </c:forEach>
     </table>
 </div>
+
 </body>
 </html>

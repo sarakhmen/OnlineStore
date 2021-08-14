@@ -25,8 +25,11 @@
     </style>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="header1.jsp"/>
 <h2>MAIN PAGE CONTENT</h2>
+<form action="admin/addProduct">
+    <input type="submit" value="Add new product"/>
+</form>
 <div>
     <table style="float: left">
         <tr>
@@ -34,6 +37,7 @@
             <th>Price</th>
             <th>Creation date</th>
             <th>Properties</th>
+            <th></th>
         </tr>
         <c:forEach items="${sessionScope.products}" var="product">
             <tr>
@@ -45,6 +49,14 @@
                         <c:out value="${property.key}: ${property.value}"/>
                         <br>
                     </c:forEach>
+                </td>
+                <td>
+                    <form action="addToCart" method="post">
+                        <input type="hidden" name="productId" value="${product.id}"/>
+                        <button>
+                            Order
+                        </button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

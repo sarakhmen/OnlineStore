@@ -1,8 +1,6 @@
 package model;
 
 import model.entity.Order;
-import model.entity.Product;
-import model.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +11,12 @@ import java.util.*;
 public class OrderDao {
     private final DBManager dbManager = DBManager.getInstance();
 
-    private static final String SQL_SELECT_ALL_ORDERS = "SELECT bag.id, product.name, product.price, product.status " +
+    private static final String SQL_SELECT_ALL_ORDERS = "SELECT bag.id, product.name, product.price, bag.status " +
             "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
-    private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?);";
+    private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?)";
+    private static final String SQL_DELETE_ORDER = "DELETE FROM bag WHERE id=?";
+    private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
+
 
     public List<Order> selectAllOrders(int userId){
         Connection con = null;
@@ -51,9 +52,8 @@ public class OrderDao {
             pstmnt = con.prepareStatement(SQL_INSERT_ORDER);
             pstmnt.setInt(1, userId);
             pstmnt.setInt(2, productId);
-            if(pstmnt.executeUpdate() != 0){
-                inserted = true;
-            }
+            pstmnt.executeUpdate();
+            inserted = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -64,6 +64,47 @@ public class OrderDao {
         return inserted;
     }
 
+    public boolean deleteOrder(int orderId){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean deleted = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_DELETE_ORDER);
+            pstmnt.setInt(1, orderId);
+            pstmnt.executeUpdate();
+            deleted = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return deleted;
+    }
+
+    public boolean updateOrderStatus(int orderId, String newStatus){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean updated = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_UPDATE_ORDER_STATUS);
+            pstmnt.setString(1, newStatus);
+            pstmnt.setInt(2, orderId);
+            pstmnt.executeUpdate();
+            updated = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return updated;
+    }
+
     public static class OrderMapper implements EntityMapper<Order>{
         @Override
         public Order mapRow(ResultSet rs) {
@@ -72,7 +113,7 @@ public class OrderDao {
                 order.setId(rs.getInt(DBConstants.ENTITY_ID));
                 order.setName(rs.getString(DBConstants.PRODUCT_NAME));
                 order.setPrice(rs.getInt(DBConstants.PRODUCT_PRICE));
-                order.setStatus(rs.getString(DBConstants.PRODUCT_STATUS));
+                order.setStatus(rs.getString(DBConstants.BAG_STATUS));
                 return order;
             } catch (SQLException e) {
                 e.printStackTrace();
