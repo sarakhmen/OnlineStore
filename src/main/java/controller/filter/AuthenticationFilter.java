@@ -25,23 +25,31 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        System.out.println("in auth filter");
-
         HttpSession session = httpRequest.getSession();
+        UserDao userDao = new UserDao();
+
         String path = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
         path = path.replaceAll(".*" + contextPath + "/", "");
-        System.out.println("uri = " + path);
+
         String userRole = (String)session.getAttribute(Parameters.ROLE);
-        if(path.contains("admin") && !userRole.equals(DBConstants.USER_ADMIN)){
+        boolean guest = userRole.equals(DBConstants.USER_GUEST);
+        boolean admin = userRole.equals(DBConstants.USER_ADMIN);
+        System.out.println("in auth filter");
+        if(path.contains("admin") && !admin){
+            System.out.println("redirecting non admin");
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
         }
-        else if((!path.contains("/") || path.contains("index.jsp")) && !userRole.equals(DBConstants.USER_GUEST)){
+        else if((!path.contains("/") || path.contains("index.jsp")) && !guest){
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.CATALOG_ACTION);
         }
-        else if(path.contains("orderStatus") && userRole.equals(DBConstants.USER_GUEST)){
+        else if(path.contains("orderStatus") && guest){
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
+        }
+        else if(path.contains("main") && !guest && userDao.isBlocked((int)session.getAttribute(Parameters.USER_ID))){
+            httpRequest.setAttribute(Parameters.ERROR, "Your account is blocked!");
+            session.invalidate();
+            httpRequest.getRequestDispatcher(Actions.ERROR_PAGE).forward(request, response);
         }
         else {
             chain.doFilter(request, response);

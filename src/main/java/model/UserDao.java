@@ -12,6 +12,7 @@ import java.util.List;
 public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
     private static final String SQL_SELECT_ALL_USERS_EXCEPT_GUESTS = "SELECT * FROM user WHERE role!='"
             + DBConstants.USER_GUEST + "'";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
@@ -61,6 +62,27 @@ public class UserDao {
             dbManager.rollbackAndClose(con);
         }
         return registered;
+    }
+
+    public boolean isBlocked(int id){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean blocked = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BLOCK_STATUS);
+            pstmnt.setInt(1, id);
+            ResultSet rs = pstmnt.executeQuery();
+            if(rs.next()){
+                blocked = rs.getBoolean(DBConstants.USER_STATUS);
+                con.commit();
+                con.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+        }
+        return blocked;
     }
 
     public User insertUser(String login, String password, String userName){

@@ -11,12 +11,8 @@ I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 I
 src/main/webapp/login.jsp,8\5\85ee523d01e5e19376db640e846c91bbcb0a1c22
-Q
-!src/main/webapp/WEB-INF/error.jsp,9\c\9cff433cd6572c1c2e3dada266b0f79a25f33fa0
 U
 %src/main/java/model/entity/Order.java,f\9\f97468ddcb6f1a7ebbf573e181b4bb2b2d402c1d
-T
-$src/main/java/model/entity/User.java,7\d\7d46df4109d8411dc9d4c22fe13f2270c2c7f35c
 ^
 .src/main/java/controller/command/Commands.java,3\5\358064873404618e60bfd57e844286033ff58190
 W
@@ -33,8 +29,6 @@ Y
 )src/main/webapp/WEB-INF/admin/catalog.jsp,9\c\9c75ac7579a9cfa7993b3eab58f24d465a34b79c
 h
 8src/main/java/controller/command/DeleteOrderCommand.java,5\d\5dc26e553f5b075c4bb47fec51856e414dbd4b6b
-R
-"src/main/webapp/WEB-INF/header.jsp,1\7\173ac230a034b0f17392b54d65760b6c3d6dbaa7
 Y
 )src/main/webapp/WEB-INF/admin/header1.jsp,d\4\d49366ea30cd0d8ff0d257c014955cd52f46d83c
 Y
@@ -43,8 +37,6 @@ Y
 ,src/main/webapp/WEB-INF/admin/management.jsp,3\9\39d7c5a1dc6f7b690f71b95b4c3f6c5877462f97
 h
 8src/main/java/controller/command/OrderStatusCommand.java,9\2\922edd291197d6cab339d4e19667f57fca72a183
-X
-(src/main/java/controller/Parameters.java,4\0\40ca52adbf71d9981dee79e3f5751aa768d3f789
 T
 $src/main/java/model/DBConstants.java,7\0\704cef1f435799b56f5a713d74bbc35f14187e4f
 e

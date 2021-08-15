@@ -12,5 +12,8 @@
 <h1>${errorMessage}</h1>
 <br>
 ${pageContext.exception}
+<form action="${pageContext.request.contextPath}/">
+    <input type="submit" value="Return back"/>
+</form>
 </body>
 </html>

@@ -16,4 +16,5 @@ public class Parameters {
     public static final String USERS = "users";
     public static final String NEW_BLOCK_STATUS = "newBlockStatus";
     public static final String CART_USER_ID = "cartUserId";
+    public static final String BLOCKED = "blocked";
 }
