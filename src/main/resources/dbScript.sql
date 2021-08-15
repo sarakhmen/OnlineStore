@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS property
     propertyNameEn VARCHAR(30),
     propertyValueEn VARCHAR(30),
     propertyNameUk VARCHAR(30),
-    propertyValueUr VARCHAR(30),
+    propertyValueUk VARCHAR(30),
     CONSTRAINT propertyFK
     FOREIGN KEY (productId) REFERENCES product (id) ON DELETE CASCADE
 );

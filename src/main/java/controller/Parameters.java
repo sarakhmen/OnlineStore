@@ -18,5 +18,6 @@ public class Parameters {
     public static final String BLOCKED = "blocked";
     public static final String LOCALE = "locale";
     public static final String USERNAME_EN = "usernameEn";
-    public static final String USERNAME = "usernameUk";
+    public static final String USERNAME = "username";
+    public static final String USERNAME_UK = "usernameUk";
 }

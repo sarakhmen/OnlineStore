@@ -1,5 +1,6 @@
 package model;
 
+import controller.Parameters;
 import model.entity.User;
 
 import java.sql.Connection;
@@ -12,13 +13,14 @@ import java.util.List;
 public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_SELECT_USER_NAMES = "SELECT nameEn, nameUk FROM user WHERE id=?";
     private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
     private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) values(?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
     private static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login=?";
 
-    private String sqlSelectAllUsersExceptGuests;
-    private String sqlSelectUserByLogin = "SELECT * FROM user WHERE login=?";
+    private final String sqlSelectAllUsersExceptGuests;
+    private final String sqlSelectUserByLogin;
 
     public UserDao(String locale){
         switch (locale){
@@ -161,6 +163,30 @@ public class UserDao {
         return users;
     }
 
+    public List<String> selectUserNames(int id){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        List<String> names = new LinkedList<>();
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_NAMES);
+            pstmnt.setInt(1, id);
+            ResultSet rs = pstmnt.executeQuery();
+            if(rs.next()){
+                names.add(rs.getString(DBConstants.USER_NAME_EN));
+                names.add(rs.getString(DBConstants.USER_NAME_UK));
+            }
+            con.commit();
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            names = null;
+            //throw custom exception
+        }
+        return names;
+    }
+
     public boolean updateUserStatus(int userId, boolean blocked){
         Connection con = null;
         PreparedStatement pstmnt = null;
@@ -202,7 +228,7 @@ public class UserDao {
         return deleted;
     }
 
-    public static class UserMapper implements EntityMapper<User>{
+    public class UserMapper implements EntityMapper<User>{
         @Override
         public User mapRow(ResultSet rs) {
             try {

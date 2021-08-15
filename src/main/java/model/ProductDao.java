@@ -11,9 +11,11 @@ import java.util.*;
 public class ProductDao {
     private final DBManager dbManager = DBManager.getInstance();
 
-    private String sqlSelectAllProducts;
-    private String sqlSelectProductProperties;
-    private String sqlSelectDistinctPropertyNames;
+    private final String sqlSelectAllProducts;
+    private final String sqlSelectProductProperties;
+    private final String sqlSelectDistinctPropertyNames;
+
+    private final double currencyRatio;
 
     public ProductDao(String locale){
         switch (locale){
@@ -22,12 +24,14 @@ public class ProductDao {
                 sqlSelectProductProperties = "SELECT propertyNameUk as propertyName, propertyValueUk " +
                         "as propertyValue FROM property WHERE productId = ?";
                 sqlSelectDistinctPropertyNames = "SELECT DISTINCT propertyNameUk as propertyName FROM property";
+                currencyRatio = 27;
                 break;
             default:
                 sqlSelectAllProducts = "SELECT id, nameEn as name, price, creationDate FROM product ORDER BY ";
                 sqlSelectProductProperties = "SELECT propertyNameEn as propertyName, propertyValueEn " +
                         "as propertyValue FROM property WHERE productId = ?";
                 sqlSelectDistinctPropertyNames = "SELECT DISTINCT propertyNameEn as propertyName FROM property";
+                currencyRatio = 1;
                 break;
         }
     }
@@ -89,14 +93,14 @@ public class ProductDao {
     }
 
 
-    public static class ProductMapper implements EntityMapper<Product>{
+    public class ProductMapper implements EntityMapper<Product>{
         @Override
         public Product mapRow(ResultSet rs) {
             try {
                 Product product = new Product();
                 product.setId(rs.getInt(DBConstants.ENTITY_ID));
                 product.setName(rs.getString(DBConstants.PRODUCT_NAME));
-                product.setPrice(rs.getDouble(DBConstants.PRODUCT_PRICE));
+                product.setPrice(rs.getDouble(DBConstants.PRODUCT_PRICE) * currencyRatio);
                 product.setCreationDate(rs.getDate(DBConstants.PRODUCT_CREATION_DATE));
                 product.setProperties(new HashMap<>());
                 return product;

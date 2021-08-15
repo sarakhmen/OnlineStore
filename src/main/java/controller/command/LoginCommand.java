@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class LoginCommand implements Command{
 
@@ -26,7 +27,8 @@ public class LoginCommand implements Command{
 
         HttpSession session = request.getSession();
         String locale = (String)session.getAttribute(Parameters.LOCALE);
-        User user = new UserDao(locale).selectUserByLogin(login);
+        UserDao userDao = new UserDao(locale);
+        User user = userDao.selectUserByLogin(login);
 
         if(user == null ){
             request.setAttribute(Parameters.ERROR, "Cannot find user with such login");
@@ -43,8 +45,11 @@ public class LoginCommand implements Command{
             OrderDao orderDao = new OrderDao(locale);
             orderDao.transferOrders(guestId, user.getId());
         }
+
+        List<String> names = userDao.selectUserNames(user.getId());
         session.setAttribute(Parameters.USER_ID, user.getId());
-        session.setAttribute(Parameters.USERNAME, user.getName());
+        session.setAttribute(Parameters.USERNAME_EN, names.get(0));
+        session.setAttribute(Parameters.USERNAME_UK, names.get(1));
         session.setAttribute(Parameters.ROLE, user.getRole());
         session.setAttribute(Parameters.CART_USER_ID, user.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;

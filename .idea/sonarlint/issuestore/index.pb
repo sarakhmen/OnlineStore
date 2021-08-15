@@ -5,25 +5,7 @@ U
 %src/main/java/model/EntityMapper.java,4\0\406c8eced6ec785e504bc01b779b9bcb9ba66314
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-J
-src/main/webapp/signup.jsp,e\5\e5522cd3d0b3598d3702de2bf21f10cd7b094ad8
-I
-src/main/webapp/login.jsp,8\5\85ee523d01e5e19376db640e846c91bbcb0a1c22
-^
-.src/main/java/controller/command/Commands.java,3\5\358064873404618e60bfd57e844286033ff58190
-S
-#src/main/webapp/WEB-INF/catalog.jsp,d\3\d39b259cffd414f8c2411c527e5d9ddaa9e28dea
-P
- src/main/webapp/WEB-INF/cart.jsp,8\2\82d9153d99b986885ef7014ad9c862d32beab540
-V
-&src/main/webapp/WEB-INF/admin/cart.jsp,a\d\ad435d378d2abdd83dfcfffaede19f2c57e4b400
-Y
-)src/main/webapp/WEB-INF/admin/catalog.jsp,9\c\9c75ac7579a9cfa7993b3eab58f24d465a34b79c
 Y
 )src/main/webapp/WEB-INF/admin/header1.jsp,d\4\d49366ea30cd0d8ff0d257c014955cd52f46d83c
 Y
 )src/main/webapp/WEB-INF/admin/header2.jsp,c\a\cab5911fb56b467936d763a36632007b545feed4
-\
-,src/main/webapp/WEB-INF/admin/management.jsp,3\9\39d7c5a1dc6f7b690f71b95b4c3f6c5877462f97
-T
-$src/main/java/model/DBConstants.java,7\0\704cef1f435799b56f5a713d74bbc35f14187e4f

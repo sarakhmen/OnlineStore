@@ -24,4 +24,6 @@ public class DBConstants {
     public static final String BAG_USER_ID = "userId";
     public static final String BAG_PRODUCT_ID = "productId";
     public static final String BAG_STATUS = "status";
+    public static final String USER_NAME_EN = "nameEn";
+    public static final String USER_NAME_UK = "nameUk";
 }

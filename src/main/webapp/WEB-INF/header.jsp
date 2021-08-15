@@ -9,7 +9,14 @@
 <head>
 </head>
 <hr>
-<h3>${sessionScope.username}</h3>
+<h3><c:choose>
+    <c:when test="${sessionScope.locale == 'en'}">
+        <c:out value="${sessionScope.usernameEn}"/>
+    </c:when>
+    <c:otherwise>
+        <c:out value="${sessionScope.usernameUk}"/>
+    </c:otherwise>
+</c:choose></h3>
 <h4>${sessionScope.role}</h4>
 <c:choose>
     <c:when test="${sessionScope.role != 'GUEST'}">

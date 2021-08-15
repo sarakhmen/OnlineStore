@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class SignupCommand implements Command{
 
@@ -21,7 +22,7 @@ public class SignupCommand implements Command{
         String login = request.getParameter(Parameters.LOGIN);
         String password = request.getParameter(Parameters.PASSWORD);
         String userNameEn = request.getParameter(Parameters.USERNAME_EN);
-        String userNameUk = request.getParameter(Parameters.USERNAME_EN);
+        String userNameUk = request.getParameter(Parameters.USERNAME_UK);
 
         if(login == null || password == null || userNameEn == null || userNameUk == null
                 || login.isEmpty() || password.isEmpty() || userNameEn.isEmpty() || userNameUk.isEmpty()){
@@ -51,8 +52,11 @@ public class SignupCommand implements Command{
             int guestId = (int)session.getAttribute(Parameters.USER_ID);
             orderDao.transferOrders(guestId, newUser.getId());
         }
+
+        List<String> names = userDao.selectUserNames(newUser.getId());
         session.setAttribute(Parameters.USER_ID, newUser.getId());
-        session.setAttribute(Parameters.USERNAME, newUser.getName());
+        session.setAttribute(Parameters.USERNAME_EN, names.get(0));
+        session.setAttribute(Parameters.USERNAME_UK, names.get(1));
         session.setAttribute(Parameters.ROLE, DBConstants.USER_USER);
         session.setAttribute(Parameters.CART_USER_ID, newUser.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;

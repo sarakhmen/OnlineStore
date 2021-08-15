@@ -14,4 +14,5 @@ public class Actions {
     public static final String ADMIN_MANAGEMENT_ACTION = "/main/admin/management";
 
     public static final String ADMIN_CART_VIEW_ACTION = "/main/admin/cartView";
+    public static final String ADD_PRODUCT_PAGE = "/WEB-INF/admin/addProduct.jsp";
 }

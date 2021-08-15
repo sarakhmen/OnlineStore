@@ -16,8 +16,8 @@ public class OrderDao {
     private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
     private static final String SQL_TRANSFER_ORDERS = "UPDATE bag SET userId=? WHERE userId=?";
 
-    private String sqlSelectAllOrders;
-    private double currencyRatio;
+    private final String sqlSelectAllOrders;
+    private final double currencyRatio;
 
     public OrderDao(String locale){
         switch (locale){

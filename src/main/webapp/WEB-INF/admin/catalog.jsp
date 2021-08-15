@@ -27,7 +27,7 @@
 <body>
 
 <hr>
-<h3>${sessionScope.username}</h3>
+<c:import url="header.jsp"/>
 <h4>${sessionScope.role}</h4>
 <form action="logout">
     <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
@@ -44,7 +44,7 @@
 <hr/>
 
 <h2>MAIN PAGE CONTENT</h2>
-<form action="admin/addProduct">
+<form action="admin/addProductView">
     <input type="submit" value="Add new product"/>
 </form>
 <div>
