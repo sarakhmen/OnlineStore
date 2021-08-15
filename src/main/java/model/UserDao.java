@@ -31,12 +31,12 @@ public class UserDao {
                 EntityMapper<User> mapper = new UserMapper();
                 user = mapper.mapRow(rs);
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
+            user = null;
         }
         return user;
     }
@@ -51,14 +51,13 @@ public class UserDao {
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
+                con.commit();
+                con.close();
                 registered = true;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
         }
         return registered;
     }
@@ -86,12 +85,12 @@ public class UserDao {
                 EntityMapper<User> mapper = new UserMapper();
                 user = mapper.mapRow(rs);
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
+            user = null;
         }
         return user;
     }
@@ -109,13 +108,13 @@ public class UserDao {
                 User user = userMapper.mapRow(rs);
                 users.add(user);
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            users = null;
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
         }
         return users;
     }
@@ -130,14 +129,13 @@ public class UserDao {
             pstmnt.setBoolean(1, blocked);
             pstmnt.setInt(2, userId);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             updated = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
         }
         return updated;
     }
@@ -151,14 +149,13 @@ public class UserDao {
             pstmnt = con.prepareStatement(SQL_DELETE_USER_BY_LOGIN);
             pstmnt.setString(1, login);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             deleted = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
         }
         return deleted;
     }

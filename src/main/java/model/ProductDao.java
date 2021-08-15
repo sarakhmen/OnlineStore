@@ -38,14 +38,13 @@ public class ProductDao {
                 }
                 products.add(product);
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            products = null;
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(selectPropertiesForProd);
-            dbManager.closeStatement(selectAllProd);
-            dbManager.closeConnection(con);
         }
         return products;
     }
@@ -61,13 +60,13 @@ public class ProductDao {
             while(rs.next()){
                 property.add(rs.getString(1));
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            property = null;
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
         }
         return property;
     }

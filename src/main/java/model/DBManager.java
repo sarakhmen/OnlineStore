@@ -53,50 +53,60 @@ public class DBManager {
 
         ConnectionFactory cf = new DriverManagerConnectionFactory(JDBC_DB_URL, JDBC_USER, JDBC_PASS);
         @SuppressWarnings("unused") PoolableConnectionFactory pcf = new PoolableConnectionFactory(cf, gPool, null,
-                null, false, true);
+                null, false, false);
         poolingDataSource = new PoolingDataSource(gPool);
 
     }
 
-    public Connection getConnection() throws SQLException{
+    public Connection getConnection() throws SQLException {
         return poolingDataSource.getConnection();
     }
-
-    public void commitAndClose(Connection con) {
-        try {
-            con.commit();
-            con.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+//
+//    public void commitAndClose(Connection con) {
+//        try {
+//            con.commit();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        try {
+//            con.close();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     public void rollbackAndClose(Connection con) {
-        try {
-            con.rollback();
-            con.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void closeStatement(Statement st){
-        if(st != null){
-            try{
-                st.close();
-            }catch (SQLException ex){
+        if (con != null) {
+            try {
+                con.commit();
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-    }
-
-    public void closeConnection(Connection con){
-        if(con != null){
-            try{
+            try {
                 con.close();
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
+
+//    public void closeStatement(Statement st) {
+//        if (st != null) {
+//            try {
+//                st.close();
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    public void closeConnection(Connection con) {
+//        if (con != null) {
+//            try {
+//                con.close();
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
 }

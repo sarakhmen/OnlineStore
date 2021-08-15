@@ -32,13 +32,13 @@ public class OrderDao {
                 Order order = om.mapRow(rsOrders);
                 orders.add(order);
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            orders = null;
             //throw custom exception
-        }
-        finally {
-            dbManager.closeStatement(selectAllOrders);
-            dbManager.closeConnection(con);
         }
         return orders;
     }
@@ -53,13 +53,12 @@ public class OrderDao {
             pstmnt.setInt(1, userId);
             pstmnt.setInt(2, productId);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             inserted = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
         }
         return inserted;
     }
@@ -73,13 +72,12 @@ public class OrderDao {
             pstmnt = con.prepareStatement(SQL_DELETE_ORDER);
             pstmnt.setInt(1, orderId);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             deleted = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
         }
         return deleted;
     }
@@ -94,13 +92,12 @@ public class OrderDao {
             pstmnt.setString(1, newStatus);
             pstmnt.setInt(2, orderId);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             updated = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
         }
         return updated;
     }
@@ -115,13 +112,12 @@ public class OrderDao {
             pstmnt.setInt(1, idTo);
             pstmnt.setInt(2, idFrom);
             pstmnt.executeUpdate();
+            con.commit();
+            con.close();
             transferred = true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            dbManager.closeStatement(pstmnt);
-            dbManager.closeConnection(con);
+            dbManager.rollbackAndClose(con);
         }
         return transferred;
     }

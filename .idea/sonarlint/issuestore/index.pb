@@ -22,8 +22,6 @@ $src/main/java/model/entity/User.java,7\d\7d46df4109d8411dc9d4c22fe13f2270c2c7f
 W
 'src/main/java/model/entity/Product.java,7\5\754ad0de272ee03e4e08f9aa04e8dff7eb990094
 S
-#src/main/java/model/ProductDao.java,e\a\ea6dbfe91b08b29a9a5e8927ec2a510f08c2f4f6
-S
 #src/main/webapp/WEB-INF/catalog.jsp,d\3\d39b259cffd414f8c2411c527e5d9ddaa9e28dea
 P
  src/main/webapp/WEB-INF/cart.jsp,8\2\82d9153d99b986885ef7014ad9c862d32beab540
@@ -53,5 +51,3 @@ e
 5src/main/java/controller/command/CartViewCommand.java,7\6\763138add9599fde3487b730c38472bebd6aaddf
 g
 7src/main/java/controller/command/ManagementCommand.java,e\2\e206ef9527cf571b21689cc403d31271eb098556
-R
-"src/main/java/model/DBManager.java,b\1\b17d6b686296d3e885c07ac1acd2ccb37d243d04
