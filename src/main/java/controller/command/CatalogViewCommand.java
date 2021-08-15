@@ -19,7 +19,8 @@ public class CatalogViewCommand implements Command{
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ProductDao productDao = new ProductDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        ProductDao productDao = new ProductDao(locale);
         List<Product> products = productDao.selectAllProducts(DBConstants.PRODUCT_NAME, DBConstants.ORDER_DESCENDING);
         Set<String> properties = productDao.selectDistinctPropertyNames();
         session.setAttribute(Parameters.PRODUCTS, products);

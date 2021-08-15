@@ -17,7 +17,8 @@ public class AddToCartCommand implements Command{
         HttpSession session = request.getSession();
         int userId = (int)session.getAttribute(Parameters.USER_ID);
         int productId = Integer.parseInt((String)request.getParameter(Parameters.PRODUCT_ID));
-        OrderDao orderDao = new OrderDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        OrderDao orderDao = new OrderDao(locale);
         System.out.println("processing order...");
         if(orderDao.insertOrder(userId, productId)){
             //some code;

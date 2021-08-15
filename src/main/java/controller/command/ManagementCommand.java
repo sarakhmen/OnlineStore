@@ -19,7 +19,8 @@ public class ManagementCommand implements Command{
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserDao userDao = new UserDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        UserDao userDao = new UserDao(locale);
         List<User> users = userDao.selectAllUsersExceptGuests();
         session.setAttribute(Parameters.USERS, users);
         return Actions.ADMIN_MANAGEMENT_PAGE;

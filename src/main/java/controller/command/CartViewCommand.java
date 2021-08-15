@@ -31,7 +31,8 @@ public class CartViewCommand implements Command{
             cartUserId = (int)session.getAttribute(Parameters.CART_USER_ID);
         }
 
-        OrderDao orderDao = new OrderDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        OrderDao orderDao = new OrderDao(locale);
         List<Order> orders = orderDao.selectAllOrders(cartUserId);
         System.out.println("processing cart...");
         System.out.println(orders);

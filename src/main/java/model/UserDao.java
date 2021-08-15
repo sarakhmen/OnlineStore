@@ -13,12 +13,30 @@ public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
-    private static final String SQL_SELECT_ALL_USERS_EXCEPT_GUESTS = "SELECT * FROM user WHERE role!='"
-            + DBConstants.USER_GUEST + "'";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
-    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name, role) values(?, ?, ?, ?)";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) values(?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
     private static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login=?";
+
+    private String sqlSelectAllUsersExceptGuests;
+    private String sqlSelectUserByLogin = "SELECT * FROM user WHERE login=?";
+
+    public UserDao(String locale){
+        switch (locale){
+            case "uk":
+                sqlSelectAllUsersExceptGuests = "SELECT id, login, password, nameUk as name, role, blocked FROM user " +
+                        "WHERE role!='" + DBConstants.USER_GUEST + "'";
+                sqlSelectUserByLogin = "SELECT id, login, password, nameUk as name, role, blocked FROM user " +
+                        "WHERE login=?";
+                break;
+            default:
+                sqlSelectAllUsersExceptGuests = "SELECT id, login, password, nameEn as name, role, blocked FROM user " +
+                        "WHERE role!='" + DBConstants.USER_GUEST + "'";
+                sqlSelectUserByLogin = "SELECT id, login, password, nameEn as name, role, blocked FROM user " +
+                        "WHERE login=?";
+                break;
+        }
+    }
+
 
     public User selectUserByLogin(String login){
         Connection con = null;
@@ -26,7 +44,7 @@ public class UserDao {
         User user = null;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -49,7 +67,7 @@ public class UserDao {
         boolean registered = false;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -85,11 +103,11 @@ public class UserDao {
         return blocked;
     }
 
-    public User insertUser(String login, String password, String userName){
-        return insertUser(login, password, userName, DBConstants.USER_USER);
+    public User insertUser(String login, String password, String userNameEn, String userNameUk){
+        return insertUser(login, password, userNameEn, userNameUk, DBConstants.USER_USER);
     }
 
-    public User insertUser(String login, String password, String userName, String role){
+    public User insertUser(String login, String password, String userNameEn, String userNameUk, String role){
         Connection con = null;
         PreparedStatement pstmnt = null;
         User user = null;
@@ -98,10 +116,11 @@ public class UserDao {
             pstmnt = con.prepareStatement(SQL_INSERT_USER);
             pstmnt.setString(1, login);
             pstmnt.setString(2, password);
-            pstmnt.setString(3, userName);
-            pstmnt.setString(4, role);
+            pstmnt.setString(3, userNameEn);
+            pstmnt.setString(4, userNameUk);
+            pstmnt.setString(5, role);
             pstmnt.executeUpdate();
-            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -124,7 +143,7 @@ public class UserDao {
         List<User> users = new LinkedList<>();
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_SELECT_ALL_USERS_EXCEPT_GUESTS);
+            pstmnt = con.prepareStatement(sqlSelectAllUsersExceptGuests);
             ResultSet rs = pstmnt.executeQuery();
             EntityMapper<User> userMapper = new UserMapper();
             while(rs.next()){

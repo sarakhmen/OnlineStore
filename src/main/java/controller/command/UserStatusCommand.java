@@ -24,7 +24,8 @@ public class UserStatusCommand implements Command{
 
         String newBlockStatus = request.getParameter(Parameters.NEW_BLOCK_STATUS);
         int userId = Integer.parseInt(request.getParameter(Parameters.USER_ID));
-        UserDao userDao = new UserDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        UserDao userDao = new UserDao(locale);
         if(newBlockStatus.equals(DBConstants.USER_BLOCKED)){
             userDao.updateUserStatus(userId, true);
         }

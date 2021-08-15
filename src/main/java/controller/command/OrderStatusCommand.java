@@ -20,7 +20,8 @@ public class OrderStatusCommand implements Command{
         String newStatus = request.getParameter(Parameters.ORDER_STATUS);
         int orderId = Integer.parseInt(request.getParameter(Parameters.ORDER_ID));
         System.out.println(newStatus + " " + orderId);
-        OrderDao orderDao = new OrderDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        OrderDao orderDao = new OrderDao(locale);
         orderDao.updateOrderStatus(orderId, newStatus);
 
         String userRole = (String)session.getAttribute(Parameters.ROLE);

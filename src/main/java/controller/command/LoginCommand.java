@@ -24,7 +24,9 @@ public class LoginCommand implements Command{
             return Actions.ERROR_PAGE;
         }
 
-        User user = new UserDao().selectUserByLogin(login);
+        HttpSession session = request.getSession();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        User user = new UserDao(locale).selectUserByLogin(login);
 
         if(user == null ){
             request.setAttribute(Parameters.ERROR, "Cannot find user with such login");
@@ -36,10 +38,9 @@ public class LoginCommand implements Command{
             return Actions.ERROR_PAGE;
         }
 
-        HttpSession session = request.getSession();
         if(session.getAttribute(Parameters.USER_ID) != null){
             int guestId = (int)session.getAttribute(Parameters.USER_ID);
-            OrderDao orderDao = new OrderDao();
+            OrderDao orderDao = new OrderDao(locale);
             orderDao.transferOrders(guestId, user.getId());
         }
         session.setAttribute(Parameters.USER_ID, user.getId());

@@ -20,15 +20,18 @@ public class SignupCommand implements Command{
 
         String login = request.getParameter(Parameters.LOGIN);
         String password = request.getParameter(Parameters.PASSWORD);
-        String userName = request.getParameter(Parameters.USERNAME);
+        String userNameEn = request.getParameter(Parameters.USERNAME_EN);
+        String userNameUk = request.getParameter(Parameters.USERNAME_EN);
 
-        if(login == null || password == null || userName == null
-                || login.isEmpty() || password.isEmpty() || userName.isEmpty()){
+        if(login == null || password == null || userNameEn == null || userNameUk == null
+                || login.isEmpty() || password.isEmpty() || userNameEn.isEmpty() || userNameUk.isEmpty()){
             request.setAttribute(Parameters.ERROR, "Incorrect input");
             return Actions.ERROR_PAGE;
         }
 
-        UserDao userDao = new UserDao();
+        HttpSession session = request.getSession();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        UserDao userDao = new UserDao(locale);
         boolean registered = userDao.isRegistered(login);
 
         if(registered){
@@ -36,15 +39,15 @@ public class SignupCommand implements Command{
             return Actions.ERROR_PAGE;
         }
 
-        User newUser = userDao.insertUser(login, password, userName);
+        User newUser = userDao.insertUser(login, password, userNameEn, userNameUk);
         if(newUser == null){
             request.setAttribute(Parameters.ERROR, "Error adding user to database");
             return Actions.ERROR_PAGE;
         }
 
-        HttpSession session = request.getSession();
+
         if(session.getAttribute(Parameters.USER_ID) != null){
-            OrderDao orderDao = new OrderDao();
+            OrderDao orderDao = new OrderDao(locale);
             int guestId = (int)session.getAttribute(Parameters.USER_ID);
             orderDao.transferOrders(guestId, newUser.getId());
         }

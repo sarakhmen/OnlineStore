@@ -1,26 +1,16 @@
 package model.entity;
 
-public class Order {
-    private int id;
+public class Order extends Entity{
     private String name;
-    private int price;
+    private double price;
     private String status;
 
     public Order(){}
 
-    public Order(int id, String name, int price, String status) {
-        this.id = id;
+    public Order(String name, double price, String status) {
         this.name = name;
         this.price = price;
         this.status = status;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -31,11 +21,11 @@ public class Order {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -50,8 +40,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", price=" + price +
                 ", status='" + status + '\'' +
                 '}';

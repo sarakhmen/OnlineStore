@@ -3,29 +3,19 @@ package model.entity;
 import java.util.Date;
 import java.util.Map;
 
-public class Product {
-    private int id;
+public class Product extends Entity{
     private String name;
-    private int price;
+    private double price;
     private Date creationDate;
     private Map<String, String> properties;
 
     public Product(){}
 
-    public Product(int id, String name, int price, Date creationDate, Map<String, String> properties) {
-        this.id = id;
+    public Product(String name, double price, Date creationDate, Map<String, String> properties) {
         this.name = name;
         this.price = price;
         this.creationDate = creationDate;
         this.properties = properties;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -36,11 +26,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -63,8 +53,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", price=" + price +
                 ", creationDate=" + creationDate +
                 ", properties=" + properties +

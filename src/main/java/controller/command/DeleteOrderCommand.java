@@ -16,7 +16,8 @@ public class DeleteOrderCommand implements Command{
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         int orderId = Integer.parseInt(request.getParameter(Parameters.ORDER_ID));
-        OrderDao orderDao = new OrderDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        OrderDao orderDao = new OrderDao(locale);
         System.out.println("processing delete...");
         orderDao.deleteOrder(orderId);
 

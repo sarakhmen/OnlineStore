@@ -1,15 +1,13 @@
 package model.entity;
 
-public class User {
-    private int id;
+public class User extends Entity{
     private String login;
     private String password;
     private String name;
     private String role;
     private boolean blocked;
 
-    public User(int id, String login, String password, String name, String role, boolean blocked) {
-        this.id = id;
+    public User(String login, String password, String name, String role, boolean blocked) {
         this.login = login;
         this.password = password;
         this.name = name;
@@ -18,14 +16,6 @@ public class User {
     }
 
     public User(){}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;
@@ -70,8 +60,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
+                "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +

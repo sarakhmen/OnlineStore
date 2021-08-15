@@ -26,7 +26,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession();
-        UserDao userDao = new UserDao();
+        String locale = (String)session.getAttribute(Parameters.LOCALE);
+        UserDao userDao = new UserDao(locale);
 
         String path = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
@@ -37,10 +38,11 @@ public class AuthenticationFilter implements Filter {
         boolean admin = userRole.equals(DBConstants.USER_ADMIN);
         System.out.println("in auth filter");
         if(path.contains("admin") && !admin){
-            System.out.println("redirecting non admin");
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
         }
         else if((!path.contains("/") || path.contains("index.jsp")) && !guest){
+            System.out.println(userRole);
+            System.out.println("redirected not guest");
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.CATALOG_ACTION);
         }
         else if(path.contains("orderStatus") && guest){

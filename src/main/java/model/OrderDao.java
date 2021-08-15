@@ -11,12 +11,28 @@ import java.util.*;
 public class OrderDao {
     private final DBManager dbManager = DBManager.getInstance();
 
-    private static final String SQL_SELECT_ALL_ORDERS = "SELECT bag.id, product.name, product.price, bag.status " +
-            "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?)";
     private static final String SQL_DELETE_ORDER = "DELETE FROM bag WHERE id=?";
     private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
-    private static final String SQL_TRANSFERE_ORDERS = "UPDATE bag SET userId=? WHERE userId=?";
+    private static final String SQL_TRANSFER_ORDERS = "UPDATE bag SET userId=? WHERE userId=?";
+
+    private String sqlSelectAllOrders;
+    private double currencyRatio;
+
+    public OrderDao(String locale){
+        switch (locale){
+            case "uk":
+                sqlSelectAllOrders = "SELECT bag.id, product.nameUk as name, product.price, bag.status " +
+                        "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
+                currencyRatio = 27;
+                break;
+            default:
+                sqlSelectAllOrders = "SELECT bag.id, product.nameEn as name, product.price, bag.status " +
+                        "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
+                currencyRatio = 1;
+                break;
+        }
+    }
 
     public List<Order> selectAllOrders(int userId){
         Connection con = null;
@@ -24,7 +40,7 @@ public class OrderDao {
         List<Order> orders = new LinkedList<>();
         try {
             con = dbManager.getConnection();
-            selectAllOrders = con.prepareStatement(SQL_SELECT_ALL_ORDERS);
+            selectAllOrders = con.prepareStatement(sqlSelectAllOrders);
             selectAllOrders.setInt(1, userId);
             ResultSet rsOrders = selectAllOrders.executeQuery();
             EntityMapper<Order> om = new OrderMapper();
@@ -108,7 +124,7 @@ public class OrderDao {
         boolean transferred = false;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_TRANSFERE_ORDERS);
+            pstmnt = con.prepareStatement(SQL_TRANSFER_ORDERS);
             pstmnt.setInt(1, idTo);
             pstmnt.setInt(2, idFrom);
             pstmnt.executeUpdate();
@@ -122,14 +138,14 @@ public class OrderDao {
         return transferred;
     }
 
-    public static class OrderMapper implements EntityMapper<Order>{
+    public class OrderMapper implements EntityMapper<Order>{
         @Override
         public Order mapRow(ResultSet rs) {
             try {
                 Order order = new Order();
                 order.setId(rs.getInt(DBConstants.ENTITY_ID));
                 order.setName(rs.getString(DBConstants.PRODUCT_NAME));
-                order.setPrice(rs.getInt(DBConstants.PRODUCT_PRICE));
+                order.setPrice(rs.getDouble(DBConstants.PRODUCT_PRICE) * currencyRatio);
                 order.setStatus(rs.getString(DBConstants.BAG_STATUS));
                 return order;
             } catch (SQLException e) {
