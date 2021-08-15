@@ -14,13 +14,7 @@ public class LogoutCommand implements Command{
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
-        //should implement using cookie
         session.invalidate();
-//        session.setAttribute(Parameters.USER_ID, null);
-//        session.setAttribute(Parameters.USERNAME, null);
-//        session.setAttribute(Parameters.ROLE, DBConstants.USER_GUEST);
-
         return "redirect:" + request.getContextPath() + Actions.INDEX_PAGE;
     }
 }

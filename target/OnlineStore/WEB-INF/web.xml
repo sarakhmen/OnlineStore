@@ -38,7 +38,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--
     <filter>
       <filter-name>authenticationFilter</filter-name>
       <filter-class>controller.filter.AuthenticationFilter</filter-class>
@@ -48,7 +47,16 @@
       <filter-name>authenticationFilter</filter-name>
       <url-pattern>/*</url-pattern>
     </filter-mapping>
-    -->
+
+    <filter>
+        <filter-name>guestFilter</filter-name>
+        <filter-class>controller.filter.GuestFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>guestFilter</filter-name>
+        <url-pattern>/main/*</url-pattern>
+    </filter-mapping>
 
     <listener>
         <listener-class>controller.listener.SessionListener</listener-class>

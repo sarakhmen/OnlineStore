@@ -18,7 +18,7 @@ public class AddToCartCommand implements Command{
         int userId = (int)session.getAttribute(Parameters.USER_ID);
         int productId = Integer.parseInt((String)request.getParameter(Parameters.PRODUCT_ID));
         OrderDao orderDao = new OrderDao();
-        System.out.println("processing order...");;
+        System.out.println("processing order...");
         if(orderDao.insertOrder(userId, productId)){
             //some code;
         }

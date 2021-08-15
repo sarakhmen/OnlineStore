@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
 
@@ -34,10 +35,17 @@ public class LoginCommand implements Command{
             request.setAttribute(Parameters.ERROR, "Wrong password");
             return Actions.ERROR_PAGE;
         }
+
         HttpSession session = request.getSession();
+        if(session.getAttribute(Parameters.USER_ID) != null){
+            int guestId = (int)session.getAttribute(Parameters.USER_ID);
+            OrderDao orderDao = new OrderDao();
+            orderDao.transferOrders(guestId, user.getId());
+        }
         session.setAttribute(Parameters.USER_ID, user.getId());
         session.setAttribute(Parameters.USERNAME, user.getName());
         session.setAttribute(Parameters.ROLE, user.getRole());
+        session.setAttribute(Parameters.CART_USER_ID, user.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }
 }

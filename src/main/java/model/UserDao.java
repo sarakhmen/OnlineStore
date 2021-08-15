@@ -16,7 +16,7 @@ public class UserDao {
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
     private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name, role) values(?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
-
+    private static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login=?";
 
     public User selectUserByLogin(String login){
         Connection con = null;
@@ -142,10 +142,26 @@ public class UserDao {
         return updated;
     }
 
-    public boolean setRole(String login, String role){
-        return true;
+    public boolean deleteUserByLogin(String login){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean deleted = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_DELETE_USER_BY_LOGIN);
+            pstmnt.setString(1, login);
+            pstmnt.executeUpdate();
+            deleted = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            //throw custom exception
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return deleted;
     }
-
     public static class UserMapper implements EntityMapper<User>{
         @Override
         public User mapRow(ResultSet rs) {

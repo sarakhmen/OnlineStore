@@ -3,6 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
+import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
 
@@ -42,9 +43,15 @@ public class SignupCommand implements Command{
         }
 
         HttpSession session = request.getSession();
+        if(session.getAttribute(Parameters.USER_ID) != null){
+            OrderDao orderDao = new OrderDao();
+            int guestId = (int)session.getAttribute(Parameters.USER_ID);
+            orderDao.transferOrders(guestId, newUser.getId());
+        }
         session.setAttribute(Parameters.USER_ID, newUser.getId());
-        session.setAttribute(Parameters.USERNAME, userName);
+        session.setAttribute(Parameters.USERNAME, newUser.getName());
         session.setAttribute(Parameters.ROLE, DBConstants.USER_USER);
+        session.setAttribute(Parameters.CART_USER_ID, newUser.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }
 }

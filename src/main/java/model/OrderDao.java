@@ -16,7 +16,7 @@ public class OrderDao {
     private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?)";
     private static final String SQL_DELETE_ORDER = "DELETE FROM bag WHERE id=?";
     private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
-
+    private static final String SQL_TRANSFERE_ORDERS = "UPDATE bag SET userId=? WHERE userId=?";
 
     public List<Order> selectAllOrders(int userId){
         Connection con = null;
@@ -103,6 +103,27 @@ public class OrderDao {
             dbManager.closeConnection(con);
         }
         return updated;
+    }
+
+    public boolean transferOrders(int idFrom, int idTo){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean transferred = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_TRANSFERE_ORDERS);
+            pstmnt.setInt(1, idTo);
+            pstmnt.setInt(2, idFrom);
+            pstmnt.executeUpdate();
+            transferred = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            dbManager.closeStatement(pstmnt);
+            dbManager.closeConnection(con);
+        }
+        return transferred;
     }
 
     public static class OrderMapper implements EntityMapper<Order>{

@@ -113,3 +113,4 @@ INSERT INTO bag(userId, productId) values(2, 10);
 INSERT INTO bag(userId, productId) values(2, 11);
 INSERT INTO bag(userId, productId) values(2, 12);
 INSERT INTO bag(userId, productId) values(2, 13);
+
