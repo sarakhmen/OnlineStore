@@ -12,7 +12,8 @@ import java.util.List;
 public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
-    private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM user";
+    private static final String SQL_SELECT_ALL_USERS_EXCEPT_GUESTS = "SELECT * FROM user WHERE role!='"
+            + DBConstants.USER_GUEST + "'";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM user WHERE login=?";
     private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name, role) values(?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
@@ -95,13 +96,13 @@ public class UserDao {
         return user;
     }
 
-    public List<User> selectAllUsers(){
+    public List<User> selectAllUsersExceptGuests(){
         Connection con = null;
         PreparedStatement pstmnt = null;
         List<User> users = new LinkedList<>();
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_SELECT_ALL_USERS);
+            pstmnt = con.prepareStatement(SQL_SELECT_ALL_USERS_EXCEPT_GUESTS);
             ResultSet rs = pstmnt.executeQuery();
             EntityMapper<User> userMapper = new UserMapper();
             while(rs.next()){
@@ -159,6 +160,7 @@ public class UserDao {
         }
         return deleted;
     }
+
     public static class UserMapper implements EntityMapper<User>{
         @Override
         public User mapRow(ResultSet rs) {

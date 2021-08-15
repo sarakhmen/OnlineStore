@@ -20,7 +20,7 @@ public class ManagementCommand implements Command{
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserDao userDao = new UserDao();
-        List<User> users = userDao.selectAllUsers();
+        List<User> users = userDao.selectAllUsersExceptGuests();
         session.setAttribute(Parameters.USERS, users);
         return Actions.ADMIN_MANAGEMENT_PAGE;
     }

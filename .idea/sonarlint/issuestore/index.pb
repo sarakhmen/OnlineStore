@@ -49,5 +49,3 @@ T
 $src/main/java/model/DBConstants.java,7\0\704cef1f435799b56f5a713d74bbc35f14187e4f
 e
 5src/main/java/controller/command/CartViewCommand.java,7\6\763138add9599fde3487b730c38472bebd6aaddf
-g
-7src/main/java/controller/command/ManagementCommand.java,e\2\e206ef9527cf571b21689cc403d31271eb098556

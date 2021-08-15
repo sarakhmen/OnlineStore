@@ -46,36 +46,6 @@ public class AuthenticationFilter implements Filter {
         else {
             chain.doFilter(request, response);
         }
-
-//
-//        String userRole = (String)session.getAttribute(Parameters.ROLE);
-//        String requestUri = httpRequest.getRequestURI();
-//        if(requestUri.contains("/admin") && !userRole.equals(DBConstants.USER_ADMIN)){
-//            httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
-//        }
-//        else{
-//            chain.doFilter(request, response);
-//        }
-
-
-
-
-
-//
-//        final HttpSession session = req.getSession();
-//
-//        if (session != null && session.getAttribute("user") != null && session.getAttribute("userRole") != null) {
-//
-
-//            return;
-//
-//        }
-//
-//        response.getWriter().write(notifyAccessDenied());
-    }
-
-    private String notifyAccessDenied() {
-        return "<script>" + "alert('You should sign In!');" + "window.location = 'http://localhost:8080/publicationView?command=publication';" + "</script>";
     }
 
 }
