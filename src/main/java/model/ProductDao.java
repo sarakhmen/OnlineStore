@@ -11,9 +11,15 @@ import java.util.*;
 public class ProductDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_INSERT_PROPERTY = "INSERT INTO property(productId, propertyNameEn, " +
+            "propertyValueEn, propertyNameUk, propertyValueUk) VALUES(?,?,?,?,?)";
+    private static final String SQL_INSERT_PRODUCT = "INSERT INTO product(nameEn, nameUk, price, creationDate) " +
+            "VALUES (?, ?, ?, NOW())";
+
     private final String sqlSelectAllProducts;
     private final String sqlSelectProductProperties;
     private final String sqlSelectDistinctPropertyNames;
+
 
     private final double currencyRatio;
 
@@ -92,6 +98,32 @@ public class ProductDao {
         return property;
     }
 
+    public boolean insertProductWithProperties(String nameEn, String nameUk, int price, String propNameEn, String propNameUk, String propValueEn, String propValueUk){
+        Connection con = null;
+        PreparedStatement pstmnt = null;
+        boolean inserted = false;
+        try {
+            con = dbManager.getConnection();
+            pstmnt = con.prepareStatement(SQL_INSERT_PRODUCT);
+            pstmnt.setString(1, nameEn);
+            pstmnt.setString(2, nameUk);
+            pstmnt.setInt(3, price);
+            pstmnt.executeUpdate();
+
+            while(rs.next()){
+                property.add(rs.getString(1));
+            }
+            con.commit();
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            dbManager.rollbackAndClose(con);
+            property = null;
+            //throw custom exception
+        }
+        return property;
+
+    }
 
     public class ProductMapper implements EntityMapper<Product>{
         @Override

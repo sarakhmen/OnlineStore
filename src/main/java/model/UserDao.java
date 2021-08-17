@@ -15,7 +15,8 @@ public class UserDao {
 
     private static final String SQL_SELECT_USER_NAMES = "SELECT nameEn, nameUk FROM user WHERE id=?";
     private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
-    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) values(?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) " +
+            "VALUES(?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
     private static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login=?";
 

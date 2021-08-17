@@ -20,4 +20,11 @@ public class Parameters {
     public static final String USERNAME_EN = "usernameEn";
     public static final String USERNAME = "username";
     public static final String USERNAME_UK = "usernameUk";
+    public static final String PROD_NAME_EN = "prodNameEn";
+    public static final String PROD_NAME_UK = "prodNameUk";
+    public static final String PRICE = "price";
+    public static final String PROPERTY_NAMES_EN = "propertyNamesEn";
+    public static final String PROPERTY_NAMES_UK = "propertyNamesUk";
+    public static final String PROPERTY_VALUES_EN = "propertyValuesEn";
+    public static final String PROPERTY_VALUES_UK = "propertyValuesUk";
 }
