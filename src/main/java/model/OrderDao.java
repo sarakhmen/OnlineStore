@@ -11,6 +11,7 @@ import java.util.*;
 public class OrderDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_SELECT_COUNT_OF_RECORDS = "SELECT COUNT(*) FROM bag WHERE userId=?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?)";
     private static final String SQL_DELETE_ORDER = "DELETE FROM bag WHERE id=?";
     private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
@@ -18,6 +19,8 @@ public class OrderDao {
 
     private final String sqlSelectAllOrders;
     private final double currencyRatio;
+
+    private int numberOfRecords;
 
     public OrderDao(String locale){
         switch (locale){
@@ -34,13 +37,24 @@ public class OrderDao {
         }
     }
 
-    public List<Order> selectAllOrders(int userId){
+    public int getNumberOfRecords() {
+        return numberOfRecords;
+    }
+
+    public List<Order> selectAllOrders(int userId, int offset, int rowcount){
         Connection con = null;
         PreparedStatement selectAllOrders = null;
         List<Order> orders = new LinkedList<>();
         try {
             con = dbManager.getConnection();
-            selectAllOrders = con.prepareStatement(sqlSelectAllOrders);
+            PreparedStatement selectCountOfRecords = con.prepareStatement(SQL_SELECT_COUNT_OF_RECORDS);
+            selectCountOfRecords.setInt(1, userId);
+            ResultSet rsCount = selectCountOfRecords.executeQuery();
+            if(rsCount.next()){
+                numberOfRecords = rsCount.getInt(1);
+            }
+
+            selectAllOrders = con.prepareStatement(sqlSelectAllOrders + " LIMIT " + offset + ", " + rowcount);
             selectAllOrders.setInt(1, userId);
             ResultSet rsOrders = selectAllOrders.executeQuery();
             EntityMapper<Order> om = new OrderMapper();

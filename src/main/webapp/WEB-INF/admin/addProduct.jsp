@@ -8,35 +8,9 @@
 <html lang="${sessionScope.locale}">
 <head>
     <title>Add product page</title>
-    <script>
-        function validateform() {
-            let nameEn = document.addProductForm.prodNameEn.value;
-            let nameUk = document.addProductForm.prodNameUk.value;
-            let price = document.addProductForm.price.value;
-            let propsEn = document.addProductForm.propertyNamesEn.value;
-            let valuesEn = document.addProductForm.propertyValuesEn.value;
-            let propsUk = document.addProductForm.propertyNamesUk.value;
-            let valuesUk = document.addProductForm.propertyValuesUk.value;
-
-
-            if (nameEn == null || nameEn === "" || nameUk == null || nameUk === "" || price == null || price === ""
-                || propsEn == null || propsEn === "" || valuesEn == null || valuesEn === ""
-                || propsUk == null || propsUk === "" || valuesUk == null || valuesUk === "") {
-                alert("Fields can't be blank");
-                return false;
-            }
-
-            if (Number.isNaN(price)) {
-                alert("Price should be a number");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </head>
 <body>
-<form name="addProductForm" action="addProduct" method="post" onsubmit="return validateform()">
+<form action="addProduct" method="post">
     <input type="text" id="nameEn" name="prodNameEn" placeholder="Product name in english"/>
     <label for="nameEn">Enter product name in english</label><br>
     <input type="text" id="nameUk" name="prodNameUk" placeholder="Product name in ukrainian"/>

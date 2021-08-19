@@ -12,7 +12,9 @@ public class Actions {
     public static final String ADMIN_CART_PAGE = "/WEB-INF/admin/cart.jsp";
     public static final String CART_VIEW_ACTION = "/main/cartView";
     public static final String ADMIN_MANAGEMENT_ACTION = "/main/admin/management";
-
     public static final String ADMIN_CART_VIEW_ACTION = "/main/admin/cartView";
-    public static final String ADD_PRODUCT_PAGE = "/WEB-INF/admin/addProduct.jsp";
+    public static final String ADMIN_ADD_PRODUCT_PAGE = "/WEB-INF/admin/addProduct.jsp";
+    public static final String ADMIN_ADD_PRODUCT_VIEW_ACTION = "/main/admin/addProductView";
+    public static final String ADMIN_EDIT_PRODUCT_PAGE = "/WEB-INF/admin/editProduct.jsp";
+    public static final String SIGNUP_PAGE = "/signup.jsp";
 }

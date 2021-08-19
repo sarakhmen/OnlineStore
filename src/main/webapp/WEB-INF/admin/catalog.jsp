@@ -55,6 +55,8 @@
             <th>Creation date</th>
             <th>Properties</th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
         <c:forEach items="${sessionScope.products}" var="product">
             <tr>
@@ -72,6 +74,22 @@
                         <input type="hidden" name="productId" value="${product.id}"/>
                         <button>
                             Order
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="admin/editProductView" method="post">
+                        <input type="hidden" name="productId" value="${product.id}"/>
+                        <button>
+                            Edit
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="admin/deleteProduct" method="post">
+                        <input type="hidden" name="productId" value="${product.id}"/>
+                        <button>
+                            Delete
                         </button>
                     </form>
                 </td>

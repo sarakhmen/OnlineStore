@@ -30,6 +30,9 @@ public class FrontController extends HttpServlet {
         commands.put("admin/orderStatus", new OrderStatusCommand());
         commands.put("admin/addProductView", new AddProductViewCommand());
         commands.put("admin/addProduct", new AddProductCommand());
+        commands.put("admin/deleteProduct", new DeleteProductCommand());
+        commands.put("admin/editProductView", new EditProductViewCommand());
+        commands.put("admin/updateProduct", new UpdateProductCommand());
     }
 
     @Override
@@ -53,11 +56,14 @@ public class FrontController extends HttpServlet {
 
         try {
             String page = command.process(req, resp);
-            if (page.contains("redirect:")) {
-                resp.sendRedirect(page.replace("redirect:", ""));
-            } else {
-                System.out.println("should be forwarded: " + page);
-                req.getRequestDispatcher(page).forward(req, resp);
+            if(page != null){
+                if (page.contains("redirect:")) {
+                    resp.sendRedirect(page.replace("redirect:", ""));
+                }
+                else {
+                    System.out.println("should be forwarded: " + page);
+                    req.getRequestDispatcher(page).forward(req, resp);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

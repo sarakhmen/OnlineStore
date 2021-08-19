@@ -79,6 +79,7 @@ INSERT INTO product(nameEn, price, creationDate) values ('prod25', 1025, NOW());
 INSERT INTO product(nameEn, price, creationDate) values ('prod26', 1026, NOW());
 INSERT INTO product(nameEn, price, creationDate) values ('prod27', 1027, NOW());
 INSERT INTO product(nameEn, price, creationDate) values ('prod28', 1028, NOW());
+INSERT INTO product(nameEn, price, creationDate) values ('prod29', 1029, NOW());
 
 INSERT INTO property(productId, propertyNameEn, propertyValueEn) values (1, 'Model', 'iPhone X');
 INSERT INTO property(productId, propertyNameEn, propertyValueEn) values (1, 'Color', 'white');
@@ -119,3 +120,4 @@ INSERT INTO bag(userId, productId) values(2, 12);
 INSERT INTO bag(userId, productId) values(2, 13);
 
 
+SELECT COUNT(*) FROM property

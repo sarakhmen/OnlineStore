@@ -9,6 +9,7 @@ public class Parameters {
     public static final String PRODUCTS = "products";
     public static final String PRODUCT_PROPERTIES = "productProperties";
     public static final String PRODUCT_ID = "productId";
+    public static final String PRODUCT_NAME = "name";
     public static final String ORDERS = "orders";
     public static final String ORDER_ID = "orderId";
     public static final String ORDER_STATUS = "orderStatus";
@@ -27,4 +28,15 @@ public class Parameters {
     public static final String PROPERTY_NAMES_UK = "propertyNamesUk";
     public static final String PROPERTY_VALUES_EN = "propertyValuesEn";
     public static final String PROPERTY_VALUES_UK = "propertyValuesUk";
+    public static final String LOCALE_EN = "en";
+    public static final String LOCALE_UK = "uk";
+    public static final String SORT_OPTION = "sortOption";
+    public static final String SORT_BY_NAME_AZ = "byNameAZ";
+    public static final String SORT_BY_NAME_ZA = "byNameZA";
+    public static final String SORT_PRICE_HIGH_LOW = "priceHighLow";
+    public static final String SORT_PRICE_LOW_HIGH = "priceLowHigh";
+    public static final String SORT_NEWEST = "newest";
+    public static final String PRODUCT_CREATION_DATE = "creationDate";
+    public static final String PAGE = "page";
+    public static final int RECORDS_PER_PAGE = 10;
 }

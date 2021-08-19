@@ -13,6 +13,8 @@ import java.util.List;
 public class UserDao {
     private final DBManager dbManager = DBManager.getInstance();
 
+    private static final String SQL_SELECT_COUNT_OF_NON_GUESTS = "SELECT COUNT(*) FROM user WHERE role!='" +
+            DBConstants.USER_GUEST + "'";
     private static final String SQL_SELECT_USER_NAMES = "SELECT nameEn, nameUk FROM user WHERE id=?";
     private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
     private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) " +
@@ -22,6 +24,8 @@ public class UserDao {
 
     private final String sqlSelectAllUsersExceptGuests;
     private final String sqlSelectUserByLogin;
+
+    private int numberOfRecords;
 
     public UserDao(String locale){
         switch (locale){
@@ -40,6 +44,9 @@ public class UserDao {
         }
     }
 
+    public int getNumberOfRecords(){
+        return numberOfRecords;
+    }
 
     public User selectUserByLogin(String login){
         Connection con = null;
@@ -140,12 +147,17 @@ public class UserDao {
         return user;
     }
 
-    public List<User> selectAllUsersExceptGuests(){
+    public List<User> selectAllUsersExceptGuests(int offset, int rowcount){
         Connection con = null;
         PreparedStatement pstmnt = null;
         List<User> users = new LinkedList<>();
         try {
             con = dbManager.getConnection();
+            PreparedStatement selectCountOfRecords = con.prepareStatement(SQL_SELECT_COUNT_OF_NON_GUESTS);
+            ResultSet rsCount = selectCountOfRecords.executeQuery();
+            if (rsCount.next()) {
+                numberOfRecords = rsCount.getInt(1);
+            }
             pstmnt = con.prepareStatement(sqlSelectAllUsersExceptGuests);
             ResultSet rs = pstmnt.executeQuery();
             EntityMapper<User> userMapper = new UserMapper();

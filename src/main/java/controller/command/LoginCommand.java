@@ -21,8 +21,9 @@ public class LoginCommand implements Command{
         String password = request.getParameter(Parameters.PASSWORD);
 
         if(login == null || password == null || login.isEmpty() || password.isEmpty()){
-            request.setAttribute(Parameters.ERROR, "Login/password cannot be empty");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('Login/password cannot be empty');" +
+                    "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            return null;
         }
 
         HttpSession session = request.getSession();
@@ -31,13 +32,15 @@ public class LoginCommand implements Command{
         User user = userDao.selectUserByLogin(login);
 
         if(user == null ){
-            request.setAttribute(Parameters.ERROR, "Cannot find user with such login");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('Cannot find user with such login');" +
+                    "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            return null;
         }
 
         if(!user.getPassword().equals(password)){
-            request.setAttribute(Parameters.ERROR, "Wrong password");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('Wrong password');" +
+                    "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            return null;
         }
 
         if(session.getAttribute(Parameters.USER_ID) != null){

@@ -23,5 +23,8 @@
     <br>
     <button><fmt:message key="view.createAccount"/></button>
 </form>
+<form action="${pageContext.request.contextPath}/">
+    <button>Back on welcome page</button>
+</form>
 </body>
 </html>

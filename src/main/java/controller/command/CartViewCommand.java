@@ -31,12 +31,21 @@ public class CartViewCommand implements Command{
             cartUserId = (int)session.getAttribute(Parameters.CART_USER_ID);
         }
 
+        int page = 1;
+        if (request.getParameter(Parameters.PAGE) != null) {
+            page = Integer.parseInt(request.getParameter(Parameters.PAGE));
+        }
         String locale = (String)session.getAttribute(Parameters.LOCALE);
         OrderDao orderDao = new OrderDao(locale);
-        List<Order> orders = orderDao.selectAllOrders(cartUserId);
-        System.out.println("processing cart...");
-        System.out.println(orders);
+
+        List<Order> orders = orderDao.selectAllOrders(cartUserId, (page-1)*Parameters.RECORDS_PER_PAGE,
+                Parameters.RECORDS_PER_PAGE);
         session.setAttribute(Parameters.ORDERS, orders);
+
+        int numberOfRecords = orderDao.getNumberOfRecords();
+        int numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / Parameters.RECORDS_PER_PAGE);
+        request.setAttribute("numberOfPages", numberOfPages);
+        request.setAttribute("currentPage", page);
 
         String userRole = (String)session.getAttribute(Parameters.ROLE);
         if(userRole.equals("ADMIN")){

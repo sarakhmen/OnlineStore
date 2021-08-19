@@ -26,8 +26,9 @@ public class SignupCommand implements Command{
 
         if(login == null || password == null || userNameEn == null || userNameUk == null
                 || login.isEmpty() || password.isEmpty() || userNameEn.isEmpty() || userNameUk.isEmpty()){
-            request.setAttribute(Parameters.ERROR, "Incorrect input");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('Incorrect input');" +
+                    "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            return null;
         }
 
         HttpSession session = request.getSession();
@@ -36,14 +37,16 @@ public class SignupCommand implements Command{
         boolean registered = userDao.isRegistered(login);
 
         if(registered){
-            request.setAttribute(Parameters.ERROR, "A user with this login already exists");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('A user with this login already exists');" +
+                    "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            return null;
         }
 
         User newUser = userDao.insertUser(login, password, userNameEn, userNameUk);
         if(newUser == null){
-            request.setAttribute(Parameters.ERROR, "Error adding user to database");
-            return Actions.ERROR_PAGE;
+            response.getWriter().println("<script type='text/javascript'>alert('Error adding user to database');" +
+                    "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            return null;
         }
 
 
