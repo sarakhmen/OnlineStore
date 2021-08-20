@@ -5,6 +5,7 @@ import controller.Parameters;
 import model.DBConstants;
 import model.OrderDao;
 import model.UserDao;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserStatusCommand implements Command{
+    private static final Logger log = Logger.getLogger(UserStatusCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

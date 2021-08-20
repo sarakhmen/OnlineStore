@@ -36,13 +36,10 @@ public class AuthenticationFilter implements Filter {
         String userRole = (String)session.getAttribute(Parameters.ROLE);
         boolean guest = userRole.equals(DBConstants.USER_GUEST);
         boolean admin = userRole.equals(DBConstants.USER_ADMIN);
-        System.out.println("in auth filter");
         if(path.contains("admin") && !admin){
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.LOGIN_PAGE);
         }
         else if((!path.contains("/") || path.contains("index.jsp")) && !guest){
-            System.out.println(userRole);
-            System.out.println("redirected not guest");
             httpResponse.sendRedirect(httpRequest.getContextPath() + Actions.CATALOG_ACTION);
         }
         else if(path.contains("orderStatus") && guest){

@@ -62,11 +62,32 @@ INSERT INTO product(nameEn, nameUk, price, creationDate) values ('Iron', 'утю
 INSERT INTO product(nameEn, nameUk, price, creationDate) values ('Kettle', 'чайник', 50, NOW());
 
 
-INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk) values (1, 'Model', 'iPhone X');
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+    values (1, 'Model', 'pixel4', 'Модель','pixel4');
+
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (1, 'Color', 'grey', 'Колір','сірий');
 
 
-INSERT INTO user(login, password, nameEn, role) values ('qwerty@google.com', '12345', 'First User', 'USER');
-INSERT INTO user(login, password, nameEn, role) values ('artur.sarahman@gmail.com', 'qwerty', 'Artur Sarakhman', 'ADMIN');
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (2, 'Model', 'LG', 'Модель','LG');
+
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (2, 'Size', 'big', 'Розмір','великий');
+
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (3, 'Model', 'audi a6', 'Модель','audi a6');
+
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (3, 'Size', 'very big', 'Розмір', 'дуже великий');
+
+
+INSERT INTO property(productId, propertyNameEn, propertyValueEn, propertyNameUk, propertyValueUk)
+values (3, 'Color', 'green', 'Колір', 'зелений');
+
+
+INSERT INTO user(login, password, nameEn, nameUk, role) values ('qwerty@google.com', '12345', 'First User', 'Перший Користувач','USER');
+INSERT INTO user(login, password, nameEn, nameUk, role) values ('artur.sarahman@gmail.com', 'qwerty', 'Artur Sarakhman', 'Артур Сарахман','ADMIN');
 
 # INSERT INTO bag(userId, productId) values(1, 1);
 # INSERT INTO bag(userId, productId) values(1, 2);

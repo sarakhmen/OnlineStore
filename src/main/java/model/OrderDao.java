@@ -1,6 +1,7 @@
 package model;
 
 import model.entity.Order;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class OrderDao {
+    private static final Logger log = Logger.getLogger(OrderDao.class);
     private final DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_COUNT_OF_RECORDS = "SELECT COUNT(*) FROM bag WHERE userId=?";
@@ -65,7 +67,7 @@ public class OrderDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             orders = null;
             //throw custom exception
@@ -87,7 +89,7 @@ public class OrderDao {
             con.close();
             inserted = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return inserted;
@@ -106,7 +108,7 @@ public class OrderDao {
             con.close();
             deleted = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return deleted;
@@ -126,7 +128,7 @@ public class OrderDao {
             con.close();
             updated = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return updated;
@@ -146,7 +148,7 @@ public class OrderDao {
             con.close();
             transferred = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return transferred;
@@ -163,7 +165,7 @@ public class OrderDao {
                 order.setStatus(rs.getString(DBConstants.BAG_STATUS));
                 return order;
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 throw new IllegalStateException(e);
             }
         }

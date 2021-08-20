@@ -9,7 +9,12 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title><fmt:message key="view.catalogPage"/></title>
+    <title><fmt:message key="catalogPage"/></title>
+    <script>
+        function sendForm(formId) {
+            document.getElementById(formId).submit();
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -18,30 +23,26 @@
         <div class="col-9">
             <div class="row">
                 <div class="col fs-5">
-                    All products:
+                    <fmt:message key="allProducts"/>
                 </div>
                 <div class="col-md-auto">
                     <form id="sortForm" action="${pageContext.request.contextPath}/main/catalog">
-                        <label for="sortSelect" class="fs-5">Sort by:</label>
+                        <label for="sortSelect" class="fs-5"><fmt:message key="sortBy"/></label>
                         <select name="options" id="sortSelect" onchange="sendForm('sortForm')">
                             <option id="option1" ${sessionScope.sortOption == "byNameAz" ? "selected" : "" }
-                                    value="byNameAZ">product
-                                name (a-z)
+                                    value="byNameAZ"><fmt:message key="byNameAZ"/>
                             </option>
                             <option id="option2" ${sessionScope.sortOption == "byNameZA" ? "selected" : "" }
-                                    value="byNameZA">product
-                                name (z-a)
+                                    value="byNameZA"><fmt:message key="byNameZA"/>
                             </option>
                             <option id="option3" ${sessionScope.sortOption == "priceHighLow" ? "selected" : "" }
-                                    value="priceHighLow">
-                                price: High-Low
+                                    value="priceHighLow"><fmt:message key="byPriceHL"/>
                             </option>
                             <option id="option4" ${sessionScope.sortOption == "priceLowHigh" ? "selected" : "" }
-                                    value="priceLowHigh">
-                                price: Low-High
+                                    value="priceLowHigh"><fmt:message key="byPriceLH"/>
                             </option>
                             <option id="option5" ${sessionScope.sortOption == "newest" ? "selected" : 0 }
-                                    value="newest">newest
+                                    value="newest"><fmt:message key="byNewest"/>
                             </option>
                         </select>
                     </form>
@@ -53,10 +54,10 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Product name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Creation date</th>
-                            <th scope="col">Properties</th>
+                            <th scope="col"><fmt:message key="productName"/></th>
+                            <th scope="col"><fmt:message key="price"/></th>
+                            <th scope="col"><fmt:message key="creationDate"/></th>
+                            <th scope="col"><fmt:message key="properties"/></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -81,7 +82,7 @@
                                     <form action="${pageContext.request.contextPath}/main/addToCart" method="post">
                                         <input type="hidden" name="productId" value="${product.id}"/>
                                         <button class="btn btn-outline-dark btn-sm">
-                                            Order
+                                            <fmt:message key="addToCart"/>
                                         </button>
                                     </form>
                                 </td>
@@ -89,7 +90,7 @@
                                     <form action="${pageContext.request.contextPath}/main/admin/editProductView" method="post">
                                         <input type="hidden" name="productId" value="${product.id}"/>
                                         <button class="btn btn-outline-dark btn-sm">
-                                            Edit
+                                            <fmt:message key="edit"/>
                                         </button>
                                     </form>
                                 </td>
@@ -97,7 +98,7 @@
                                     <form action="${pageContext.request.contextPath}/main/admin/deleteProduct" method="post">
                                         <input type="hidden" name="productId" value="${product.id}"/>
                                         <button class="btn btn-outline-dark btn-sm">
-                                            Delete
+                                            <fmt:message key="delete"/>
                                         </button>
                                     </form>
                                 </td>
@@ -114,7 +115,7 @@
                                     <c:if test="${requestScope.currentPage != 1}">
                                         <li>
                                             <a class="page-link"
-                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage - 1}">Previous</a>
+                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage - 1}"><fmt:message key="previous"/></a>
                                         </li>
                                     </c:if>
 
@@ -140,7 +141,7 @@
                                     <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
                                         <td>
                                             <a class="page-link"
-                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage + 1}">Next</a>
+                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage + 1}"><fmt:message key="next"/></a>
                                         </td>
                                     </c:if>
                                 </ul>
@@ -153,7 +154,7 @@
         <div class="col-3">
             <div class="row">
                 <div class="col fs-5">
-                    Properties:
+                    <fmt:message key="properties"/>:
                 </div>
             </div>
             <div class="row pt-5">
@@ -178,7 +179,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-auto fs-6 pt-5">
                     <button form="formProperties" class="btn btn-outline-dark">
-                        Select by parameters
+                        <fmt:message key="submitSelect"/>
                     </button>
                 </div>
             </div>

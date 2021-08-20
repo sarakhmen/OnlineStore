@@ -6,6 +6,7 @@ import model.DBConstants;
 import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class SignupCommand implements Command{
+    private static final Logger log = Logger.getLogger(SignupCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,6 +30,7 @@ public class SignupCommand implements Command{
                 || login.isEmpty() || password.isEmpty() || userNameEn.isEmpty() || userNameUk.isEmpty()){
             response.getWriter().println("<script type='text/javascript'>alert('Incorrect input');" +
                     "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            log.info("Incorrect input");
             return null;
         }
 
@@ -39,6 +42,7 @@ public class SignupCommand implements Command{
         if(registered){
             response.getWriter().println("<script type='text/javascript'>alert('A user with this login already exists');" +
                     "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            log.info("A user with this login already exists");
             return null;
         }
 
@@ -46,6 +50,7 @@ public class SignupCommand implements Command{
         if(newUser == null){
             response.getWriter().println("<script type='text/javascript'>alert('Error adding user to database');" +
                     "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
+            log.info("Error adding user to database");
             return null;
         }
 

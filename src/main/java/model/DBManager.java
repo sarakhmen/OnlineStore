@@ -1,16 +1,19 @@
 package model;
 
+import controller.FrontController;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBManager {
+    private static final Logger log = Logger.getLogger(DBManager.class);
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String JDBC_DB_URL = "jdbc:mysql://localhost:3306/store";
     static final String JDBC_USER = "root";
@@ -42,7 +45,7 @@ public class DBManager {
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new IllegalArgumentException("Oops", e);
         }
 
@@ -61,52 +64,19 @@ public class DBManager {
     public Connection getConnection() throws SQLException {
         return poolingDataSource.getConnection();
     }
-//
-//    public void commitAndClose(Connection con) {
-//        try {
-//            con.commit();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//        try {
-//            con.close();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 
     public void rollbackAndClose(Connection con) {
         if (con != null) {
             try {
                 con.commit();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                log.error(ex.getMessage());
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                log.error(ex.getMessage());
             }
         }
     }
-
-//    public void closeStatement(Statement st) {
-//        if (st != null) {
-//            try {
-//                st.close();
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    public void closeConnection(Connection con) {
-//        if (con != null) {
-//            try {
-//                con.close();
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
 }

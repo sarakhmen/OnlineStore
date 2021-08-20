@@ -1,6 +1,7 @@
 package controller;
 
 import controller.command.*;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 
 public class FrontController extends HttpServlet {
+    private static final Logger log = Logger.getLogger(FrontController.class);
     private Map<String, Command> commands = new HashMap<>();
 
     @Override
@@ -46,11 +48,16 @@ public class FrontController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("Controller starts");
+
         String path = req.getRequestURI();
         path = path.replaceAll(".*/main/", "");
+        log.trace("Request parameter: command --> " + path);
+
         Command command = commands.get(path);
         if(command == null){
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            log.error("Unknown command --> " + path);
             return;
         }
 
@@ -58,21 +65,17 @@ public class FrontController extends HttpServlet {
             String page = command.process(req, resp);
             if(page != null){
                 if (page.contains("redirect:")) {
+                    log.trace("redirect --> " + page);
                     resp.sendRedirect(page.replace("redirect:", ""));
                 }
                 else {
-                    System.out.println("should be forwarded: " + page);
+                    log.trace("forward --> " + page);
                     req.getRequestDispatcher(page).forward(req, resp);
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
+            log.error(e.getMessage());
             resp.sendRedirect(req.getContextPath() + Actions.ERROR_PAGE);
         }
-    }
-
-    private Command getCommandFromUri(String uri){
-
-        return null;
     }
 }

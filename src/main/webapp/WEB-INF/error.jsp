@@ -6,14 +6,14 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title><fmt:message key="view.errorPageTitle"/></title>
+    <title><fmt:message key="errorPageTitle"/></title>
 </head>
 <body>
 <h1>${errorMessage}</h1>
 <br>
 ${pageContext.exception}
 <form action="${pageContext.request.contextPath}/">
-    <input type="submit" value="Return back"/>
+    <input type="submit" value="<fmt:message key="returnBack"/>"/>
 </form>
 </body>
 </html>

@@ -5,6 +5,7 @@ import controller.Parameters;
 import model.ProductDao;
 import model.entity.ExtendedProduct;
 import model.entity.Product;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class EditProductViewCommand implements Command{
+    private static final Logger log = Logger.getLogger(EditProductViewCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

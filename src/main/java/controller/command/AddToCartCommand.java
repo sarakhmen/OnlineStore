@@ -3,6 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.OrderDao;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AddToCartCommand implements Command{
+    private static final Logger log = Logger.getLogger(AddToCartCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -19,7 +21,6 @@ public class AddToCartCommand implements Command{
         int productId = Integer.parseInt(request.getParameter(Parameters.PRODUCT_ID));
         String locale = (String)session.getAttribute(Parameters.LOCALE);
         OrderDao orderDao = new OrderDao(locale);
-        System.out.println("processing order...");
         if(orderDao.insertOrder(userId, productId)){
             //some code;
         }

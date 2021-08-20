@@ -2,6 +2,7 @@ package model;
 
 import controller.Parameters;
 import model.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserDao {
+    private static final Logger log = Logger.getLogger(UserDao.class);
     private final DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_COUNT_OF_NON_GUESTS = "SELECT COUNT(*) FROM user WHERE role!='" +
@@ -64,7 +66,7 @@ public class UserDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             user = null;
         }
@@ -86,7 +88,7 @@ public class UserDao {
                 registered = true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return registered;
@@ -107,7 +109,7 @@ public class UserDao {
                 con.close();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
         }
         return blocked;
@@ -140,7 +142,7 @@ public class UserDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             user = null;
         }
@@ -168,7 +170,7 @@ public class UserDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             users = null;
             //throw custom exception
@@ -192,7 +194,7 @@ public class UserDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             names = null;
             //throw custom exception
@@ -214,7 +216,7 @@ public class UserDao {
             con.close();
             updated = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             //throw custom exception
         }
@@ -234,7 +236,7 @@ public class UserDao {
             con.close();
             deleted = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             //throw custom exception
         }
@@ -254,7 +256,7 @@ public class UserDao {
                 user.setBlocked(rs.getBoolean(DBConstants.USER_STATUS));
                 return user;
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 throw new IllegalStateException(e);
             }
         }

@@ -15,7 +15,7 @@
     <c:import url="header.jsp"/>
     <div class="row mx-3 pt-4 gx-5">
         <div class="col fs-5">
-            Your orders:
+            <fmt:message key="yourOrders"/>
         </div>
     </div>
     <div class="row mx-3 pt-4 gx-5">
@@ -23,10 +23,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Order id</th>
-                    <th scope="col">Product name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
+                    <th scope="col"><fmt:message key="orderId"/></th>
+                    <th scope="col"><fmt:message key="productName"/></th>
+                    <th scope="col"><fmt:message key="price"/></th>
+                    <th scope="col"><fmt:message key="status"/></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -42,7 +42,7 @@
                             <form action="${pageContext.request.contextPath}/main/deleteOrder" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}"/>
                                 <button class="btn btn-outline-dark btn-sm">
-                                    Delete
+                                    <fmt:message key="delete"/>
                                 </button>
                             </form>
                         </td>
@@ -53,7 +53,7 @@
 
                                 <button class="btn btn-outline-dark btn-sm" <c:if
                                         test="${order.status != 'Unregistered'}"> disabled </c:if> />
-                                Order
+                                <fmt:message key="order"/>
                                 </button>
                             </form>
                         </td>
@@ -71,32 +71,32 @@
                     <c:if test="${requestScope.currentPage != 1}">
                         <li>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage - 1}">Previous</a>
+                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage - 1}"><fmt:message key="previous"/></a>
                         </li>
                     </c:if>
 
                     <%--For displaying Page numbers.
                     The when condition does not display a link for the current page--%>
-                        <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
-                            <c:choose>
-                                <c:when test="${requestScope.currentPage eq i}">
-                                    <li class="page-item active">
-                                        <a class="page-link" aria-disabled="true">${i}</a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li>
-                                        <a class="page-link"
-                                           href="${pageContext.request.contextPath}/main/cartView?page=${i}">${i}</a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                    <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                        <c:choose>
+                            <c:when test="${requestScope.currentPage eq i}">
+                                <li class="page-item active">
+                                    <a class="page-link" aria-disabled="true">${i}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/main/cartView?page=${i}">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                     <%--For displaying Next link --%>
                     <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
                         <td>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage + 1}">Next</a>
+                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage + 1}"><fmt:message key="next"/></a>
                         </td>
                     </c:if>
                 </ul>

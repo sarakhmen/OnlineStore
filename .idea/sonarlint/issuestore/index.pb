@@ -1,25 +1,19 @@
 
-U
-%src/main/java/model/EntityMapper.java,4\0\406c8eced6ec785e504bc01b779b9bcb9ba66314
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-c
-3src/main/java/controller/filter/EncodingFilter.java,9\7\972027c8899c2adefeb948902a68f95d795601a1
-R
-"src/main/java/model/DBManager.java,b\1\b17d6b686296d3e885c07ac1acd2ccb37d243d04
-i
-9src/main/java/controller/filter/AuthenticationFilter.java,1\1\117b319537000a7d6b1beb4b16a4362d3bafcae9
-`
-0src/main/java/controller/filter/GuestFilter.java,6\0\604dfff1e8b848eb234154f83073e9b6fd17abc8
 V
 &src/main/java/model/entity/Entity.java,a\7\a7f9c4acdd0b70c2507ae957e3be5698e7ef66f0
 f
 6src/main/java/controller/listener/SessionListener.java,e\e\eebe35065669bdd445723ce746460303dd579354
-a
-1src/main/java/controller/filter/LocaleFilter.java,5\d\5db90504dd69bbbeb8797eeacb334b3f1c0f68a3
 T
 $src/main/java/model/entity/User.java,7\d\7d46df4109d8411dc9d4c22fe13f2270c2c7f35c
 U
 %src/main/java/model/entity/Order.java,f\9\f97468ddcb6f1a7ebbf573e181b4bb2b2d402c1d
 W
 'src/main/java/model/entity/Product.java,7\5\754ad0de272ee03e4e08f9aa04e8dff7eb990094
+]
+-src/main/java/controller/command/Command.java,1\8\187c4c3262df22f55abc6e68a2837208cb8d9288
+T
+$src/main/java/model/DBConstants.java,7\0\704cef1f435799b56f5a713d74bbc35f14187e4f
+_
+/src/main/java/model/entity/ExtendedProduct.java,3\1\319327c485fa995b74773bf88b95a42e12db2f47
+O
+src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392

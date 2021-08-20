@@ -6,6 +6,7 @@ import model.OrderDao;
 import model.UserDao;
 import model.entity.Order;
 import model.entity.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ManagementCommand implements Command {
+    private static final Logger log = Logger.getLogger(ManagementCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

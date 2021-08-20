@@ -4,6 +4,7 @@ import controller.Actions;
 import controller.Parameters;
 import model.OrderDao;
 import model.entity.Order;
+import org.apache.log4j.Logger;
 
 import javax.print.attribute.standard.PageRanges;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class CartViewCommand implements Command{
+    private static final Logger log = Logger.getLogger(CartViewCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

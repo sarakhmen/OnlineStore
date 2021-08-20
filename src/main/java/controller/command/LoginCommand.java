@@ -5,6 +5,7 @@ import controller.Parameters;
 import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class LoginCommand implements Command{
+    private static final Logger log = Logger.getLogger(LoginCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,6 +25,7 @@ public class LoginCommand implements Command{
         if(login == null || password == null || login.isEmpty() || password.isEmpty()){
             response.getWriter().println("<script type='text/javascript'>alert('Login/password cannot be empty');" +
                     "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            log.info("Login/password cannot be empty");
             return null;
         }
 
@@ -34,12 +37,14 @@ public class LoginCommand implements Command{
         if(user == null ){
             response.getWriter().println("<script type='text/javascript'>alert('Cannot find user with such login');" +
                     "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            log.info("Cannot find user with such login");
             return null;
         }
 
         if(!user.getPassword().equals(password)){
             response.getWriter().println("<script type='text/javascript'>alert('Wrong password');" +
                     "location='" + request.getContextPath() + Actions.LOGIN_PAGE + "'</script>");
+            log.info("Wrong password");
             return null;
         }
 

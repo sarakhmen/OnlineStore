@@ -23,19 +23,19 @@
     <div class="col">
         <ul class="nav fs-4">
             <li class="nav-item">
-                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog">Home</a>
+                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog"><fmt:message key="home"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="${pageContext.request.contextPath}/main/cartView?userId=${sessionScope.userId}">Cart</a>
+                   href="${pageContext.request.contextPath}/main/cartView?userId=${sessionScope.userId}"><fmt:message key="cart"/></a>
             </li>
             <li class="nav-item">
                 <c:choose>
                     <c:when test="${sessionScope.role == 'GUEST'}">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Welcome page</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/"><fmt:message key="welcomePage"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-link disabled">Welcome page</a>
+                        <a class="nav-link disabled"><fmt:message key="welcomePage"/></a>
                     </c:otherwise>
                 </c:choose>
             </li>
@@ -43,33 +43,33 @@
     </div>
 
     <div class="col-md-auto pt-1 pe-0">
-        <a class="nav-link" href="?sessionLocale=en">EN</a>
+        <a class="nav-link" href="?sessionLocale=en"><fmt:message key="en"/></a>
     </div>
     <div class="col-md-auto pt-1 ps-0 pe-2">
-        <a class="nav-link" href="?sessionLocale=uk">UKR</a>
+        <a class="nav-link" href="?sessionLocale=uk"><fmt:message key="ukr"/></a>
     </div>
 
     <c:choose>
         <c:when test="${sessionScope.role == 'GUEST'}">
             <div class="col-md-auto p-1">
                 <form action="${pageContext.request.contextPath}/login.jsp">
-                    <button type="submit" class="btn btn-outline-primary">Log in</button>
+                    <button type="submit" class="btn btn-outline-primary"><fmt:message key="logIn"/></button>
                 </form>
             </div>
             <div class="col-md-auto p-1">
                 <form action="${pageContext.request.contextPath}/signup.jsp">
-                    <button type="submit" class="btn btn-outline-secondary">Sign up
+                    <button type="submit" class="btn btn-outline-secondary"><fmt:message key="signup"/>
                     </button>
                 </form>
             </div>
             <div class="col-md-auto fs-4 ms-4 p-1">
-                Guest
+                <fmt:message key="guest"/>
             </div>
         </c:when>
         <c:otherwise>
             <div class="col-md-auto p-1">
                 <form action="${pageContext.request.contextPath}/main/logout">
-                    <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary">Log out
+                    <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary"><fmt:message key="logout"/>
                     </button>
                 </form>
             </div>

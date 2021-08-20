@@ -23,36 +23,36 @@
     <div class="col">
         <ul class="nav fs-4">
             <li class="nav-item">
-                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog">Home</a>
+                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog"><fmt:message key="home"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="${pageContext.request.contextPath}/main/admin/cartView?userId=${sessionScope.userId}">Cart</a>
+                   href="${pageContext.request.contextPath}/main/admin/cartView?userId=${sessionScope.userId}"><fmt:message key="cart"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="${pageContext.request.contextPath}/main/admin/management">Management</a>
+                   href="${pageContext.request.contextPath}/main/admin/management"><fmt:message key="management"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="${pageContext.request.contextPath}/main/admin/addProductView">New product</a>
+                   href="${pageContext.request.contextPath}/main/admin/addProductView"><fmt:message key="newProduct"/></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">Welcome page</a>
+                <a class="nav-link disabled"><fmt:message key="welcomePage"/></a>
             </li>
         </ul>
     </div>
 
     <div class="col-md-auto pt-1 pe-0">
-        <a class="nav-link" href="?sessionLocale=en">EN</a>
+        <a class="nav-link" href="?sessionLocale=en"><fmt:message key="en"/></a>
     </div>
     <div class="col-md-auto pt-1 ps-0 pe-2">
-        <a class="nav-link" href="?sessionLocale=uk">UKR</a>
+        <a class="nav-link" href="?sessionLocale=uk"><fmt:message key="ukr"/></a>
     </div>
 
     <div class="col-md-auto p-1">
         <form action="${pageContext.request.contextPath}/main/logout">
-            <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary">Log out
+            <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary"><fmt:message key="logout"/>
             </button>
         </form>
     </div>

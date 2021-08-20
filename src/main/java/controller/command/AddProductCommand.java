@@ -2,9 +2,11 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.ProductDao;
 import model.entity.Product;
+import org.apache.log4j.Logger;
 
 import javax.naming.NamingEnumeration;
 import javax.servlet.ServletException;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AddProductCommand implements Command {
+    private static final Logger log = Logger.getLogger(AddProductCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +49,7 @@ public class AddProductCommand implements Command {
                 response.getWriter().println("<script type='text/javascript'>alert('All fields except property " +
                         "should be filled');" + "location='" + request.getContextPath() +
                         Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
+                log.info("All fields except property should be filled");
                 return null;
             }
         }
@@ -78,6 +82,7 @@ public class AddProductCommand implements Command {
                     response.getWriter().println("<script type='text/javascript'>alert('Property fields should " +
                             "be symmetrically filled');" + "location='" + request.getContextPath() +
                             Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
+                    log.info("Property fields should be symmetrically filled");
                     return null;
                 }
             }
@@ -89,6 +94,7 @@ public class AddProductCommand implements Command {
                         response.getWriter().println("<script type='text/javascript'>alert('Some property names or " +
                                 "values are empty');" + "location='" + request.getContextPath() +
                                 Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
+                        log.info("Some property names values are empty");
                         return null;
                     }
                 }
@@ -100,6 +106,7 @@ public class AddProductCommand implements Command {
 
         response.getWriter().println("<script type='text/javascript'>alert('Product was successfully added');" +
                 "location='" + request.getContextPath() + Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
+        log.info("Product was successfully added");
         return null;
     }
 }

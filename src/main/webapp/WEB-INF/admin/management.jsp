@@ -7,7 +7,7 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title>Management page</title>
+    <title><fmt:message key="managementPage"/></title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
     <c:import url="header.jsp"/>
     <div class="row mx-3 pt-4 gx-5">
         <div class="col fs-5">
-            All users:
+            <fmt:message key="allUsers"/>
         </div>
     </div>
     <div class="row mx-3 pt-4 gx-5">
@@ -23,10 +23,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>/th>
-                    <th scope="col">Login</th>
-                    <th scope="col">Role</th>
+                    <th scope="col"><fmt:message key="id"/></th>
+                    <th scope="col"><fmt:message key="userName"/></th>
+                    <th scope="col"><fmt:message key="email"/></th>
+                    <th scope="col"><fmt:message key="role"/></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -42,7 +42,7 @@
                             <form action="${pageContext.request.contextPath}/main/admin/cartView">
                                 <input type="hidden" name="cartUserId" value="${user.id}">
                                 <button class="btn btn-outline-dark btn-sm">
-                                    Cart
+                                    <fmt:message key="cart"/>
                                 </button>
                             </form>
                         </td>
@@ -50,7 +50,7 @@
                             <c:choose>
                                 <c:when test="${user.role == 'ADMIN'}">
                                     <button disabled class="btn btn-outline-dark btn-sm">
-                                        Block
+                                        <fmt:message key="block"/>
                                     </button>
                                 </c:when>
                                 <c:when test="${user.blocked == 'unblocked'}">
@@ -59,7 +59,7 @@
                                         <input type="hidden" name="role" value="${user.role}"/>
                                         <input type="hidden" name="newBlockStatus" value="blocked"/>
                                         <button class="btn btn-outline-dark btn-sm">
-                                            Block
+                                            <fmt:message key="block"/>
                                         </button>
                                     </form>
                                 </c:when>
@@ -69,7 +69,7 @@
                                         <input type="hidden" name="role" value="${user.role}"/>
                                         <input type="hidden" name="newBlockStatus" value="unblocked"/>
                                         <button class="btn btn-outline-dark btn-sm">
-                                            Unblock
+                                            <fmt:message key="unblock"/>
                                         </button>
                                     </form>
                                 </c:otherwise>
@@ -89,7 +89,7 @@
                     <c:if test="${requestScope.currentPage != 1}">
                         <li>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage - 1}">Previous</a>
+                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage - 1}"><fmt:message key="previous"/></a>
                         </li>
                     </c:if>
 
@@ -114,7 +114,7 @@
                     <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
                         <td>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage + 1}">Next</a>
+                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage + 1}"><fmt:message key="next"/></a>
                         </td>
                     </c:if>
                 </ul>

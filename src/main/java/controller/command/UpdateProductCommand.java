@@ -3,6 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.ProductDao;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class UpdateProductCommand implements Command{
+    private static final Logger log = Logger.getLogger(UpdateProductCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,6 +26,7 @@ public class UpdateProductCommand implements Command{
         if(strProdId == null){
             response.getWriter().println("<script type='text/javascript'>alert('Unknown product id');" +
                     "location='" + request.getContextPath() + Actions.CATALOG_ACTION + "'</script>");
+            log.info("Unknown product id");
             return null;
         }
 
@@ -46,6 +49,7 @@ public class UpdateProductCommand implements Command{
                 response.getWriter().println("<script type='text/javascript'>alert('All fields except property " +
                         "should be filled');" + "location='" + request.getContextPath() + Actions.CATALOG_ACTION +
                         "'</script>");
+                log.info("All fields except property should be filled");
                 return null;
             }
         }
@@ -79,6 +83,7 @@ public class UpdateProductCommand implements Command{
                     response.getWriter().println("<script type='text/javascript'>alert('Property fields should be " +
                             "symmetrically filled');" + "location='" + request.getContextPath() +
                             Actions.CATALOG_ACTION + "'</script>");
+                    log.info("Property fields should be symmetrically filled");
                     return null;
                 }
             }
@@ -90,6 +95,8 @@ public class UpdateProductCommand implements Command{
                         response.getWriter().println("<script type='text/javascript'>alert('Some property names or " +
                                 "values are empty');" + "location='" + request.getContextPath() +
                                 Actions.CATALOG_ACTION + "'</script>");
+                        log.info("Some property names or values are empty");
+                        return null;
                     }
                 }
             }
@@ -101,6 +108,7 @@ public class UpdateProductCommand implements Command{
 
         response.getWriter().println("<script type='text/javascript'>alert('Product was successfully updated');" +
                 "location='" + request.getContextPath() + Actions.CATALOG_ACTION + "'</script>");
+        log.info("Product was successfully updated");
         return null;
     }
 }

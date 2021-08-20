@@ -7,7 +7,7 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title>Cart page</title>
+    <title><fmt:message key="cartPage"/></title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
     <c:import url="header.jsp"/>
     <div class="row mx-3 pt-4 gx-5">
         <div class="col fs-5">
-            User id=${sessionScope.cartUserId} orders:
+            <fmt:message key="orders"/> (<fmt:message key="user"/> id=${sessionScope.cartUserId}):
         </div>
     </div>
     <div class="row mx-3 pt-4 gx-5">
@@ -23,10 +23,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Order id</th>
-                    <th scope="col">Product name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
+                    <th scope="col"><fmt:message key="orderId"/></th>
+                    <th scope="col"><fmt:message key="productName"/></th>
+                    <th scope="col"><fmt:message key="price"/></th>
+                    <th scope="col"><fmt:message key="status"/></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -44,7 +44,7 @@
                             <form action="${pageContext.request.contextPath}/main/deleteOrder" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}"/>
                                 <button class="btn btn-outline-dark btn-sm">
-                                    Delete
+                                    <fmt:message key="delete"/>
                                 </button>
                             </form>
                         </td>
@@ -54,7 +54,7 @@
                                 <input type="hidden" name="orderStatus" value="Registered"/>
                                 <button class="btn btn-outline-dark btn-sm" <c:if
                                         test="${order.status == 'Registered'}"> disabled </c:if> />
-                                Register
+                                <fmt:message key="register"/>
                                 </button>
                             </form>
                         </td>
@@ -64,7 +64,7 @@
                                 <input type="hidden" name="orderStatus" value="Paid"/>
                                 <button class="btn btn-outline-dark btn-sm" <c:if
                                         test="${order.status == 'Paid'}"> disabled </c:if> />
-                                Set as paid
+                                <fmt:message key="setAsPaid"/>
                                 </button>
                             </form>
                         </td>
@@ -74,7 +74,7 @@
                                 <input type="hidden" name="orderStatus" value="Canceled"/>
                                 <button class="btn btn-outline-dark btn-sm" <c:if
                                         test="${order.status == 'Canceled'}"> disabled </c:if> />
-                                Cancel
+                                <fmt:message key="cancel"/>
                                 </button>
                             </form>
                         </td>
@@ -92,7 +92,7 @@
                     <c:if test="${requestScope.currentPage != 1}">
                         <li>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/admin/cartView?page=${requestScope.currentPage - 1}">Previous</a>
+                               href="${pageContext.request.contextPath}/main/admin/cartView?page=${requestScope.currentPage - 1}"><fmt:message key="previous"/></a>
                         </li>
                     </c:if>
 
@@ -117,7 +117,7 @@
                     <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
                         <td>
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/main/admin/cartView?page=${requestScope.currentPage + 1}">Next</a>
+                               href="${pageContext.request.contextPath}/main/admin/cartView?page=${requestScope.currentPage + 1}"><fmt:message key="next"/></a>
                         </td>
                     </c:if>
                 </ul>

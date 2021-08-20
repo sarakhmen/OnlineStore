@@ -2,6 +2,7 @@ package model;
 
 import model.entity.ExtendedProduct;
 import model.entity.Product;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductDao {
+    private static final Logger log = Logger.getLogger(ProductDao.class);
     private final DBManager dbManager = DBManager.getInstance();
 
 
@@ -134,7 +136,7 @@ public class ProductDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             products = null;
             //throw custom exception
@@ -166,39 +168,6 @@ public class ProductDao {
         return numberOfRecords;
     }
 
-//    public List<Product> selectAllProducts(String column, String order) {
-//        Connection con = null;
-//        PreparedStatement selectAllProd = null;
-//        PreparedStatement selectPropertiesForProd = null;
-//        List<Product> products = new LinkedList<>();
-//        try {
-//            con = dbManager.getConnection();
-//            selectAllProd = con.prepareStatement(sqlSelectAllProducts + column + " " + order);
-//            ResultSet rsProducts = selectAllProd.executeQuery();
-//            EntityMapper<Product> pm = new ProductMapper();
-//            selectPropertiesForProd = con.prepareStatement(sqlSelectProductProperties);
-//            while (rsProducts.next()) {
-//                Product product = pm.mapRow(rsProducts);
-//                selectPropertiesForProd.setInt(1, product.getId());
-//                ResultSet rsProperties = selectPropertiesForProd.executeQuery();
-//                while (rsProperties.next()) {
-//                    String propName = rsProperties.getString(1);
-//                    String propValue = rsProperties.getString(2);
-//                    product.getProperties().put(propName, propValue);
-//                }
-//                products.add(product);
-//            }
-//            con.commit();
-//            con.close();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            dbManager.rollbackAndClose(con);
-//            products = null;
-//            //throw custom exception
-//        }
-//        return products;
-//    }
-
     public ExtendedProduct selectExProductById(int productId){
         Connection con = null;
         PreparedStatement selectExProd = null;
@@ -227,7 +196,7 @@ public class ProductDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             exProduct = null;
             //throw custom exception
@@ -261,7 +230,7 @@ public class ProductDao {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             properties = null;
             //throw custom exception
@@ -282,7 +251,7 @@ public class ProductDao {
             con.close();
             deleted = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             //throw custom exception
         }
@@ -322,7 +291,7 @@ public class ProductDao {
             con.close();
             inserted = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             //throw custom exception
         }
@@ -363,7 +332,7 @@ public class ProductDao {
             con.close();
             updated = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             //throw custom exception
         }
@@ -382,6 +351,7 @@ public class ProductDao {
                 product.setProperties(new HashMap<>());
                 return product;
             } catch (SQLException e) {
+                log.error(e.getMessage());
                 e.printStackTrace();
                 throw new IllegalStateException(e);
             }
@@ -401,6 +371,7 @@ public class ProductDao {
                 exProduct.setPropertiesUk(new HashMap<>());
                 return exProduct;
             } catch (SQLException e) {
+                log.error(e.getMessage());
                 e.printStackTrace();
                 throw new IllegalStateException(e);
             }
