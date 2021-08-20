@@ -7,124 +7,120 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title>Cart page</title>
-    <style type="text/css">
-        TABLE {
-            width: 600px;
-            border-collapse: collapse;
-        }
-
-        TD, TH {
-            padding: 3px;
-            border: 1px solid black;
-        }
-
-        TH {
-            background: #b0e0e6;
-        }
-    </style>
+    <title>Management page</title>
 </head>
 <body>
 
-<hr>
-<c:import url="header.jsp"/>
-<h4>${sessionScope.role}</h4>
-<form action="../logout">
-    <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
-</form>
-
-<h2>All users</h2>
-<div>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Login</th>
-            <th>Role</th>
-        </tr>
-        <c:forEach items="${sessionScope.users}" var="user">
-            <tr>
-                <td><c:out value="${user.id}"/></td>
-                <td><c:out value="${user.name}"/></td>
-                <td><c:out value="${user.login}"/></td>
-                <td><c:out value="${user.role}"/></td>
-                <td>
-                    <form action="cartView">
-                        <input type="hidden" name="cartUserId" value="${user.id}">
-                        <button>
-                            Cart
-                        </button>
-                    </form>
-                </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${user.role == 'ADMIN'}">
-                            <button disabled>
-                                Block
-                            </button>
-                        </c:when>
-                        <c:when test="${user.blocked == 'unblocked'}">
-                            <form action="userStatus" method="post">
-                                <input type="hidden" name="userId" value="${user.id}"/>
-                                <input type="hidden" name="role" value="${user.role}"/>
-                                <input type="hidden" name="newBlockStatus" value="blocked"/>
-                                <button>
-                                    Block
+<div class="container">
+    <c:import url="header.jsp"/>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col fs-5">
+            All users:
+        </div>
+    </div>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>/th>
+                    <th scope="col">Login</th>
+                    <th scope="col">Role</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${sessionScope.users}" var="user">
+                    <tr>
+                        <th scope="row"><c:out value="${user.id}"/></th>
+                        <td><c:out value="${user.name}"/></td>
+                        <td><c:out value="${user.login}"/></td>
+                        <td><c:out value="${user.role}"/></td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/main/admin/cartView">
+                                <input type="hidden" name="cartUserId" value="${user.id}">
+                                <button class="btn btn-outline-dark btn-sm">
+                                    Cart
                                 </button>
                             </form>
-                        </c:when>
-                        <c:otherwise>
-                            <form action="userStatus" method="post">
-                                <input type="hidden" name="userId" value="${user.id}"/>
-                                <input type="hidden" name="role" value="${user.role}"/>
-                                <input type="hidden" name="newBlockStatus" value="unblocked"/>
-                                <button>
-                                    Unblock
-                                </button>
-                            </form>
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.role == 'ADMIN'}">
+                                    <button disabled class="btn btn-outline-dark btn-sm">
+                                        Block
+                                    </button>
+                                </c:when>
+                                <c:when test="${user.blocked == 'unblocked'}">
+                                    <form action="${pageContext.request.contextPath}/main/admin/userStatus" method="post">
+                                        <input type="hidden" name="userId" value="${user.id}"/>
+                                        <input type="hidden" name="role" value="${user.role}"/>
+                                        <input type="hidden" name="newBlockStatus" value="blocked"/>
+                                        <button class="btn btn-outline-dark btn-sm">
+                                            Block
+                                        </button>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="${pageContext.request.contextPath}/main/admin/userStatus" method="post">
+                                        <input type="hidden" name="userId" value="${user.id}"/>
+                                        <input type="hidden" name="role" value="${user.role}"/>
+                                        <input type="hidden" name="newBlockStatus" value="unblocked"/>
+                                        <button class="btn btn-outline-dark btn-sm">
+                                            Unblock
+                                        </button>
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col-md-auto">
+            <%--For displaying Previous link except for the 1st page --%>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <c:if test="${requestScope.currentPage != 1}">
+                        <li>
+                            <a class="page-link"
+                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage - 1}">Previous</a>
+                        </li>
+                    </c:if>
 
-    <%--For displaying Previous link except for the 1st page --%>
-    <c:if test="${requestScope.currentPage != 1}">
-        <td><a href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage - 1}">Previous</a></td>
-    </c:if>
-
-    <%--For displaying Page numbers.
-    The when condition does not display a link for the current page--%>
-    <table border="1" cellpadding="5" cellspacing="5">
-        <tr>
-            <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
-                <c:choose>
-                    <c:when test="${requestScope.currentPage eq i}">
-                        <td>${i}</td>
-                    </c:when>
-                    <c:otherwise>
-                        <td><a href="${pageContext.request.contextPath}/main/admin/management?page=${i}">${i}</a></td>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </tr>
-    </table>
-
-    <%--For displaying Next link --%>
-    <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
-        <td><a href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage + 1}">Next</a></td>
-    </c:if>
+                    <%--For displaying Page numbers.
+                    The when condition does not display a link for the current page--%>
+                    <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                        <c:choose>
+                            <c:when test="${requestScope.currentPage eq i}">
+                                <li class="page-item active">
+                                    <a class="page-link" aria-disabled="true">${i}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/main/admin/management?page=${i}">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <%--For displaying Next link --%>
+                    <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
+                        <td>
+                            <a class="page-link"
+                               href="${pageContext.request.contextPath}/main/admin/management?page=${requestScope.currentPage + 1}">Next</a>
+                        </td>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
-
-<script>
-    function confirmLogOut() {
-        if (confirm("Are you sure?")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
 </body>
 </html>

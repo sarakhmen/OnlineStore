@@ -7,146 +7,170 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title><fmt:message key="view.catalogPage"/></title>
+    <title>Catalog page</title>
     <script>
         function sendForm(formId) {
             document.getElementById(formId).submit();
         }
     </script>
 </head>
+
 <body>
 <div class="container">
-    <div class="row justify-content-between my-3">
-        <div class="col">
-            <ul class="nav fs-5">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-auto">
-            <button type="button" class="btn btn-outline-primary">Log in</button>
-            <button type="button" class="btn btn-outline-secondary">Sign up</button>
-        </div>
-    </div>
-
-
     <c:import url="header.jsp"/>
-    <h2>MAIN PAGE CONTENT</h2>
-    <input type="range" min="1" max="100" value="50" id="myRange">
-    <form id="sortForm" action="${pageContext.request.contextPath}/main/catalog">
-        <label for="sortSelect">Sort by:</label>
-        <select name="options" id="sortSelect" onchange="sendForm('sortForm')">
-            <option id="option1" ${sessionScope.sortOption == "byNameAz" ? "selected" : "" } value="byNameAZ">By product
-                name (a-z)
-            </option>
-            <option id="option2" ${sessionScope.sortOption == "byNameZA" ? "selected" : "" } value="byNameZA">By product
-                name (z-a)
-            </option>
-            <option id="option3" ${sessionScope.sortOption == "priceHighLow" ? "selected" : "" } value="priceHighLow">
-                Price:
-                High-Low
-            </option>
-            <option id="option4" ${sessionScope.sortOption == "priceLowHigh" ? "selected" : "" } value="priceLowHigh">
-                Price:
-                Low-High
-            </option>
-            <option id="option5" ${sessionScope.sortOption == "newest" ? "selected" : 0 } value="newest">Newest</option>
-        </select>
-    </form>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col-9">
+            <div class="row">
+                <div class="col fs-5">
+                    All products:
+                </div>
+                <div class="col-md-auto">
+                    <form id="sortForm" action="${pageContext.request.contextPath}/main/catalog">
+                        <label for="sortSelect" class="fs-5">Sort by:</label>
+                        <select name="options" id="sortSelect" onchange="sendForm('sortForm')">
+                            <option id="option1" ${sessionScope.sortOption == "byNameAz" ? "selected" : "" }
+                                    value="byNameAZ">product
+                                name (a-z)
+                            </option>
+                            <option id="option2" ${sessionScope.sortOption == "byNameZA" ? "selected" : "" }
+                                    value="byNameZA">product
+                                name (z-a)
+                            </option>
+                            <option id="option3" ${sessionScope.sortOption == "priceHighLow" ? "selected" : "" }
+                                    value="priceHighLow">
+                                price: High-Low
+                            </option>
+                            <option id="option4" ${sessionScope.sortOption == "priceLowHigh" ? "selected" : "" }
+                                    value="priceLowHigh">
+                                price: Low-High
+                            </option>
+                            <option id="option5" ${sessionScope.sortOption == "newest" ? "selected" : 0 }
+                                    value="newest">newest
+                            </option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Creation date</th>
+                            <th scope="col">Properties</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:set var="i" value="${(requestScope.currentPage - 1) * 10 + 1}"/>
+                        <c:forEach items="${sessionScope.products}" var="product">
+                            <tr>
+                                <th scope="row">${i}</th>
+                                <c:set var="i" value="${i+1}"/>
+                                <td><c:out value="${product.name}"/></td>
+                                <td><c:out value="${product.price}"/></td>
+                                <td><c:out value="${product.creationDate}"/></td>
+                                <td>
+                                    <c:forEach items="${product.properties}" var="property">
+                                        <c:out value="${property.key}: ${property.value}"/>
+                                        <br>
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/main/addToCart" method="post">
+                                        <input type="hidden" name="productId" value="${product.id}"/>
+                                        <button class="btn btn-outline-dark btn-sm">
+                                            Order
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
 
-    <form id="formProperties" action="${pageContext.request.contextPath}/main/catalog">
-        <c:forEach items="${sessionScope.productProperties}" var="property">
-            <fieldset>
-                <legend>${property.key}</legend>
-                <c:forEach items="${property.value}" var="value">
-                    <input type="checkbox" name="${property.key}" value="${value}"/>${value}
-                </c:forEach>
-            </fieldset>
-        </c:forEach>
-        <button>
-            Select by parameters
-        </button>
-    </form>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <%--For displaying Previous link except for the 1st page --%>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <c:if test="${requestScope.currentPage != 1}">
+                                        <li>
+                                            <a class="page-link"
+                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage - 1}">Previous</a>
+                                        </li>
+                                    </c:if>
 
+                                    <%--For displaying Page numbers.
+                                    The when condition does not display a link for the current page--%>
+                                    <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                                        <c:choose>
+                                            <c:when test="${requestScope.currentPage eq i}">
+                                                <li class="page-item active">
+                                                    <a class="page-link" aria-disabled="true">${i}</a>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li>
+                                                    <a class="page-link"
+                                                       href="${pageContext.request.contextPath}/main/catalog?page=${i}">${i}</a>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
 
-    <div>
-        <table>
-            <tr>
-                <th>Product name</th>
-                <th>Price</th>
-                <th>Creation date</th>
-                <th>Properties</th>
-                <th></th>
-            </tr>
-            <c:forEach items="${sessionScope.products}" var="product">
-                <tr>
-                    <td><c:out value="${product.name}"/></td>
-                    <td><c:out value="${product.price}"/></td>
-                    <td><c:out value="${product.creationDate}"/></td>
-                    <td>
-                        <c:forEach items="${product.properties}" var="property">
-                            <c:out value="${property.key}: ${property.value}"/>
+                                    <%--For displaying Next link --%>
+                                    <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
+                                        <td>
+                                            <a class="page-link"
+                                               href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage + 1}">Next</a>
+                                        </td>
+                                    </c:if>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row">
+                <div class="col fs-5">
+                    Properties:
+                </div>
+            </div>
+            <div class="row pt-5">
+                <div class="col mt-3" style="height: 600px; overflow-y: scroll;">
+                    <form id="formProperties" action="${pageContext.request.contextPath}/main/catalog">
+                        <c:set var="j" value="${1}"/>
+                        <c:forEach items="${sessionScope.productProperties}" var="property">
+                            <fieldset>
+                                <legend class="fs-5">${property.key}:</legend>
+                                <c:forEach items="${property.value}" var="value">
+                                    <input class="form-check-input" type="checkbox" id="${j}" name="${property.key}"
+                                           value="${value}"/>
+                                    <label for="${j}">${value}</label>
+                                </c:forEach>
+                            </fieldset>
                             <br>
                         </c:forEach>
-                    </td>
-                    <td>
-                        <form action="addToCart" method="post">
-                            <input type="hidden" name="productId" value="${product.id}"/>
-                            <button>
-                                Order
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-
-        <%--For displaying Previous link except for the 1st page --%>
-        <c:if test="${requestScope.currentPage != 1}">
-            <td>
-                <a href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage - 1}">Previous</a>
-            </td>
-        </c:if>
-
-        <%--For displaying Page numbers.
-        The when condition does not display a link for the current page--%>
-        <table border="1" cellpadding="5" cellspacing="5">
-            <tr>
-                <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
-                    <c:choose>
-                        <c:when test="${requestScope.currentPage eq i}">
-                            <td>${i}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td><a href="${pageContext.request.contextPath}/main/catalog?page=${i}">${i}</a></td>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </tr>
-        </table>
-
-        <%--For displaying Next link --%>
-        <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
-            <td><a href="${pageContext.request.contextPath}/main/catalog?page=${requestScope.currentPage + 1}">Next</a>
-            </td>
-        </c:if>
+                        <c:set var="j" value="${j+1}"/>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-auto fs-6 pt-5">
+                    <button form="formProperties" class="btn btn-outline-dark">
+                        Select by parameters
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
 </body>
 </html>

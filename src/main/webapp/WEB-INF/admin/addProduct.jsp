@@ -10,24 +10,54 @@
     <title>Add product page</title>
 </head>
 <body>
-<form action="addProduct" method="post">
-    <input type="text" id="nameEn" name="prodNameEn" placeholder="Product name in english"/>
-    <label for="nameEn">Enter product name in english</label><br>
-    <input type="text" id="nameUk" name="prodNameUk" placeholder="Product name in ukrainian"/>
-    <label for="nameUk">Enter product name in ukrainian</label><br>
-    <input type="number" id="price" name="price" placeholder="Product price in dollars"/>
-    <label for="price">Enter product price in dollars</label><br>
-    <input type="text" id="propsEn" name="propertyNamesEn" placeholder="(example: model,color,size)"/>
-    <label for="propsEn">Enter property names in english comma separated</label><br>
-    <input type="text" id="valuesEn" name="propertyValuesEn" placeholder="(example: S,white,small)"/>
-    <label for="valuesEn">Enter corresponding property names in english comma separated</label><br>
-    <input type="text" id="propsUk" name="propertyNamesUk" placeholder="(example: model,color,size)"/>
-    <label for="propsEn">Enter property names in ukrainian comma separated</label><br>
-    <input type="text" id="valuesUk" name="propertyValuesUk" placeholder="(example: S,white,small)"/>
-    <label for="valuesEn">Enter corresponding property names in ukrainian comma separated</label><br>
-    <button>
-        Add product
-    </button>
-</form>
+
+<div class="container">
+    <c:import url="header.jsp"/>
+    <div class="d-flex justify-content-center pt-4 mt-3 fs-4">
+        Adding a new product
+    </div>
+    <div class="d-flex justify-content-center pt-3">
+        <form action="${pageContext.request.contextPath}/main/admin/addProduct">
+            <div class="mb-3">
+                <label for="nameEn" class="form-label">Product name in english</label>
+                <input type="text" name="prodNameEn" class="form-control" id="nameEn"
+                       placeholder="Enter name in english">
+            </div>
+            <div class="mb-3">
+                <label for="nameUk" class="form-label">Product name in ukrainian</label>
+                <input type="text" name="prodNameUk" class="form-control" id="nameUk"
+                       placeholder="Enter name in ukrainian">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Product price in dollars</label>
+                <input type="number" name="price" class="form-control" id="price"
+                       placeholder="Enter product price in dollars">
+            </div>
+            <div class="mb-3">
+                <label for="propsEn" class="form-label">Property names in english (comma separated)</label>
+                <input type="text" name="propertyNamesEn" class="form-control" id="propsEn"
+                       placeholder="(example: model,color,size)">
+            </div>
+            <div class="mb-3">
+                <label for="valuesEn" class="form-label">Corresponding property values in english comma
+                    separated</label>
+                <input type="text" name="propertyValuesEn" class="form-control" id="valuesEn"
+                       placeholder="(example: model,color,size)">
+            </div>
+            <div class="mb-3">
+                <label for="propsUk" class="form-label">Property names in ukrainian (comma separated)</label>
+                <input type="text" name="propertyNamesUk" class="form-control" id="propsUk"
+                       placeholder="(example: model,color,size)">
+            </div>
+            <div class="mb-3">
+                <label for="valuesEn" class="form-label">Corresponding property values in ukrainian comma
+                    separated</label>
+                <input type="text" name="propertyValuesUk" class="form-control" id="valuesUk"
+                       placeholder="(example: model,color,size)">
+            </div>
+            <button type="submit" class="btn btn-primary">Add product</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

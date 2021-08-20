@@ -9,45 +9,83 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
-<h3><c:choose>
-    <c:when test="${sessionScope.locale == 'en'}">
-        <c:out value="${sessionScope.usernameEn}"/>
-    </c:when>
-    <c:otherwise>
-        <c:out value="${sessionScope.usernameUk}"/>
-    </c:otherwise>
-</c:choose></h3>
-<h4>${sessionScope.role}</h4>
-<c:choose>
-    <c:when test="${sessionScope.role != 'GUEST'}">
-        <form action="logout">
-            <input type="submit" onclick="return confirmLogOut()" value="Log out"/>
-        </form>
-    </c:when>
-    <c:otherwise>
-        <form action="${pageContext.request.contextPath}/login.jsp">
-            <input type="submit" value="Log in"/>
-        </form>
-    </c:otherwise>
-</c:choose>
-
-<form action="cartView">
-    <input type="hidden" name="userId" value="${sessionScope.userId}"/>
-    <input type="submit" value="Cart"/>
-</form>
-
-<script>
-    function confirmLogOut() {
-        if (confirm("Are you sure?")) {
-            return true;
-        } else {
-            return false;
+    <script>
+        function confirmLogOut() {
+            if (confirm("Are you sure?")) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    }
-</script>
+    </script>
+</head>
+<div class="row justify-content-between my-3">
+    <div class="col">
+        <ul class="nav fs-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="${pageContext.request.contextPath}/main/cartView?userId=${sessionScope.userId}">Cart</a>
+            </li>
+            <li class="nav-item">
+                <c:choose>
+                    <c:when test="${sessionScope.role == 'GUEST'}">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/">Welcome page</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="nav-link disabled">Welcome page</a>
+                    </c:otherwise>
+                </c:choose>
+            </li>
+        </ul>
+    </div>
 
+    <div class="col-md-auto pt-1 pe-0">
+        <a class="nav-link" href="?sessionLocale=en">EN</a>
+    </div>
+    <div class="col-md-auto pt-1 ps-0 pe-2">
+        <a class="nav-link" href="?sessionLocale=uk">UKR</a>
+    </div>
+
+    <c:choose>
+        <c:when test="${sessionScope.role == 'GUEST'}">
+            <div class="col-md-auto p-1">
+                <form action="${pageContext.request.contextPath}/login.jsp">
+                    <button type="submit" class="btn btn-outline-primary">Log in</button>
+                </form>
+            </div>
+            <div class="col-md-auto p-1">
+                <form action="${pageContext.request.contextPath}/signup.jsp">
+                    <button type="submit" class="btn btn-outline-secondary">Sign up
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-auto fs-4 ms-4 p-1">
+                Guest
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="col-md-auto p-1">
+                <form action="${pageContext.request.contextPath}/main/logout">
+                    <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary">Log out
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-auto fs-4 ms-4 p-1">
+                <c:choose>
+                    <c:when test="${sessionScope.locale == 'en'}">
+                        <c:out value="${sessionScope.usernameEn}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:out value="${sessionScope.usernameUk}"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

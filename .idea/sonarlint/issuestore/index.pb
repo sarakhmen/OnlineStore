@@ -7,22 +7,16 @@ c
 3src/main/java/controller/filter/EncodingFilter.java,9\7\972027c8899c2adefeb948902a68f95d795601a1
 R
 "src/main/java/model/DBManager.java,b\1\b17d6b686296d3e885c07ac1acd2ccb37d243d04
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 i
 9src/main/java/controller/filter/AuthenticationFilter.java,1\1\117b319537000a7d6b1beb4b16a4362d3bafcae9
 `
 0src/main/java/controller/filter/GuestFilter.java,6\0\604dfff1e8b848eb234154f83073e9b6fd17abc8
 V
 &src/main/java/model/entity/Entity.java,a\7\a7f9c4acdd0b70c2507ae957e3be5698e7ef66f0
-V
-&src/main/webapp/WEB-INF/admin/cart.jsp,a\d\ad435d378d2abdd83dfcfffaede19f2c57e4b400
 f
 6src/main/java/controller/listener/SessionListener.java,e\e\eebe35065669bdd445723ce746460303dd579354
 a
 1src/main/java/controller/filter/LocaleFilter.java,5\d\5db90504dd69bbbeb8797eeacb334b3f1c0f68a3
-X
-(src/main/webapp/WEB-INF/admin/header.jsp,3\2\32a85cb930c59a511a296daf650a1ed1160b45d1
 T
 $src/main/java/model/entity/User.java,7\d\7d46df4109d8411dc9d4c22fe13f2270c2c7f35c
 U

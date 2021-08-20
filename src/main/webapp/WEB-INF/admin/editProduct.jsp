@@ -10,27 +10,56 @@
     <title>Edit product page</title>
 </head>
 <body>
-<h2>Editing product with id=${requestScope.productId}</h2>
-<form action="updateProduct" method="post">
-    <input type="hidden" name="productId" value="${requestScope.productId}"/>
-    <input type="text" id="nameEn" name="prodNameEn" value="${requestScope.prodNameEn}" placeholder="Product name in english"/>
-    <label for="nameEn">Enter product name in english</label><br>
-    <input type="text" id="nameUk" name="prodNameUk" value="${requestScope.prodNameUk}" placeholder="Product name in ukrainian"/>
-    <label for="nameUk">Enter product name in ukrainian</label><br>
-    <input type="number" id="price" name="price" value="${requestScope.price}" placeholder="Product price in dollars"/>
-    <label for="price">Enter product price in dollars</label><br>
-    <input type="text" id="propsEn" name="propertyNamesEn" value="${requestScope.propertyNamesEn}" placeholder="(example: model,color,size)"/>
-    <label for="propsEn">Enter property names in english comma separated</label><br>
-    <input type="text" id="valuesEn" name="propertyValuesEn" value="${requestScope.propertyValuesEn}" placeholder="(example: S,white,small)"/>
-    <label for="valuesEn">Enter corresponding property names in english comma separated</label><br>
-    <input type="text" id="propsUk" name="propertyNamesUk" value="${requestScope.propertyNamesUk}" placeholder="(example: model,color,size)"/>
-    <label for="propsEn">Enter property names in ukrainian comma separated</label><br>
-    <input type="text" id="valuesUk" name="propertyValuesUk" value="${requestScope.propertyValuesUk}" placeholder="(example: S,white,small)"/>
-    <label for="valuesEn">Enter corresponding property names in ukrainian comma separated</label><br>
-    <button>
-        Update product
-    </button>
-</form>
+
+<div class="container">
+    <c:import url="header.jsp"/>
+    <div class="d-flex justify-content-center pt-4 mt-3 fs-4">
+        Editing product with id=${requestScope.productId}
+    </div>
+    <div class="d-flex justify-content-center pt-3">
+        <form action="${pageContext.request.contextPath}/main/admin/updateProduct">
+            <input type="hidden" name="productId" value="${requestScope.productId}"/>
+            <div class="mb-3">
+                <label for="nameEn" class="form-label">Product name in english</label>
+                <input type="text" name="prodNameEn" class="form-control" id="nameEn"
+                       placeholder="Enter name in english" value="${requestScope.prodNameEn}">
+            </div>
+            <div class="mb-3">
+                <label for="nameUk" class="form-label">Product name in ukrainian</label>
+                <input type="text" name="prodNameUk" class="form-control" id="nameUk"
+                       placeholder="Enter name in ukrainian" value="${requestScope.prodNameUk}">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Product price in dollars</label>
+                <input type="number" name="price" class="form-control" id="price"
+                       placeholder="Enter product price in dollars" value="${requestScope.price}">
+            </div>
+            <div class="mb-3">
+                <label for="propsEn" class="form-label">Property names in english (comma separated)</label>
+                <input type="text" name="propertyNamesEn" class="form-control" id="propsEn"
+                       placeholder="(example: model,color,size)" value="${requestScope.propertyNamesEn}">
+            </div>
+            <div class="mb-3">
+                <label for="valuesEn" class="form-label">Corresponding property values in english comma
+                    separated</label>
+                <input type="text" name="propertyValuesEn" class="form-control" id="valuesEn"
+                       placeholder="(example: model,color,size)" value="${requestScope.propertyValuesEn}">
+            </div>
+            <div class="mb-3">
+                <label for="propsUk" class="form-label">Property names in ukrainian (comma separated)</label>
+                <input type="text" name="propertyNamesUk" class="form-control" id="propsUk"
+                       placeholder="(example: model,color,size)" value="${requestScope.propertyNamesUk}">
+            </div>
+            <div class="mb-3">
+                <label for="valuesEn" class="form-label">Corresponding property values in ukrainian comma
+                    separated</label>
+                <input type="text" name="propertyValuesUk" class="form-control" id="valuesUk"
+                       placeholder="(example: model,color,size)" value="${requestScope.propertyValuesUk}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update product</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
 

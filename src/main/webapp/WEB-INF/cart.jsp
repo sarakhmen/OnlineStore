@@ -8,87 +8,101 @@
 <html lang="${sessionScope.locale}">
 <head>
     <title>Cart page</title>
-    <style type="text/css">
-        TABLE {
-            width: 600px;
-            border-collapse: collapse;
-        }
-
-        TD, TH {
-            padding: 3px;
-            border: 1px solid black;
-        }
-
-        TH {
-            background: #b0e0e6;
-        }
-    </style>
 </head>
 <body>
-<c:import url="header.jsp"/>
-<h2>Your orders:</h2>
-<div>
-    <table>
-        <tr>
-            <th>Order id</th>
-            <th>Product name</th>
-            <th>Price</th>
-            <th>Status</th>
-        </tr>
-        <c:forEach items="${sessionScope.orders}" var="order">
-            <tr>
-                <td><c:out value="${order.id}"/></td>
-                <td><c:out value="${order.name}"/></td>
-                <td><c:out value="${order.price}"/></td>
-                <td><c:out value="${order.status}"/></td>
-                <td>
-                    <form action="deleteOrder" method="post">
-                        <input type="hidden" name="orderId" value="${order.id}"/>
-                        <button>
-                            Delete
-                        </button>
-                    </form>
-                </td>
-                <td>
-                    <form action="orderStatus" method="post">
-                        <input type="hidden" name="orderId" value="${order.id}"/>
-                        <input type="hidden" name="orderStatus" value="Registered"/>
 
-                        <button <c:if test="${order.status != 'Unregistered'}"> disabled </c:if> />
-                            Order
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+<div class="container">
+    <c:import url="header.jsp"/>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col fs-5">
+            Your orders:
+        </div>
+    </div>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Order id</th>
+                    <th scope="col">Product name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${sessionScope.orders}" var="order">
+                    <tr>
+                        <th scope="row"><c:out value="${order.id}"/></th>
+                        <td><c:out value="${order.name}"/></td>
+                        <td><c:out value="${order.price}"/></td>
+                        <td><c:out value="${order.status}"/></td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/main/deleteOrder" method="post">
+                                <input type="hidden" name="orderId" value="${order.id}"/>
+                                <button class="btn btn-outline-dark btn-sm">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/main/orderStatus" method="post">
+                                <input type="hidden" name="orderId" value="${order.id}"/>
+                                <input type="hidden" name="orderStatus" value="Registered"/>
 
-    <%--For displaying Previous link except for the 1st page --%>
-    <c:if test="${requestScope.currentPage != 1}">
-        <td><a href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage - 1}">Previous</a></td>
-    </c:if>
+                                <button class="btn btn-outline-dark btn-sm" <c:if
+                                        test="${order.status != 'Unregistered'}"> disabled </c:if> />
+                                Order
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col-md-auto">
+            <%--For displaying Previous link except for the 1st page --%>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <c:if test="${requestScope.currentPage != 1}">
+                        <li>
+                            <a class="page-link"
+                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage - 1}">Previous</a>
+                        </li>
+                    </c:if>
 
-    <%--For displaying Page numbers.
-    The when condition does not display a link for the current page--%>
-    <table border="1" cellpadding="5" cellspacing="5">
-        <tr>
-            <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
-                <c:choose>
-                    <c:when test="${requestScope.currentPage eq i}">
-                        <td>${i}</td>
-                    </c:when>
-                    <c:otherwise>
-                        <td><a href="${pageContext.request.contextPath}/main/cartView?page=${i}">${i}</a></td>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </tr>
-    </table>
-
-    <%--For displaying Next link --%>
-    <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
-        <td><a href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage + 1}">Next</a></td>
-    </c:if>
+                    <%--For displaying Page numbers.
+                    The when condition does not display a link for the current page--%>
+                        <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                            <c:choose>
+                                <c:when test="${requestScope.currentPage eq i}">
+                                    <li class="page-item active">
+                                        <a class="page-link" aria-disabled="true">${i}</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li>
+                                        <a class="page-link"
+                                           href="${pageContext.request.contextPath}/main/cartView?page=${i}">${i}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    <%--For displaying Next link --%>
+                    <c:if test="${requestScope.currentPage lt requestScope.numberOfPages}">
+                        <td>
+                            <a class="page-link"
+                               href="${pageContext.request.contextPath}/main/cartView?page=${requestScope.currentPage + 1}">Next</a>
+                        </td>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 
 </body>
