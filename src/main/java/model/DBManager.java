@@ -68,7 +68,7 @@ public class DBManager {
     public void rollbackAndClose(Connection con) {
         if (con != null) {
             try {
-                con.commit();
+                con.rollback();
             } catch (SQLException ex) {
                 log.error(ex.getMessage());
             }

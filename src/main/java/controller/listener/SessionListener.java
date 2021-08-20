@@ -12,7 +12,4 @@ public class SessionListener implements HttpSessionListener {
         se.getSession().setAttribute(Parameters.ROLE, DBConstants.USER_GUEST);
     }
 
-    @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
-    }
 }
