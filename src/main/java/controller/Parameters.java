@@ -39,4 +39,8 @@ public class Parameters {
     public static final String PRODUCT_CREATION_DATE = "creationDate";
     public static final String PAGE = "page";
     public static final int RECORDS_PER_PAGE = 10;
+    public static final String PRICE_FROM = "priceFrom";
+    public static final String PRICE_TO = "priceTo";
+    public static final String SELECTED_PROPERTIES = "selectedProperties";
+    public static final String ACTION = "action";
 }

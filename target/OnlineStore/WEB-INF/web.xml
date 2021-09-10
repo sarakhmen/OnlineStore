@@ -62,6 +62,11 @@
         <listener-class>controller.listener.SessionListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>controller.listener.Log4jInit</listener-class>
+    </listener>
+
+
       <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
       </welcome-file-list>

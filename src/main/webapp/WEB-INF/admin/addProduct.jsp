@@ -30,7 +30,7 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label"><fmt:message key="priceInDollars"/></label>
-                <input type="number" name="price" class="form-control" id="price"
+                <input type="number" name="price" class="form-control" id="price" min="0"
                        placeholder="<fmt:message key="enterPriceInDollars"/>">
             </div>
             <div class="mb-3">

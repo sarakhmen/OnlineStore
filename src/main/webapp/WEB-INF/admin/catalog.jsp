@@ -160,6 +160,7 @@
             <div class="row pt-5">
                 <div class="col mt-3" style="height: 600px; overflow-y: scroll;">
                     <form id="formProperties" action="${pageContext.request.contextPath}/main/catalog">
+                        <input type="hidden" name="action" value="selectByProperties">
                         <c:set var="j" value="${1}"/>
                         <c:forEach items="${sessionScope.productProperties}" var="property">
                             <fieldset>
@@ -173,6 +174,18 @@
                             <br>
                         </c:forEach>
                         <c:set var="j" value="${j+1}"/>
+                        <div class="row">
+                            <div class="col gx-1">
+                                <label for="priceFrom" class="form-label"><fmt:message key="localPriceFrom"/></label>
+                                <input type="number" name="priceFrom" class="form-control" id="priceFrom" min="0"
+                                       placeholder="<fmt:message key="localPriceFrom"/>">
+                            </div>
+                            <div class="col">
+                                <label for="priceTo" class="form-label"><fmt:message key="localPriceTo"/></label>
+                                <input type="number" name="priceTo" class="form-control" id="priceTo" min="0"
+                                       placeholder="<fmt:message key="localPriceTo"/>">
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

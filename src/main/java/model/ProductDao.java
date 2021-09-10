@@ -47,33 +47,60 @@ public class ProductDao {
             case "uk":
                 propertyName = "propertyNameUk";
                 propertyValue = "propertyValueUk";
-                sqlSelectAllProducts = "SELECT id, nameUk as name, price, creationDate FROM product ORDER BY ";
+                sqlSelectAllProducts = "SELECT id, nameUk as name, price, creationDate FROM product";
                 sqlSelectProductProperties = "SELECT propertyNameUk as propertyName, propertyValueUk " +
                         "as propertyValue FROM property WHERE productId = ?";
                 sqlSelectDistinctPropertyNames = "SELECT DISTINCT propertyNameUk as propertyName FROM property";
                 sqlSelectPropertyValues = "SELECT DISTINCT propertyValueUk as propertyValue FROM property " +
                         "WHERE propertyNameUk=?";
                 sqlSelectProductsIn = "SELECT id, nameUk as name, price, creationDate FROM product " +
-                        "WHERE id IN ^ ORDER BY ";
+                        "WHERE id IN ^ ^ ORDER BY ";
                 currencyRatio = 27;
                 break;
             default:
                 propertyName = "propertyNameEn";
                 propertyValue = "propertyValueEn";
-                sqlSelectAllProducts = "SELECT id, nameEn as name, price, creationDate FROM product ORDER BY ";
+                sqlSelectAllProducts = "SELECT id, nameEn as name, price, creationDate FROM product";
                 sqlSelectProductProperties = "SELECT propertyNameEn as propertyName, propertyValueEn " +
                         "as propertyValue FROM property WHERE productId = ?";
                 sqlSelectDistinctPropertyNames = "SELECT DISTINCT propertyNameEn as propertyName FROM property";
                 sqlSelectPropertyValues = "SELECT DISTINCT propertyValueEn as propertyValue FROM property " +
                         "WHERE propertyNameEn=?";
                 sqlSelectProductsIn = "SELECT id, nameEn as name, price, creationDate FROM product " +
-                        "WHERE id IN ^ ORDER BY ";
+                        "WHERE id IN ^ ^ ORDER BY ";
                 currencyRatio = 1;
                 break;
         }
     }
 
     public List<Product> selectProductsOrderedAndByProperties(String column, String order, Map<String,
+            Set<String>> properties, int offset, int rowcount, Integer priceFrom, Integer priceTo){
+        int priceInDollarsFrom;
+        int priceInDollarsTo;
+
+        if(priceFrom == null && priceTo == null){
+            return selectProductsOrderedAndByProperties("", column, order, properties, offset, rowcount);
+        }
+
+        if(priceFrom == null){
+            priceInDollarsTo = (int)(priceTo / currencyRatio);
+            return selectProductsOrderedAndByProperties("price <= " + priceInDollarsTo + " ",
+                    column, order, properties, offset, rowcount);
+        }
+
+        if(priceTo == null){
+            priceInDollarsFrom = (int)(priceFrom / currencyRatio);
+            return selectProductsOrderedAndByProperties("price >= " + priceInDollarsFrom + " ",
+                    column, order, properties, offset, rowcount);
+        }
+
+        priceInDollarsFrom = (int)(priceFrom / currencyRatio);
+        priceInDollarsTo = (int)(priceTo / currencyRatio);
+        return selectProductsOrderedAndByProperties("price BETWEEN " + priceInDollarsFrom + " AND "
+                + priceInDollarsTo + " ", column, order, properties, offset, rowcount);
+    }
+
+    public List<Product> selectProductsOrderedAndByProperties(String sqlPriceRange, String column, String order, Map<String,
             Set<String>> properties, int offset, int rowcount){
 
         Connection con = null;
@@ -81,18 +108,25 @@ public class ProductDao {
         try {
             con = dbManager.getConnection();
             if(properties.isEmpty()){
-                PreparedStatement selectCountOfRecords = con.prepareStatement(SQL_SELECT_COUNT_OF_RECORDS);
+                String sqlSelectCountOfRecords = SQL_SELECT_COUNT_OF_RECORDS;
+                String prefix = "";
+                if(sqlPriceRange != ""){
+                    prefix = " WHERE ";
+                    sqlSelectCountOfRecords += " WHERE " + sqlPriceRange;
+                }
+                products = selectProductsWithProperties(con, sqlSelectAllProducts
+                        + prefix + sqlPriceRange + " ORDER BY " + column + " " + order + " LIMIT "
+                        + offset + ", " + rowcount);
+
+                PreparedStatement selectCountOfRecords = con.prepareStatement(sqlSelectCountOfRecords);
                 ResultSet rsCount = selectCountOfRecords.executeQuery();
                 if (rsCount.next()) {
                     numberOfRecords = rsCount.getInt(1);
                 }
-                products = selectProductsWithProperties(con, sqlSelectAllProducts + column + " " +
-                        order + " LIMIT " + offset + ", " + rowcount);
             }
             else{
                 StringBuilder sb1 = new StringBuilder();
                 for(Map.Entry<String, Set<String>> property : properties.entrySet()) {
-                    System.out.println("HERE");
                     sb1.append(" && ")
                             .append('(');
                     StringBuilder sb2 = new StringBuilder();
@@ -116,7 +150,6 @@ public class ProductDao {
                     sb1.append(')');
                 }
                 String endOfSelectQuery = sb1.substring(4) + " LIMIT " + offset + ", " + rowcount;
-                System.out.println(endOfSelectQuery);
                 PreparedStatement selectProductIdWithSpecifiedProps =
                         con.prepareStatement(SQL_SELECT_PRODUCT_ID_WITH_SPECIFIED_PROPS + endOfSelectQuery);
                 ResultSet rsProductIds = selectProductIdWithSpecifiedProps.executeQuery();
@@ -124,12 +157,18 @@ public class ProductDao {
                 while(rsProductIds.next()){
                     productIds.add(rsProductIds.getInt(1));
                 }
-                numberOfRecords = (int)productIds.stream().distinct().count();
                 if(!productIds.isEmpty()){
                     String enclosedInParenthesisIds = productIds.stream().map(x->x.toString()).collect(Collectors
                             .joining(", ", "(", ")"));
-                    String sqlQuery = sqlSelectProductsIn.replace("^", enclosedInParenthesisIds) +
-                            column + " " + order;
+                    String sqlQuery = sqlSelectProductsIn.replaceFirst("\\^", enclosedInParenthesisIds)
+                            + column + " " + order;
+                    if(sqlPriceRange != ""){
+                        sqlQuery = sqlQuery.replaceFirst("\\^", " && " + sqlPriceRange);
+                    }
+                    else{
+                        sqlQuery = sqlQuery.replaceFirst("\\^", "");
+
+                    }
                     products = selectProductsWithProperties(con, sqlQuery);
                 }
             }
@@ -150,7 +189,9 @@ public class ProductDao {
         ResultSet rsProducts = selectAllProd.executeQuery();
         EntityMapper<Product> pm = new ProductMapper();
         PreparedStatement selectPropertiesForProd = con.prepareStatement(sqlSelectProductProperties);
+        numberOfRecords = 0;
         while (rsProducts.next()) {
+            numberOfRecords++;
             Product product = pm.mapRow(rsProducts);
             selectPropertiesForProd.setInt(1, product.getId());
             ResultSet rsProperties = selectPropertiesForProd.executeQuery();
