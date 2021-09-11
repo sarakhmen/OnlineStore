@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS store;
+DROP DATABASE IF EXISTS store;
+CREATE DATABASE store;
 use store;
 
 CREATE TABLE IF NOT EXISTS product
@@ -89,16 +90,15 @@ values (3, 'Color', 'green', 'Колір', 'зелений');
 INSERT INTO user(login, password, nameEn, nameUk, role) values ('qwerty@google.com', '12345', 'First User', 'Перший Користувач','USER');
 INSERT INTO user(login, password, nameEn, nameUk, role) values ('artur.sarahman@gmail.com', 'qwerty', 'Artur Sarakhman', 'Артур Сарахман','ADMIN');
 
-# INSERT INTO bag(userId, productId) values(1, 1);
-# INSERT INTO bag(userId, productId) values(1, 2);
-# INSERT INTO bag(userId, productId) values(1, 3);
-# INSERT INTO bag(userId, productId) values(1, 4);
-# INSERT INTO bag(userId, productId) values(1, 5);
-# INSERT INTO bag(userId, productId) values(1, 6);
-# INSERT INTO bag(userId, productId) values(1, 7);
-# INSERT INTO bag(userId, productId) values(2, 8);
-# INSERT INTO bag(userId, productId) values(2, 9);
-# INSERT INTO bag(userId, productId) values(2, 10);
-# INSERT INTO bag(userId, productId) values(2, 11);
-# INSERT INTO bag(userId, productId) values(2, 12);
-# INSERT INTO bag(userId, productId) values(2, 13);
+INSERT INTO bag(userId, productId) values(1, 1);
+INSERT INTO bag(userId, productId) values(1, 2);
+INSERT INTO bag(userId, productId) values(1, 3);
+INSERT INTO bag(userId, productId) values(1, 4);
+INSERT INTO bag(userId, productId) values(1, 5);
+INSERT INTO bag(userId, productId) values(1, 6);
+INSERT INTO bag(userId, productId) values(1, 7);
+INSERT INTO bag(userId, productId) values(2, 8);
+INSERT INTO bag(userId, productId) values(2, 9);
+INSERT INTO bag(userId, productId) values(2, 10);
+INSERT INTO bag(userId, productId) values(2, 11);
+INSERT INTO bag(userId, productId) values(2, 12);
