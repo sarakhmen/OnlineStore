@@ -38,12 +38,13 @@ public class LoginCommandTest {
     LoginCommand loginCommand = new LoginCommand();
 
     @BeforeClass
-    public static void initDB() throws SQLException, FileNotFoundException {
+    public static void initDB() throws SQLException, IOException {
         DBManager dbManager = DBManager.getInstance();
         Connection connection = dbManager.getConnection();
         ScriptRunner runner = new ScriptRunner(connection);
         Reader reader = new BufferedReader(new FileReader("src\\test\\resources\\dbScript.sql"));
         runner.runScript(reader);
+        runner.closeConnection();
     }
 
     @Before

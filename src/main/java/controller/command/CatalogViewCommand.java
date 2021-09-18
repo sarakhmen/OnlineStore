@@ -70,7 +70,6 @@ public class CatalogViewCommand implements Command {
 
         if ((priceFrom != null && priceFrom < 0) || (priceTo != null && priceTo < 0) || (priceFrom != null
                 && priceTo != null && priceFrom > priceTo)) {
-            System.out.println("price error");
             response.getWriter().println("<script type='text/javascript'>alert('Incorrect price input');"
                     + "location='" + request.getContextPath() +
                     Actions.CATALOG_ACTION + "'</script>");

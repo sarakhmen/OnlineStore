@@ -83,10 +83,10 @@ public class UserDao {
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
-                con.commit();
-                con.close();
                 registered = true;
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
@@ -105,9 +105,9 @@ public class UserDao {
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
                 blocked = rs.getBoolean(DBConstants.USER_STATUS);
-                con.commit();
-                con.close();
             }
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);

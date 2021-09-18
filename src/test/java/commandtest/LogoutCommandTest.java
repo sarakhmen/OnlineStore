@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LogoutCommandTest {
