@@ -2,7 +2,7 @@ package commandtest;
 
 import controller.Actions;
 import controller.Parameters;
-import controller.command.UpdateProductCommand;
+import controller.command.EditProductViewCommand;
 import model.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
@@ -21,10 +21,9 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UpdateProductCommandTest {
+public class EditProductCommandTest {
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -32,8 +31,7 @@ public class UpdateProductCommandTest {
     @Mock
     private HttpSession session;
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    UpdateProductCommand updateProductCommand = new UpdateProductCommand();
+    EditProductViewCommand editProductViewCommand = new EditProductViewCommand();
 
     @BeforeClass
     public static void initDB() throws SQLException, IOException {
@@ -48,19 +46,22 @@ public class UpdateProductCommandTest {
     @Before
     public void initMocks() throws IOException {
         Mockito.when(request.getSession()).thenReturn(session);
-        Mockito.when(request.getContextPath()).thenReturn("/");
-        PrintWriter writer = new PrintWriter(out, true);
-        Mockito.when(response.getWriter()).thenReturn(writer);
     }
 
     @Test
-    public void shouldPrintAlertWhenProductIdEqNull() throws ServletException, IOException {
-        Mockito.when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn(null);
-        String expectedPrint = "<script type='text/javascript'>alert('Unknown product id');" +
-                "location='" + request.getContextPath() + Actions.CATALOG_ACTION + "'</script>"
-                + System.lineSeparator();
-        String result = updateProductCommand.process(request, response);
-        Assert.assertEquals(expectedPrint, out.toString());
-        Assert.assertNull(result);
+    public void shouldSetPropertyNamesAndValuesInRequestIfProductHasProperties() throws ServletException, IOException {
+        Mockito.when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn("1");
+        editProductViewCommand.process(request, response);
+
+        Mockito.verify(request).setAttribute(Mockito.eq(Parameters.PROPERTY_NAMES), Mockito.any());
+        Mockito.verify(request).setAttribute(Mockito.eq(Parameters.PROPERTY_VALUES), Mockito.any());
+    }
+
+    @Test
+    public void shouldReturnAdminEditProductPage() throws ServletException, IOException {
+        Mockito.when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn("1");
+        String expected = Actions.ADMIN_EDIT_PRODUCT_PAGE;
+        String actual = editProductViewCommand.process(request, response);
+        Assert.assertEquals(expected, actual);
     }
 }

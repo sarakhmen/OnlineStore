@@ -2,8 +2,11 @@ package commandtest;
 
 import controller.Actions;
 import controller.Parameters;
-import controller.command.UpdateProductCommand;
+import controller.command.CartViewCommand;
+import controller.command.CatalogViewCommand;
+import model.DBConstants;
 import model.DBManager;
+import model.entity.Product;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +27,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UpdateProductCommandTest {
+public class CartViewCommandTest {
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -32,8 +35,7 @@ public class UpdateProductCommandTest {
     @Mock
     private HttpSession session;
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    UpdateProductCommand updateProductCommand = new UpdateProductCommand();
+    CartViewCommand cartViewCommand = new CartViewCommand();
 
     @BeforeClass
     public static void initDB() throws SQLException, IOException {
@@ -48,19 +50,28 @@ public class UpdateProductCommandTest {
     @Before
     public void initMocks() throws IOException {
         Mockito.when(request.getSession()).thenReturn(session);
-        Mockito.when(request.getContextPath()).thenReturn("/");
-        PrintWriter writer = new PrintWriter(out, true);
-        Mockito.when(response.getWriter()).thenReturn(writer);
     }
 
     @Test
-    public void shouldPrintAlertWhenProductIdEqNull() throws ServletException, IOException {
-        Mockito.when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn(null);
-        String expectedPrint = "<script type='text/javascript'>alert('Unknown product id');" +
-                "location='" + request.getContextPath() + Actions.CATALOG_ACTION + "'</script>"
-                + System.lineSeparator();
-        String result = updateProductCommand.process(request, response);
-        Assert.assertEquals(expectedPrint, out.toString());
-        Assert.assertNull(result);
+    public void shouldGetCartUserIdFromRequestIfSent() throws ServletException, IOException {
+        Mockito.when(session.getAttribute(Parameters.ROLE)).thenReturn(DBConstants.USER_GUEST);
+        Mockito.when(request.getParameter(Parameters.CART_USER_ID)).thenReturn("2");
+        Mockito.when(request.getParameter(Parameters.PAGE)).thenReturn("2");
+
+        cartViewCommand.process(request, response);
+        Mockito.verify(request, Mockito.atLeast(2)).getParameter(Parameters.CART_USER_ID);
+    }
+
+    @Test
+    public void shouldReturnAdminCartViewIfRoleEqAdmin() throws ServletException, IOException {
+        Mockito.when(session.getAttribute(Parameters.ROLE)).thenReturn(DBConstants.USER_ADMIN);
+        Mockito.when(session.getAttribute(Parameters.CART_USER_ID)).thenReturn(2);
+        Mockito.when(request.getParameter(Parameters.CART_USER_ID)).thenReturn(null);
+        Mockito.when(request.getParameter(Parameters.PAGE)).thenReturn("1");
+
+        String expected = Actions.ADMIN_CART_PAGE;
+        String actual = cartViewCommand.process(request, response);
+        Assert.assertEquals(expected, actual);
+
     }
 }

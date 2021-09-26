@@ -54,7 +54,6 @@ public class CatalogViewCommandTest {
     public void initMocks() throws IOException {
         Mockito.when(request.getSession()).thenReturn(session);
         Mockito.when(request.getContextPath()).thenReturn("/");
-        Mockito.when(session.getAttribute(Parameters.LOCALE)).thenReturn("en");
         PrintWriter writer = new PrintWriter(out, true);
         Mockito.when(response.getWriter()).thenReturn(writer);
     }

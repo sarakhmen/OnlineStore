@@ -2,8 +2,11 @@ package commandtest;
 
 import controller.Actions;
 import controller.Parameters;
-import controller.command.UpdateProductCommand;
+import controller.command.CatalogViewCommand;
+import controller.command.UserStatusCommand;
+import model.DBConstants;
 import model.DBManager;
+import model.entity.Product;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +27,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UpdateProductCommandTest {
+public class UserStatusCommandTest {
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -32,8 +35,7 @@ public class UpdateProductCommandTest {
     @Mock
     private HttpSession session;
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    UpdateProductCommand updateProductCommand = new UpdateProductCommand();
+    UserStatusCommand userStatusCommand = new UserStatusCommand();
 
     @BeforeClass
     public static void initDB() throws SQLException, IOException {
@@ -49,18 +51,22 @@ public class UpdateProductCommandTest {
     public void initMocks() throws IOException {
         Mockito.when(request.getSession()).thenReturn(session);
         Mockito.when(request.getContextPath()).thenReturn("/");
-        PrintWriter writer = new PrintWriter(out, true);
-        Mockito.when(response.getWriter()).thenReturn(writer);
     }
 
     @Test
-    public void shouldPrintAlertWhenProductIdEqNull() throws ServletException, IOException {
-        Mockito.when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn(null);
-        String expectedPrint = "<script type='text/javascript'>alert('Unknown product id');" +
-                "location='" + request.getContextPath() + Actions.CATALOG_ACTION + "'</script>"
-                + System.lineSeparator();
-        String result = updateProductCommand.process(request, response);
-        Assert.assertEquals(expectedPrint, out.toString());
-        Assert.assertNull(result);
+    public void shouldNotChangeStatusIfUserIsAdmin() throws ServletException, IOException {
+        Mockito.when(request.getParameter(Parameters.ROLE)).thenReturn(DBConstants.USER_ADMIN);
+        userStatusCommand.process(request, response);
+        Mockito.verify(request, Mockito.never()).getParameter(Parameters.NEW_BLOCK_STATUS);
+    }
+
+    @Test
+    public void shouldReturnRedirectAdminManagementAction() throws ServletException, IOException {
+        Mockito.when(request.getParameter(Parameters.ROLE)).thenReturn(DBConstants.USER_USER);
+        Mockito.when(request.getParameter(Parameters.NEW_BLOCK_STATUS)).thenReturn("Unblocked");
+        Mockito.when(request.getParameter(Parameters.USER_ID)).thenReturn("0");
+        String expected = "redirect:/" + Actions.ADMIN_MANAGEMENT_ACTION;
+        String actual = userStatusCommand.process(request, response);
+        Assert.assertEquals(expected, actual);
     }
 }

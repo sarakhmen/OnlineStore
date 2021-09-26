@@ -50,7 +50,6 @@ public class SignupCommandTest {
     public void initMocks() throws IOException {
         Mockito.when(request.getSession()).thenReturn(session);
         Mockito.when(request.getContextPath()).thenReturn("/");
-        Mockito.when(session.getAttribute(Parameters.LOCALE)).thenReturn("en");
         PrintWriter writer = new PrintWriter(out, true);
         Mockito.when(response.getWriter()).thenReturn(writer);
     }
@@ -59,8 +58,7 @@ public class SignupCommandTest {
     public void shouldPrintAlertAndReturnNullWhenParamsAreIncorrect() throws ServletException, IOException {
         Mockito.when(request.getParameter(Parameters.LOGIN)).thenReturn(null);
         Mockito.when(request.getParameter(Parameters.PASSWORD)).thenReturn("notNull");
-        Mockito.when(request.getParameter(Parameters.USERNAME_EN)).thenReturn("notNull");
-        Mockito.when(request.getParameter(Parameters.USERNAME_UK)).thenReturn("notNull");
+        Mockito.when(request.getParameter(Parameters.USERNAME)).thenReturn("notNull");
 
         String processResult = signupCommand.process(request, response);
         Assert.assertNull(processResult);
@@ -69,7 +67,7 @@ public class SignupCommandTest {
         Assert.assertEquals(expectedPrint, out.toString());
 
         Mockito.when(request.getParameter(Parameters.LOGIN)).thenReturn("notNull");
-        Mockito.when(request.getParameter(Parameters.USERNAME_UK)).thenReturn("");
+        Mockito.when(request.getParameter(Parameters.USERNAME)).thenReturn("");
         out.reset();
         processResult = signupCommand.process(request, response);
         Assert.assertNull(processResult);
@@ -80,8 +78,7 @@ public class SignupCommandTest {
     public void shouldPrintAlertAndReturnNullIfUserIsAlreadyRegistered() throws ServletException, IOException {
         Mockito.when(request.getParameter(Parameters.LOGIN)).thenReturn("artur.sarahman@gmail.com");
         Mockito.when(request.getParameter(Parameters.PASSWORD)).thenReturn("qwerty");
-        Mockito.when(request.getParameter(Parameters.USERNAME_EN)).thenReturn("Artur Sarakhman");
-        Mockito.when(request.getParameter(Parameters.USERNAME_UK)).thenReturn("Артур Сарахман");
+        Mockito.when(request.getParameter(Parameters.USERNAME)).thenReturn("Artur Sarakhman");
 
         String processResult = signupCommand.process(request, response);
         Assert.assertNull(processResult);
@@ -95,8 +92,7 @@ public class SignupCommandTest {
     public void shouldRedirectToCatalogActionIfUserFound() throws ServletException, IOException {
         Mockito.when(request.getParameter(Parameters.LOGIN)).thenReturn("newUser@gmail.com");
         Mockito.when(request.getParameter(Parameters.PASSWORD)).thenReturn("qwerty");
-        Mockito.when(request.getParameter(Parameters.USERNAME_EN)).thenReturn("New User");
-        Mockito.when(request.getParameter(Parameters.USERNAME_UK)).thenReturn("Новий Користувач");
+        Mockito.when(request.getParameter(Parameters.USERNAME)).thenReturn("New User");
         Mockito.when(session.getAttribute(Parameters.USER_ID)).thenReturn(4);
 
         String expectedProcessResult = "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
