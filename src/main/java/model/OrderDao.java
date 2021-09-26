@@ -11,32 +11,28 @@ import java.util.*;
 
 public class OrderDao {
     private static final Logger log = Logger.getLogger(OrderDao.class);
-    private final DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_COUNT_OF_RECORDS = "SELECT COUNT(*) FROM bag WHERE userId=?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO bag(userId, productId) values(?, ?)";
     private static final String SQL_DELETE_ORDER = "DELETE FROM bag WHERE id=?";
     private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE bag SET status=? WHERE id=?";
     private static final String SQL_TRANSFER_ORDERS = "UPDATE bag SET userId=? WHERE userId=?";
-
-    private final String sqlSelectAllOrders;
-    private final double currencyRatio;
+    private static final String SQL_SELECT_ALL_ORDERS = "SELECT bag.id, product.name, product.price, bag.status " +
+            "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
 
     private int numberOfRecords;
 
-    public OrderDao(String locale){
-        switch (locale){
-            case "uk":
-                sqlSelectAllOrders = "SELECT bag.id, product.nameUk as name, product.price, bag.status " +
-                        "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
-                currencyRatio = 27;
-                break;
-            default:
-                sqlSelectAllOrders = "SELECT bag.id, product.nameEn as name, product.price, bag.status " +
-                        "FROM product JOIN bag ON bag.productId=product.id WHERE bag.userId = ?";
-                currencyRatio = 1;
-                break;
-        }
+    public OrderDao(DBManager dbManager){
+        this.dbManager = dbManager;
+    }
+
+    public DBManager getDbManager() {
+        return dbManager;
+    }
+
+    public void setDbManager(DBManager dbManager) {
+        this.dbManager = dbManager;
     }
 
     public int getNumberOfRecords() {
@@ -56,7 +52,7 @@ public class OrderDao {
                 numberOfRecords = rsCount.getInt(1);
             }
 
-            selectAllOrders = con.prepareStatement(sqlSelectAllOrders + " LIMIT " + offset + ", " + rowcount);
+            selectAllOrders = con.prepareStatement(SQL_SELECT_ALL_ORDERS + " LIMIT " + offset + ", " + rowcount);
             selectAllOrders.setInt(1, userId);
             ResultSet rsOrders = selectAllOrders.executeQuery();
             EntityMapper<Order> om = new OrderMapper();
@@ -161,7 +157,7 @@ public class OrderDao {
                 Order order = new Order();
                 order.setId(rs.getInt(DBConstants.ENTITY_ID));
                 order.setName(rs.getString(DBConstants.PRODUCT_NAME));
-                order.setPrice(rs.getDouble(DBConstants.PRODUCT_PRICE) * currencyRatio);
+                order.setPrice(rs.getDouble(DBConstants.PRODUCT_PRICE));
                 order.setStatus(rs.getString(DBConstants.BAG_STATUS));
                 return order;
             } catch (SQLException e) {

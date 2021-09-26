@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
@@ -30,8 +31,7 @@ public class LoginCommand implements Command{
         }
 
         HttpSession session = request.getSession();
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        UserDao userDao = new UserDao(locale);
+        UserDao userDao = new UserDao(DBManager.getInstance());
         User user = userDao.selectUserByLogin(login);
 
         if(user == null ){
@@ -50,14 +50,12 @@ public class LoginCommand implements Command{
 
         if(session.getAttribute(Parameters.USER_ID) != null){
             int guestId = (int)session.getAttribute(Parameters.USER_ID);
-            OrderDao orderDao = new OrderDao(locale);
+            OrderDao orderDao = new OrderDao(DBManager.getInstance());
             orderDao.transferOrders(guestId, user.getId());
         }
 
-        List<String> names = userDao.selectUserNames(user.getId());
         session.setAttribute(Parameters.USER_ID, user.getId());
-        session.setAttribute(Parameters.USERNAME_EN, names.get(0));
-        session.setAttribute(Parameters.USERNAME_UK, names.get(1));
+        session.setAttribute(Parameters.USERNAME, user.getName());
         session.setAttribute(Parameters.ROLE, user.getRole());
         session.setAttribute(Parameters.CART_USER_ID, user.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;

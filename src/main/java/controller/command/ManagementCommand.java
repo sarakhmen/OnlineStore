@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.UserDao;
 import model.entity.Order;
@@ -25,8 +26,7 @@ public class ManagementCommand implements Command {
         if (request.getParameter(Parameters.PAGE) != null) {
             page = Integer.parseInt(request.getParameter(Parameters.PAGE));
         }
-        String locale = (String) session.getAttribute(Parameters.LOCALE);
-        UserDao userDao = new UserDao(locale);
+        UserDao userDao = new UserDao(DBManager.getInstance());
         List<User> users = userDao.selectAllUsersExceptGuests((page - 1) * Parameters.RECORDS_PER_PAGE,
                 Parameters.RECORDS_PER_PAGE);
 

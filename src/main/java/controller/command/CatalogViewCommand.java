@@ -3,6 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
+import model.DBManager;
 import model.ProductDao;
 import model.entity.Product;
 import org.apache.log4j.Logger;
@@ -20,8 +21,7 @@ public class CatalogViewCommand implements Command {
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String locale = (String) session.getAttribute(Parameters.LOCALE);
-        ProductDao productDao = new ProductDao(locale);
+        ProductDao productDao = new ProductDao(DBManager.getInstance());
         Map<String, Set<String>> properties = productDao.selectProperties();
         session.setAttribute(Parameters.PRODUCT_PROPERTIES, properties);
 
@@ -39,12 +39,12 @@ public class CatalogViewCommand implements Command {
 
         if(action != null && action.equals("selectByProperties")){
             priceParamFrom = request.getParameter(Parameters.PRICE_FROM);
-            if (priceParamFrom != null && priceParamFrom != "") {
+            if (priceParamFrom != null && !priceParamFrom.equals("")) {
                 priceFrom = Integer.parseInt(request.getParameter(Parameters.PRICE_FROM));
             }
 
             priceParamTo = request.getParameter(Parameters.PRICE_TO);
-            if (priceParamTo != null && priceParamTo != "") {
+            if (priceParamTo != null && !priceParamTo.equals("")) {
                 priceTo = Integer.parseInt(request.getParameter(Parameters.PRICE_TO));
             }
 
@@ -73,7 +73,7 @@ public class CatalogViewCommand implements Command {
             response.getWriter().println("<script type='text/javascript'>alert('Incorrect price input');"
                     + "location='" + request.getContextPath() +
                     Actions.CATALOG_ACTION + "'</script>");
-            log.info("All fields except property should be filled");
+            log.info("Incorrect price input");
             return null;
         }
 

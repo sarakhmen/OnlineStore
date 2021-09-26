@@ -19,14 +19,9 @@
     <div class="d-flex justify-content-center pt-3">
         <form action="${pageContext.request.contextPath}/main/admin/addProduct">
             <div class="mb-3">
-                <label for="nameEn" class="form-label"><fmt:message key="productNameEn"/></label>
-                <input type="text" name="prodNameEn" class="form-control" id="nameEn"
+                <label for="name" class="form-label"><fmt:message key="productName"/></label>
+                <input type="text" name="name" class="form-control" id="name"
                        placeholder="<fmt:message key="enterProdNameInEnglish"/>">
-            </div>
-            <div class="mb-3">
-                <label for="nameUk" class="form-label"><fmt:message key="productNameUk"/></label>
-                <input type="text" name="prodNameUk" class="form-control" id="nameUk"
-                       placeholder="<fmt:message key="enterProdNameInUkrainian"/>">
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label"><fmt:message key="priceInDollars"/></label>
@@ -34,24 +29,14 @@
                        placeholder="<fmt:message key="enterPriceInDollars"/>">
             </div>
             <div class="mb-3">
-                <label for="propsEn" class="form-label"><fmt:message key="propertyNamesEn"/></label>
-                <input type="text" name="propertyNamesEn" class="form-control" id="propsEn"
+                <label for="props" class="form-label"><fmt:message key="propertyNamesEn"/></label>
+                <input type="text" name="propertyNames" class="form-control" id="props"
                        placeholder="<fmt:message key="propertyNamesExampleEn"/>">
             </div>
             <div class="mb-3">
-                <label for="valuesEn" class="form-label"><fmt:message key="propertyValuesEn"/></label>
-                <input type="text" name="propertyValuesEn"  class="form-control" id="valuesEn"
+                <label for="values" class="form-label"><fmt:message key="propertyValuesEn"/></label>
+                <input type="text" name="propertyValues"  class="form-control" id="values"
                        placeholder="<fmt:message key="propertyValuesExampleEn"/>">
-            </div>
-            <div class="mb-3">
-                <label for="propsUk" class="form-label"><fmt:message key="propertyNamesUk"/></label>
-                <input type="text" name="propertyNamesUk" class="form-control" id="propsUk"
-                       placeholder="<fmt:message key="propertyNamesExampleUk"/>">
-            </div>
-            <div class="mb-3">
-                <label for="valuesEn" class="form-label"><fmt:message key="propertyValuesUk"/></label>
-                <input type="text" name="propertyValuesUk" class="form-control" id="valuesUk"
-                       placeholder="<fmt:message key="propertyValuesExampleUk"/>">
             </div>
             <button type="submit" class="btn btn-primary"><fmt:message key="addProduct"/></button>
         </form>

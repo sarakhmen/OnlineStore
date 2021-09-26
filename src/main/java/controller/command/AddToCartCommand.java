@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import org.apache.log4j.Logger;
 
@@ -19,8 +20,7 @@ public class AddToCartCommand implements Command{
         HttpSession session = request.getSession();
         int userId = (int)session.getAttribute(Parameters.USER_ID);
         int productId = Integer.parseInt(request.getParameter(Parameters.PRODUCT_ID));
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        OrderDao orderDao = new OrderDao(locale);
+        OrderDao orderDao = new OrderDao(DBManager.getInstance());
         if(orderDao.insertOrder(userId, productId)){
             //some code;
         }

@@ -62,10 +62,9 @@
         <listener-class>controller.listener.SessionListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>controller.listener.Log4jInit</listener-class>
-    </listener>
-
+    <error-page>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
 
       <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

@@ -3,25 +3,17 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.DBManager;
-import model.OrderDao;
 import model.ProductDao;
-import model.entity.Product;
 import org.apache.log4j.Logger;
 
-import javax.naming.NamingEnumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AddProductCommand implements Command {
@@ -31,17 +23,13 @@ public class AddProductCommand implements Command {
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String prodNameEn = request.getParameter(Parameters.PROD_NAME_EN);
-        String prodNameUk = request.getParameter(Parameters.PROD_NAME_UK);
+        String prodName = request.getParameter(Parameters.PRODUCT_NAME);
         String price = request.getParameter(Parameters.PRICE);
-        String propertyNamesEn = request.getParameter(Parameters.PROPERTY_NAMES_EN);
-        String propertyNamesUk = request.getParameter(Parameters.PROPERTY_NAMES_UK);
-        String propertyValuesEn = request.getParameter(Parameters.PROPERTY_VALUES_EN);
-        String propertyValuesUk = request.getParameter(Parameters.PROPERTY_VALUES_UK);
+        String propertyNames = request.getParameter(Parameters.PROPERTY_NAMES);
+        String propertyValues = request.getParameter(Parameters.PROPERTY_VALUES);
 
         List<String> necessaryFields = new LinkedList<>();
-        necessaryFields.add(prodNameEn);
-        necessaryFields.add(prodNameUk);
+        necessaryFields.add(prodName);
         necessaryFields.add(price);
 
         for (String field : necessaryFields) {
@@ -54,41 +42,31 @@ public class AddProductCommand implements Command {
             }
         }
 
-        String locale = (String) session.getAttribute(Parameters.LOCALE);
-        ProductDao productDao = new ProductDao(locale);
+        ProductDao productDao = new ProductDao(DBManager.getInstance());
 
-        if ((propertyNamesEn == null && propertyNamesUk == null && propertyValuesEn == null && propertyValuesUk == null)
-                || (propertyNamesEn.trim().equals("") && propertyNamesUk.trim().equals("") && propertyValuesEn.trim().equals("")
-                && propertyValuesUk.trim().equals(""))) {
-            productDao.insertProductWithProperties(prodNameEn.trim(), prodNameUk.trim(), Double.parseDouble(price),
-                    null, null, null, null);
+        if ((propertyNames == null && propertyValues == null) || (propertyNames.trim().equals("")
+                && propertyValues.trim().equals(""))) {
+            productDao.insertProductWithProperties(prodName.trim(), Double.parseDouble(price),
+                    null, null);
         } else {
-            Stream<String> streamOfPropNamesEn =
-                    Pattern.compile(",").splitAsStream(propertyNamesEn);
-            Stream<String> streamOfPropValuesEn =
-                    Pattern.compile(",").splitAsStream(propertyValuesEn);
-            Stream<String> streamOfPropNamesUk =
-                    Pattern.compile(",").splitAsStream(propertyNamesUk);
-            Stream<String> streamOfPropValuesUk =
-                    Pattern.compile(",").splitAsStream(propertyValuesUk);
-            String[][] propertiesAndValues = new String[4][];
-            propertiesAndValues[0] = streamOfPropNamesEn.map(String::trim).toArray(String[]::new);
-            propertiesAndValues[1] = streamOfPropValuesEn.map(String::trim).toArray(String[]::new);
-            propertiesAndValues[2] = streamOfPropNamesUk.map(String::trim).toArray(String[]::new);
-            propertiesAndValues[3] = streamOfPropValuesUk.map(String::trim).toArray(String[]::new);
+            Stream<String> streamOfPropNames =
+                    Pattern.compile(",").splitAsStream(propertyNames);
+            Stream<String> streamOfPropValues =
+                    Pattern.compile(",").splitAsStream(propertyValues);
+            String[][] propertiesAndValues = new String[2][];
+            propertiesAndValues[0] = streamOfPropNames.map(String::trim).toArray(String[]::new);
+            propertiesAndValues[1] = streamOfPropValues.map(String::trim).toArray(String[]::new);
 
-            for (int i = 1; i < propertiesAndValues.length; i++) {
-                if (propertiesAndValues[i].length != propertiesAndValues[i - 1].length) {
-                    response.getWriter().println("<script type='text/javascript'>alert('Property fields should " +
-                            "be symmetrically filled');" + "location='" + request.getContextPath() +
-                            Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
-                    log.info("Property fields should be symmetrically filled");
-                    return null;
-                }
+            if (propertiesAndValues[0].length != propertiesAndValues[1].length) {
+                response.getWriter().println("<script type='text/javascript'>alert('Property fields should " +
+                        "be symmetrically filled');" + "location='" + request.getContextPath() +
+                        Actions.ADMIN_ADD_PRODUCT_VIEW_ACTION + "'</script>");
+                log.info("Property fields should be symmetrically filled");
+                return null;
             }
 
             int propertiesAmount = propertiesAndValues[0].length;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < propertiesAmount; j++) {
                     if (propertiesAndValues[i][j].equals("")) {
                         response.getWriter().println("<script type='text/javascript'>alert('Some property names or " +
@@ -100,8 +78,8 @@ public class AddProductCommand implements Command {
                 }
             }
 
-            productDao.insertProductWithProperties(prodNameEn.trim(), prodNameUk.trim(), Double.parseDouble(price),
-                    propertiesAndValues[0], propertiesAndValues[1], propertiesAndValues[2], propertiesAndValues[3]);
+            productDao.insertProductWithProperties(prodName.trim(), Double.parseDouble(price),
+                    propertiesAndValues[0], propertiesAndValues[1]);
         }
 
         response.getWriter().println("<script type='text/javascript'>alert('Product was successfully added');" +

@@ -2,11 +2,11 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.entity.Order;
 import org.apache.log4j.Logger;
 
-import javax.print.attribute.standard.PageRanges;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +37,7 @@ public class CartViewCommand implements Command{
         if (request.getParameter(Parameters.PAGE) != null) {
             page = Integer.parseInt(request.getParameter(Parameters.PAGE));
         }
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        OrderDao orderDao = new OrderDao(locale);
+        OrderDao orderDao = new OrderDao(DBManager.getInstance());
 
         List<Order> orders = orderDao.selectAllOrders(cartUserId, (page-1)*Parameters.RECORDS_PER_PAGE,
                 Parameters.RECORDS_PER_PAGE);

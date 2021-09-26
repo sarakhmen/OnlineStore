@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.ProductDao;
 import org.apache.log4j.Logger;
@@ -17,10 +18,8 @@ public class DeleteProductCommand implements Command{
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
         int productId = Integer.parseInt(request.getParameter(Parameters.PRODUCT_ID));
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        ProductDao productDao = new ProductDao(locale);
+        ProductDao productDao = new ProductDao(DBManager.getInstance());
         productDao.deleteProductById(productId);
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }

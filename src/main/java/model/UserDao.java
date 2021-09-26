@@ -1,6 +1,5 @@
 package model;
 
-import controller.Parameters;
 import model.entity.User;
 import org.apache.log4j.Logger;
 
@@ -13,37 +12,34 @@ import java.util.List;
 
 public class UserDao {
     private static final Logger log = Logger.getLogger(UserDao.class);
-    private final DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance();
 
     private static final String SQL_SELECT_COUNT_OF_NON_GUESTS = "SELECT COUNT(*) FROM user WHERE role!='" +
             DBConstants.USER_GUEST + "'";
-    private static final String SQL_SELECT_USER_NAMES = "SELECT nameEn, nameUk FROM user WHERE id=?";
+    private static final String SQL_SELECT_USER_NAME = "SELECT name FROM user WHERE id=?";
     private static final String SQL_SELECT_USER_BLOCK_STATUS = "SELECT blocked FROM user WHERE id=?";
-    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, nameEn, nameUk, role) " +
-            "VALUES(?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(login, password, name, role) " +
+            "VALUES(?, ?, ?, ?)";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET blocked=? WHERE id=?";
     private static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login=?";
 
-    private final String sqlSelectAllUsersExceptGuests;
-    private final String sqlSelectUserByLogin;
+    private static final String SQL_SELECT_ALL_USERS_EXCEPT_GUESTS = "SELECT id, login, password, name, role, blocked FROM user " +
+            "WHERE role!='" + DBConstants.USER_GUEST + "'";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT id, login, password, name, role, blocked FROM user " +
+            "WHERE login=?";
 
     private int numberOfRecords;
 
-    public UserDao(String locale){
-        switch (locale){
-            case "uk":
-                sqlSelectAllUsersExceptGuests = "SELECT id, login, password, nameUk as name, role, blocked FROM user " +
-                        "WHERE role!='" + DBConstants.USER_GUEST + "'";
-                sqlSelectUserByLogin = "SELECT id, login, password, nameUk as name, role, blocked FROM user " +
-                        "WHERE login=?";
-                break;
-            default:
-                sqlSelectAllUsersExceptGuests = "SELECT id, login, password, nameEn as name, role, blocked FROM user " +
-                        "WHERE role!='" + DBConstants.USER_GUEST + "'";
-                sqlSelectUserByLogin = "SELECT id, login, password, nameEn as name, role, blocked FROM user " +
-                        "WHERE login=?";
-                break;
-        }
+    public UserDao(DBManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
+    public DBManager getDbManager() {
+        return dbManager;
+    }
+
+    public void setDbManager(DBManager dbManager) {
+        this.dbManager = dbManager;
     }
 
     public int getNumberOfRecords(){
@@ -56,7 +52,7 @@ public class UserDao {
         User user = null;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -79,7 +75,7 @@ public class UserDao {
         boolean registered = false;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -115,11 +111,11 @@ public class UserDao {
         return blocked;
     }
 
-    public User insertUser(String login, String password, String userNameEn, String userNameUk){
-        return insertUser(login, password, userNameEn, userNameUk, DBConstants.USER_USER);
+    public User insertUser(String login, String password, String userName){
+        return insertUser(login, password, userName, DBConstants.USER_USER);
     }
 
-    public User insertUser(String login, String password, String userNameEn, String userNameUk, String role){
+    public User insertUser(String login, String password, String userName, String role){
         Connection con = null;
         PreparedStatement pstmnt = null;
         User user = null;
@@ -128,11 +124,10 @@ public class UserDao {
             pstmnt = con.prepareStatement(SQL_INSERT_USER);
             pstmnt.setString(1, login);
             pstmnt.setString(2, password);
-            pstmnt.setString(3, userNameEn);
-            pstmnt.setString(4, userNameUk);
-            pstmnt.setString(5, role);
+            pstmnt.setString(3, userName);
+            pstmnt.setString(4, role);
             pstmnt.executeUpdate();
-            pstmnt = con.prepareStatement(sqlSelectUserByLogin);
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             pstmnt.setString(1, login);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
@@ -160,7 +155,7 @@ public class UserDao {
             if (rsCount.next()) {
                 numberOfRecords = rsCount.getInt(1);
             }
-            pstmnt = con.prepareStatement(sqlSelectAllUsersExceptGuests);
+            pstmnt = con.prepareStatement(SQL_SELECT_ALL_USERS_EXCEPT_GUESTS);
             ResultSet rs = pstmnt.executeQuery();
             EntityMapper<User> userMapper = new UserMapper();
             while(rs.next()){
@@ -178,28 +173,27 @@ public class UserDao {
         return users;
     }
 
-    public List<String> selectUserNames(int id){
+    public String selectUserName(int id){
         Connection con = null;
         PreparedStatement pstmnt = null;
-        List<String> names = new LinkedList<>();
+        String name = null;
         try {
             con = dbManager.getConnection();
-            pstmnt = con.prepareStatement(SQL_SELECT_USER_NAMES);
+            pstmnt = con.prepareStatement(SQL_SELECT_USER_NAME);
             pstmnt.setInt(1, id);
             ResultSet rs = pstmnt.executeQuery();
             if(rs.next()){
-                names.add(rs.getString(DBConstants.USER_NAME_EN));
-                names.add(rs.getString(DBConstants.USER_NAME_UK));
+                name = rs.getString(DBConstants.USER_NAME);
             }
             con.commit();
             con.close();
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
-            names = null;
+            name = null;
             //throw custom exception
         }
-        return names;
+        return name;
     }
 
     public boolean updateUserStatus(int userId, boolean blocked){

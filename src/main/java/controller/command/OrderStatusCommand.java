@@ -2,6 +2,7 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.OrderDao;
 import model.entity.Order;
 import org.apache.log4j.Logger;
@@ -21,8 +22,7 @@ public class OrderStatusCommand implements Command{
         HttpSession session = request.getSession();
         String newStatus = request.getParameter(Parameters.ORDER_STATUS);
         int orderId = Integer.parseInt(request.getParameter(Parameters.ORDER_ID));
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        OrderDao orderDao = new OrderDao(locale);
+        OrderDao orderDao = new OrderDao(DBManager.getInstance());
         orderDao.updateOrderStatus(orderId, newStatus);
 
         String userRole = (String)session.getAttribute(Parameters.ROLE);

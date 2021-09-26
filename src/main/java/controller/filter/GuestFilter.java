@@ -2,6 +2,7 @@ package controller.filter;
 
 import controller.Parameters;
 import model.DBConstants;
+import model.DBManager;
 import model.UserDao;
 import model.entity.User;
 
@@ -26,8 +27,7 @@ public class GuestFilter implements Filter {
         HttpSession session = httpRequest.getSession();
         if(session.getAttribute(Parameters.USER_ID) == null){
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            String locale = (String)session.getAttribute(Parameters.LOCALE);
-            UserDao userDao = new UserDao(locale);
+            UserDao userDao = new UserDao(DBManager.getInstance());
             Cookie[] cookies = httpRequest.getCookies();
             Cookie cookie = null;
             if(cookies != null){
@@ -49,7 +49,7 @@ public class GuestFilter implements Filter {
                 userDao.deleteUserByLogin(guestLogin);
                 httpResponse.addCookie(newCookie);
             }
-            User guest = userDao.insertUser(session.getId(), null, null, null, DBConstants.USER_GUEST);
+            User guest = userDao.insertUser(session.getId(), null, null, DBConstants.USER_GUEST);
             session.setAttribute(Parameters.USER_ID, guest.getId());
             session.setAttribute(Parameters.ROLE, guest.getRole());
         }

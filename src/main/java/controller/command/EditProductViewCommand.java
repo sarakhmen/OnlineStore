@@ -2,8 +2,8 @@ package controller.command;
 
 import controller.Actions;
 import controller.Parameters;
+import model.DBManager;
 import model.ProductDao;
-import model.entity.ExtendedProduct;
 import model.entity.Product;
 import org.apache.log4j.Logger;
 
@@ -19,32 +19,23 @@ public class EditProductViewCommand implements Command{
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int productId = Integer.parseInt(request.getParameter(Parameters.PRODUCT_ID));
-        ProductDao productDao = new ProductDao("");
-        ExtendedProduct exProduct = productDao.selectExProductById(productId);
+        ProductDao productDao = new ProductDao(DBManager.getInstance());
+        Product product = productDao.selectProductById(productId);
 
-        request.setAttribute(Parameters.PRODUCT_ID, exProduct.getId());
-        request.setAttribute(Parameters.PROD_NAME_EN, exProduct.getName());
-        request.setAttribute(Parameters.PROD_NAME_UK, exProduct.getNameUk());
-        request.setAttribute(Parameters.PRICE, exProduct.getPrice());
+        request.setAttribute(Parameters.PRODUCT_ID, product.getId());
+        request.setAttribute(Parameters.PRODUCT_NAME, product.getName());
+        request.setAttribute(Parameters.PRICE, product.getPrice());
 
-        if(!exProduct.getProperties().isEmpty()){
-            StringBuilder sbPropertyNamesEn = new StringBuilder();
-            StringBuilder sbPropertyValuesEn = new StringBuilder();
-            StringBuilder sbPropertyNamesUk = new StringBuilder();
-            StringBuilder sbPropertyValuesUk = new StringBuilder();
-            for(Map.Entry<String, String> propEn : exProduct.getProperties().entrySet()){
-                sbPropertyNamesEn.append(',').append(propEn.getKey());
-                sbPropertyValuesEn.append(',').append(propEn.getValue());
-            }
-            for(Map.Entry<String, String> propUk : exProduct.getPropertiesUk().entrySet()){
-                sbPropertyNamesUk.append(',').append(propUk.getKey());
-                sbPropertyValuesUk.append(',').append(propUk.getValue());
+        if(!product.getProperties().isEmpty()){
+            StringBuilder sbPropertyNames = new StringBuilder();
+            StringBuilder sbPropertyValues = new StringBuilder();
+            for(Map.Entry<String, String> prop : product.getProperties().entrySet()){
+                sbPropertyNames.append(',').append(prop.getKey());
+                sbPropertyValues.append(',').append(prop.getValue());
             }
 
-            request.setAttribute(Parameters.PROPERTY_NAMES_EN, sbPropertyNamesEn.substring(1));
-            request.setAttribute(Parameters.PROPERTY_VALUES_EN, sbPropertyValuesEn.substring(1));
-            request.setAttribute(Parameters.PROPERTY_NAMES_UK, sbPropertyNamesUk.substring(1));
-            request.setAttribute(Parameters.PROPERTY_VALUES_UK, sbPropertyValuesUk.substring(1));
+            request.setAttribute(Parameters.PROPERTY_NAMES, sbPropertyNames.substring(1));
+            request.setAttribute(Parameters.PROPERTY_VALUES, sbPropertyValues.substring(1));
         }
 
         return Actions.ADMIN_EDIT_PRODUCT_PAGE;

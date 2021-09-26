@@ -56,8 +56,9 @@ public class FrontController extends HttpServlet {
 
         Command command = commands.get(path);
         if(command == null){
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             log.error("Unknown command --> " + path);
+            req.setAttribute(Parameters.ERROR, "the page doesn't exist");
+            req.getRequestDispatcher(Actions.ERROR_PAGE).forward(req, resp);
             return;
         }
 
@@ -75,7 +76,8 @@ public class FrontController extends HttpServlet {
             }
         }catch (Exception e){
             log.error(e.getMessage());
-            resp.sendRedirect(req.getContextPath() + Actions.ERROR_PAGE);
+            req.setAttribute(Parameters.ERROR, e.getMessage());
+            req.getRequestDispatcher(Actions.ERROR_PAGE).forward(req, resp);
         }
     }
 }

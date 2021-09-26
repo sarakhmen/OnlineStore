@@ -18,14 +18,9 @@
     <div class="d-flex justify-content-center pt-3">
         <form action="${pageContext.request.contextPath}/main/signup">
             <div class="mb-3">
-                <label for="inputNameEn" class="form-label"><fmt:message key="usernameEn"/></label>
-                <input type="text" name="usernameEn" class="form-control" id="inputNameEn"
+                <label for="inputName" class="form-label"><fmt:message key="usernameEn"/></label>
+                <input type="text" name="username" class="form-control" id="inputName"
                        placeholder="<fmt:message key="enterUsernameEn"/>">
-            </div>
-            <div class="mb-3">
-                <label for="inputNameUk" class="form-label"><fmt:message key="usernameUk"/></label>
-                <input type="text" name="usernameUk" class="form-control" id="inputNameUk"
-                       placeholder="<fmt:message key="enterUsernameUk"/>">
             </div>
             <div class="mb-3">
                 <label for="inputEmail1" class="form-label"><fmt:message key="email"/></label>

@@ -23,16 +23,19 @@
     <div class="col">
         <ul class="nav fs-4">
             <li class="nav-item">
-                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog"><fmt:message key="home"/></a>
+                <a class="nav-link active" href="${pageContext.request.contextPath}/main/catalog"><fmt:message
+                        key="home"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="${pageContext.request.contextPath}/main/cartView?userId=${sessionScope.userId}"><fmt:message key="cart"/></a>
+                   href="${pageContext.request.contextPath}/main/cartView?userId=${sessionScope.userId}"><fmt:message
+                        key="cart"/></a>
             </li>
             <li class="nav-item">
                 <c:choose>
                     <c:when test="${sessionScope.role == 'GUEST'}">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/"><fmt:message key="welcomePage"/></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/"><fmt:message
+                                key="welcomePage"/></a>
                     </c:when>
                     <c:otherwise>
                         <a class="nav-link disabled"><fmt:message key="welcomePage"/></a>
@@ -69,24 +72,19 @@
         <c:otherwise>
             <div class="col-md-auto p-1">
                 <form action="${pageContext.request.contextPath}/main/logout">
-                    <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary"><fmt:message key="logout"/>
+                    <button type="submit" onclick="return confirmLogOut()" class="btn btn-outline-primary"><fmt:message
+                            key="logout"/>
                     </button>
                 </form>
             </div>
             <div class="col-md-auto fs-4 ms-4 p-1">
-                <c:choose>
-                    <c:when test="${sessionScope.locale == 'en'}">
-                        <c:out value="${sessionScope.usernameEn}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:out value="${sessionScope.usernameUk}"/>
-                    </c:otherwise>
-                </c:choose>
+                <c:out value="${sessionScope.username}"/>
             </div>
         </c:otherwise>
     </c:choose>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

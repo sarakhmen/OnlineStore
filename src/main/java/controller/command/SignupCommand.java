@@ -3,6 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
+import model.DBManager;
 import model.OrderDao;
 import model.UserDao;
 import model.entity.User;
@@ -23,11 +24,10 @@ public class SignupCommand implements Command{
 
         String login = request.getParameter(Parameters.LOGIN);
         String password = request.getParameter(Parameters.PASSWORD);
-        String userNameEn = request.getParameter(Parameters.USERNAME_EN);
-        String userNameUk = request.getParameter(Parameters.USERNAME_UK);
+        String userName = request.getParameter(Parameters.USERNAME);
 
-        if(login == null || password == null || userNameEn == null || userNameUk == null
-                || login.isEmpty() || password.isEmpty() || userNameEn.isEmpty() || userNameUk.isEmpty()){
+        if(login == null || password == null || userName == null
+                || login.isEmpty() || password.isEmpty() || userName.isEmpty()){
             response.getWriter().println("<script type='text/javascript'>alert('Incorrect input');" +
                     "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
             log.info("Incorrect input");
@@ -35,8 +35,7 @@ public class SignupCommand implements Command{
         }
 
         HttpSession session = request.getSession();
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        UserDao userDao = new UserDao(locale);
+        UserDao userDao = new UserDao(DBManager.getInstance());
         boolean registered = userDao.isRegistered(login);
 
         if(registered){
@@ -46,7 +45,7 @@ public class SignupCommand implements Command{
             return null;
         }
 
-        User newUser = userDao.insertUser(login, password, userNameEn, userNameUk);
+        User newUser = userDao.insertUser(login, password, userName);
         if(newUser == null){
             response.getWriter().println("<script type='text/javascript'>alert('Error adding user to database');" +
                     "location='" + request.getContextPath() + Actions.SIGNUP_PAGE + "'</script>");
@@ -56,15 +55,12 @@ public class SignupCommand implements Command{
 
 
         if(session.getAttribute(Parameters.USER_ID) != null){
-            OrderDao orderDao = new OrderDao(locale);
+            OrderDao orderDao = new OrderDao(DBManager.getInstance());
             int guestId = (int)session.getAttribute(Parameters.USER_ID);
             orderDao.transferOrders(guestId, newUser.getId());
         }
-
-        List<String> names = userDao.selectUserNames(newUser.getId());
         session.setAttribute(Parameters.USER_ID, newUser.getId());
-        session.setAttribute(Parameters.USERNAME_EN, names.get(0));
-        session.setAttribute(Parameters.USERNAME_UK, names.get(1));
+        session.setAttribute(Parameters.USERNAME, newUser.getName());
         session.setAttribute(Parameters.ROLE, DBConstants.USER_USER);
         session.setAttribute(Parameters.CART_USER_ID, newUser.getId());
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;

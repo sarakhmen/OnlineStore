@@ -3,6 +3,7 @@ package controller.filter;
 import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
+import model.DBManager;
 import model.UserDao;
 import model.entity.User;
 
@@ -26,8 +27,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession();
-        String locale = (String)session.getAttribute(Parameters.LOCALE);
-        UserDao userDao = new UserDao(locale);
+        UserDao userDao = new UserDao(DBManager.getInstance());
 
         String path = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
