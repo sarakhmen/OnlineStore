@@ -7,7 +7,7 @@
 
 <html lang="${sessionScope.locale}">
 <head>
-    <title>Cart page</title>
+    <title><fmt:message key="cartPage"/></title>
 </head>
 <body>
 

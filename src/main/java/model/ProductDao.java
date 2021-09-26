@@ -158,7 +158,7 @@ public class ProductDao {
                     productIds.add(rsProductIds.getInt(1));
                 }
                 if(!productIds.isEmpty()){
-                    String enclosedInParenthesisIds = productIds.stream().map(x->x.toString()).collect(Collectors
+                    String enclosedInParenthesisIds = productIds.stream().map(Object::toString).collect(Collectors
                             .joining(", ", "(", ")"));
                     String sqlQuery = sqlSelectProductsIn.replaceFirst("\\^", enclosedInParenthesisIds)
                             + column + " " + order;

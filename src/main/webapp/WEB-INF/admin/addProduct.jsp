@@ -30,7 +30,7 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label"><fmt:message key="priceInDollars"/></label>
-                <input type="number" name="price" class="form-control" id="price" min="0"
+                <input type="number" step="any" name="price" class="form-control" id="price" min="0"
                        placeholder="<fmt:message key="enterPriceInDollars"/>">
             </div>
             <div class="mb-3">
@@ -40,7 +40,7 @@
             </div>
             <div class="mb-3">
                 <label for="valuesEn" class="form-label"><fmt:message key="propertyValuesEn"/></label>
-                <input type="text" name="propertyValuesEn" class="form-control" id="valuesEn"
+                <input type="text" name="propertyValuesEn"  class="form-control" id="valuesEn"
                        placeholder="<fmt:message key="propertyValuesExampleEn"/>">
             </div>
             <div class="mb-3">
