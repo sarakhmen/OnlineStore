@@ -21,8 +21,6 @@ public class AddProductCommand implements Command {
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
         String prodName = request.getParameter(Parameters.PRODUCT_NAME);
         String price = request.getParameter(Parameters.PRICE);
         String propertyNames = request.getParameter(Parameters.PROPERTY_NAMES);
