@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Sets up the editProduct page.
+ */
 public class EditProductViewCommand implements Command{
     private static final Logger log = Logger.getLogger(EditProductViewCommand.class);
 
@@ -38,6 +41,7 @@ public class EditProductViewCommand implements Command{
             request.setAttribute(Parameters.PROPERTY_VALUES, sbPropertyValues.substring(1));
         }
 
+        log.info("editProduct page successfully set up");
         return Actions.ADMIN_EDIT_PRODUCT_PAGE;
     }
 }

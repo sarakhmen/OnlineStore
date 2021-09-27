@@ -3,9 +3,7 @@ package controller.command;
 import controller.Actions;
 import controller.Parameters;
 import model.DBManager;
-import model.OrderDao;
 import model.UserDao;
-import model.entity.Order;
 import model.entity.User;
 import org.apache.log4j.Logger;
 
@@ -16,6 +14,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Sets up attributes required for the management page.
+ * Returns management page.
+ */
 public class ManagementCommand implements Command {
     private static final Logger log = Logger.getLogger(ManagementCommand.class);
 
@@ -36,6 +38,7 @@ public class ManagementCommand implements Command {
         request.setAttribute("currentPage", page);
 
         session.setAttribute(Parameters.USERS, users);
+        log.info("Management page attributes are set up");
         return Actions.ADMIN_MANAGEMENT_PAGE;
     }
 }

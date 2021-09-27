@@ -9,20 +9,22 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+/**
+ * Updates the product value.
+ * Validates fields values and prints appropriate alert.
+ * Always returns null.
+ */
 public class UpdateProductCommand implements Command {
     private static final Logger log = Logger.getLogger(UpdateProductCommand.class);
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
         String strProdId = request.getParameter(Parameters.PRODUCT_ID);
         if (strProdId == null) {
             response.getWriter().println("<script type='text/javascript'>alert('Unknown product id');" +
@@ -96,4 +98,5 @@ public class UpdateProductCommand implements Command {
         log.info("Product was successfully updated");
         return null;
     }
+
 }

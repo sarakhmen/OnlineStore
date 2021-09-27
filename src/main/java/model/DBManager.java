@@ -1,6 +1,5 @@
 package model;
 
-import controller.FrontController;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -10,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DBManager {
     private static final Logger log = Logger.getLogger(DBManager.class);

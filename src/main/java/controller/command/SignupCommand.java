@@ -14,8 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
+/**
+ * Signs up the user.
+ * Validates the fields value, prints alert if anything is incorrect.
+ * Otherwise, sets appropriate session's attributes.
+ */
 public class SignupCommand implements Command{
     private static final Logger log = Logger.getLogger(SignupCommand.class);
 

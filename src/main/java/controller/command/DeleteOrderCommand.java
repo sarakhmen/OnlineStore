@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Deletes the user's order.
+ * Returns redirect to the page based on the value of the user's role.
+ */
 public class DeleteOrderCommand implements Command{
     private static final Logger log = Logger.getLogger(DeleteOrderCommand.class);
 

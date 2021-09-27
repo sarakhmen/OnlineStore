@@ -9,13 +9,17 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+/**
+ * Creates new product.
+ * Validates the fields value, prints alert if anything is incorrect.
+ * Always returns null.
+ */
 public class AddProductCommand implements Command {
     private static final Logger log = Logger.getLogger(AddProductCommand.class);
 

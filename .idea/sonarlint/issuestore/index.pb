@@ -9,8 +9,6 @@ V
 &src/main/webapp/WEB-INF/admin/cart.jsp,a\d\ad435d378d2abdd83dfcfffaede19f2c57e4b400
 I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
-]
--src/main/java/controller/command/Command.java,1\8\187c4c3262df22f55abc6e68a2837208cb8d9288
 V
 &src/main/java/model/entity/Entity.java,a\7\a7f9c4acdd0b70c2507ae957e3be5698e7ef66f0
 U
@@ -21,20 +19,10 @@ W
 'src/main/java/model/entity/Product.java,7\5\754ad0de272ee03e4e08f9aa04e8dff7eb990094
 T
 $src/main/java/model/entity/User.java,7\d\7d46df4109d8411dc9d4c22fe13f2270c2c7f35c
-c
-3src/main/java/controller/filter/EncodingFilter.java,9\7\972027c8899c2adefeb948902a68f95d795601a1
-a
-1src/main/java/controller/filter/LocaleFilter.java,5\d\5db90504dd69bbbeb8797eeacb334b3f1c0f68a3
-f
-6src/main/java/controller/listener/SessionListener.java,e\e\eebe35065669bdd445723ce746460303dd579354
-c
-3src/main/java/controller/command/LogoutCommand.java,4\e\4e483f104561be64a8e807ab57f55ce19b0d8556
 P
  src/main/webapp/WEB-INF/cart.jsp,8\2\82d9153d99b986885ef7014ad9c862d32beab540
 Y
 )src/main/webapp/WEB-INF/admin/catalog.jsp,9\c\9c75ac7579a9cfa7993b3eab58f24d465a34b79c
-R
-"src/main/java/model/DBManager.java,b\1\b17d6b686296d3e885c07ac1acd2ccb37d243d04
 S
 #src/main/webapp/WEB-INF/catalog.jsp,d\3\d39b259cffd414f8c2411c527e5d9ddaa9e28dea
 U
@@ -43,3 +31,9 @@ U
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 `
 0src/test/java/commandtest/LogoutCommandTest.java,d\e\de43c03108364234a5112c25a5fdce0f20cbffb1
+Q
+!src/main/java/model/OrderDao.java,9\1\9143a16dc3c1f229fee368e873c126809b390120
+P
+ src/main/java/model/UserDao.java,8\a\8acdeb9839691f27b80769ab1151d01eec419cf3
+]
+-src/main/java/controller/FrontController.java,4\7\47c74fa969ee9cc86f0233c9791e3cec49e33051

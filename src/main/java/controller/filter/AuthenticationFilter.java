@@ -5,7 +5,6 @@ import controller.Parameters;
 import model.DBConstants;
 import model.DBManager;
 import model.UserDao;
-import model.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

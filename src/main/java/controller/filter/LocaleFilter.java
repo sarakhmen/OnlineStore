@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class        LocaleFilter implements Filter {
+public class LocaleFilter implements Filter {
     private FilterConfig config;
 
     @Override

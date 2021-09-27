@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Returns addProduct page
+ */
 public class AddProductViewCommand implements Command{
     private static final Logger log = Logger.getLogger(AddProductViewCommand.class);
 

@@ -14,6 +14,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Sets up the cartView page.
+ * If there is any cart user id in request parameters than gets value from it,
+ * otherwise gets appropriate attribute from session.
+ * Return page based on the value of the user's role.
+ */
 public class CartViewCommand implements Command{
     private static final Logger log = Logger.getLogger(CartViewCommand.class);
 

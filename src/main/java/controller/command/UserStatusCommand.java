@@ -4,16 +4,18 @@ import controller.Actions;
 import controller.Parameters;
 import model.DBConstants;
 import model.DBManager;
-import model.OrderDao;
 import model.UserDao;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Sets up a new user status.
+ * Returns redirect to the page based on the value of the user's role.
+ */
 public class UserStatusCommand implements Command{
     private static final Logger log = Logger.getLogger(UserStatusCommand.class);
 
@@ -29,6 +31,7 @@ public class UserStatusCommand implements Command{
         UserDao userDao = new UserDao(DBManager.getInstance());
         userDao.updateUserStatus(userId, newBlockStatus.equals(DBConstants.USER_BLOCKED));
 
+        log.info("User status successfully changed");
         return "redirect:" + request.getContextPath() + Actions.ADMIN_MANAGEMENT_ACTION;
     }
 }

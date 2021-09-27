@@ -15,6 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Sets up the catalog page.
+ * Validates the fields value, prints alert if anything is incorrect.
+ * Return page based on the value of the user's role.
+ */
 public class CatalogViewCommand implements Command {
     private static final Logger log = Logger.getLogger(CatalogViewCommand.class);
 
@@ -90,33 +95,8 @@ public class CatalogViewCommand implements Command {
                     DBConstants.ORDER_ASCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
                     Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
         } else {
-            switch (sortOption) {
-                case Parameters.SORT_BY_NAME_ZA:
-                    products = productDao.selectProductsOrderedAndByProperties(Parameters.PRODUCT_NAME,
-                            DBConstants.ORDER_DESCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
+                    products = productDao.selectProductsOrderedAndByProperties(sortOption, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
                             Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
-                    break;
-                case Parameters.SORT_PRICE_HIGH_LOW:
-                    products = productDao.selectProductsOrderedAndByProperties(Parameters.PRICE,
-                            DBConstants.ORDER_DESCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
-                            Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
-                    break;
-                case Parameters.SORT_PRICE_LOW_HIGH:
-                    products = productDao.selectProductsOrderedAndByProperties(Parameters.PRICE,
-                            DBConstants.ORDER_ASCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
-                            Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
-                    break;
-                case Parameters.SORT_NEWEST:
-                    products = productDao.selectProductsOrderedAndByProperties(Parameters.PRODUCT_CREATION_DATE,
-                            DBConstants.ORDER_DESCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
-                            Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
-                    break;
-                default:
-                    products = productDao.selectProductsOrderedAndByProperties(Parameters.PRODUCT_NAME,
-                            DBConstants.ORDER_ASCENDING, checkedProperties, (page - 1) * Parameters.RECORDS_PER_PAGE,
-                            Parameters.RECORDS_PER_PAGE, priceFrom, priceTo);
-                    break;
-            }
         }
         session.setAttribute(Parameters.PRODUCTS, products);
         session.setAttribute(Parameters.SELECTED_PROPERTIES, checkedProperties);

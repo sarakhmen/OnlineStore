@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Adds the product to the user cart
+ */
 public class AddToCartCommand implements Command{
     private static final Logger log = Logger.getLogger(AddToCartCommand.class);
 
@@ -27,6 +30,8 @@ public class AddToCartCommand implements Command{
         else{
             //some code;
         }
+
+        log.info("Product successfully added to the cart");
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }
 }

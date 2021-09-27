@@ -13,8 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
+/**
+ * Logins the user.
+ * Validates the fields value, prints alert if anything is incorrect.
+ * Otherwise, sets appropriate session's attributes.
+ */
 public class LoginCommand implements Command{
     private static final Logger log = Logger.getLogger(LoginCommand.class);
 
@@ -58,6 +62,7 @@ public class LoginCommand implements Command{
         session.setAttribute(Parameters.USERNAME, user.getName());
         session.setAttribute(Parameters.ROLE, user.getRole());
         session.setAttribute(Parameters.CART_USER_ID, user.getId());
+        log.info("User successfully logged in");
         return "redirect:" + request.getContextPath() + Actions.CATALOG_ACTION;
     }
 }

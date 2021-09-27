@@ -1,5 +1,6 @@
 package model;
 
+import controller.Parameters;
 import model.entity.Product;
 import org.apache.log4j.Logger;
 
@@ -156,7 +157,6 @@ public class ProductDao {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             products = null;
-            //throw custom exception
         }
         return products;
     }
@@ -215,7 +215,6 @@ public class ProductDao {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             product = null;
-            //throw custom exception
         }
         return product;
     }
@@ -249,7 +248,6 @@ public class ProductDao {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
             properties = null;
-            //throw custom exception
         }
         return properties;
     }
@@ -269,7 +267,6 @@ public class ProductDao {
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
-            //throw custom exception
         }
         return deleted;
     }
@@ -306,7 +303,6 @@ public class ProductDao {
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
-            //throw custom exception
         }
         return inserted;
     }
@@ -344,9 +340,42 @@ public class ProductDao {
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             dbManager.rollbackAndClose(con);
-            //throw custom exception
         }
         return updated;
+    }
+
+    public List<Product> selectProductsOrderedAndByProperties(String sortOption, Map<String, Set<String>> properties,
+                                                              int pageIndex, int recordsPerPage, Integer priceFrom,
+                                                              Integer priceTo) {
+        List<Product> products = null;
+        switch (sortOption) {
+            case Parameters.SORT_BY_NAME_ZA:
+                products = selectProductsOrderedAndByProperties(Parameters.PRODUCT_NAME,
+                        DBConstants.ORDER_DESCENDING, properties, pageIndex,
+                        recordsPerPage, priceFrom, priceTo);
+                break;
+            case Parameters.SORT_PRICE_HIGH_LOW:
+                products = selectProductsOrderedAndByProperties(Parameters.PRICE,
+                        DBConstants.ORDER_DESCENDING, properties, pageIndex,
+                        recordsPerPage, priceFrom, priceTo);
+                break;
+            case Parameters.SORT_PRICE_LOW_HIGH:
+                products = selectProductsOrderedAndByProperties(Parameters.PRICE,
+                        DBConstants.ORDER_ASCENDING, properties, pageIndex,
+                        recordsPerPage, priceFrom, priceTo);
+                break;
+            case Parameters.SORT_NEWEST:
+                products = selectProductsOrderedAndByProperties(Parameters.PRODUCT_CREATION_DATE,
+                        DBConstants.ORDER_DESCENDING, properties, pageIndex,
+                        recordsPerPage, priceFrom, priceTo);
+                break;
+            default:
+                products = selectProductsOrderedAndByProperties(Parameters.PRODUCT_NAME,
+                        DBConstants.ORDER_ASCENDING, properties, pageIndex,
+                        recordsPerPage, priceFrom, priceTo);
+                break;
+        }
+        return products;
     }
 
     public class ProductMapper implements EntityMapper<Product> {
@@ -362,7 +391,6 @@ public class ProductDao {
                 return product;
             } catch (SQLException e) {
                 log.error(e.getMessage());
-                e.printStackTrace();
                 throw new IllegalStateException(e);
             }
         }
