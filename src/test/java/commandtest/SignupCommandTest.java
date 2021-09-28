@@ -1,11 +1,9 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.LoginCommand;
-import controller.command.SignupCommand;
-import model.DBManager;
-import model.UserDao;
+import util.Actions;
+import util.Parameters;
+import command.SignupCommand;
+import database.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;

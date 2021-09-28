@@ -1,9 +1,9 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.AddProductCommand;
-import model.DBManager;
+import util.Actions;
+import util.Parameters;
+import command.AddProductCommand;
+import database.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;

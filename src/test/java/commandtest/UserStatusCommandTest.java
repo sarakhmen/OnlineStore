@@ -1,12 +1,10 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.CatalogViewCommand;
-import controller.command.UserStatusCommand;
-import model.DBConstants;
-import model.DBManager;
-import model.entity.Product;
+import util.Actions;
+import util.Parameters;
+import command.UserStatusCommand;
+import util.DBConstants;
+import database.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserStatusCommandTest {

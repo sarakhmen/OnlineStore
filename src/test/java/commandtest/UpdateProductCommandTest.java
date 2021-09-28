@@ -1,9 +1,9 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.UpdateProductCommand;
-import model.DBManager;
+import util.Actions;
+import util.Parameters;
+import command.UpdateProductCommand;
+import database.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateProductCommandTest {

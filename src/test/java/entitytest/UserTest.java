@@ -1,6 +1,6 @@
 package entitytest;
 
-import model.entity.User;
+import model.User;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

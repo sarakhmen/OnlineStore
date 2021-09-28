@@ -16,7 +16,7 @@
 
     <filter>
         <filter-name>encodingFilter</filter-name>
-        <filter-class>controller.filter.EncodingFilter</filter-class>
+        <filter-class>filter.EncodingFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -26,7 +26,7 @@
 
     <filter>
         <filter-name>localeFilter</filter-name>
-        <filter-class>controller.filter.LocaleFilter</filter-class>
+        <filter-class>filter.LocaleFilter</filter-class>
         <init-param>
             <param-name>defaultLocale</param-name>
             <param-value>en</param-value>
@@ -40,7 +40,7 @@
 
     <filter>
       <filter-name>authenticationFilter</filter-name>
-      <filter-class>controller.filter.AuthenticationFilter</filter-class>
+      <filter-class>filter.AuthenticationFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -50,7 +50,7 @@
 
     <filter>
         <filter-name>guestFilter</filter-name>
-        <filter-class>controller.filter.GuestFilter</filter-class>
+        <filter-class>filter.GuestFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -59,7 +59,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>controller.listener.SessionListener</listener-class>
+        <listener-class>listener.SessionListener</listener-class>
     </listener>
 
     <error-page>

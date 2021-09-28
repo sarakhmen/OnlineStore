@@ -1,10 +1,9 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.LoginCommand;
-import model.DBManager;
-import model.UserDao;
+import util.Actions;
+import util.Parameters;
+import command.LoginCommand;
+import database.DBManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,10 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.print.DocFlavor;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

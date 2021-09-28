@@ -1,6 +1,6 @@
 package entitytest;
 
-import model.entity.Product;
+import model.Product;
 import org.junit.Test;
 
 import java.util.Date;

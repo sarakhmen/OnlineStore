@@ -1,12 +1,11 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.CatalogViewCommand;
-import controller.command.LoginCommand;
-import model.DBConstants;
-import model.DBManager;
-import model.entity.Product;
+import util.Actions;
+import util.Parameters;
+import command.CatalogViewCommand;
+import util.DBConstants;
+import database.DBManager;
+import model.Product;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;

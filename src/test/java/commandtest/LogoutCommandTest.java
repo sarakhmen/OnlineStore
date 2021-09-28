@@ -1,14 +1,9 @@
 package commandtest;
 
-import controller.Actions;
-import controller.Parameters;
-import controller.command.LogoutCommand;
-import controller.command.SignupCommand;
-import model.DBManager;
-import org.apache.ibatis.jdbc.ScriptRunner;
+import util.Actions;
+import command.LogoutCommand;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
